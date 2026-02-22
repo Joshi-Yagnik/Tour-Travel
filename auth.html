@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Sign Up — Wanderlust</title>
+    <meta name="description"
+        content="Login or create your Wanderlust account to start booking travel packages, save destinations, and manage your trips.">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Back to Home -->
+    <a href="index.html" class="auth-back">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="auth-page">
+
+        <!-- ── Left Brand Panel ── -->
+        <div class="auth-brand">
+            <div class="auth-brand__overlay"></div>
+            <div class="auth-brand__content">
+                <a href="index.html" class="navbar__logo" style="margin-bottom: var(--space-10)">
+                    <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                    <span class="navbar__logo-text">Wander<span>lust</span></span>
+                </a>
+                <h2>Your Next Adventure<br>Starts Here</h2>
+                <p>Join over 50,000 travelers who trust Wanderlust to craft unforgettable journeys around the globe.</p>
+                <div class="auth-brand__features">
+                    <div class="auth-brand__feature">
+                        <div class="auth-brand__feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div>
+                            <strong>Secure Booking</strong>
+                            <span>SSL-encrypted payments & data</span>
+                        </div>
+                    </div>
+                    <div class="auth-brand__feature">
+                        <div class="auth-brand__feature-icon"><i class="fas fa-headset"></i></div>
+                        <div>
+                            <strong>24/7 Support</strong>
+                            <span>Expert help whenever you need it</span>
+                        </div>
+                    </div>
+                    <div class="auth-brand__feature">
+                        <div class="auth-brand__feature-icon"><i class="fas fa-heart"></i></div>
+                        <div>
+                            <strong>Wishlist & Saves</strong>
+                            <span>Save packages and plan later</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="auth-brand__quote">
+                    <blockquote>"Wanderlust gave me the most memorable trip of my life. Every detail was perfect!"
+                    </blockquote>
+                    <div class="auth-brand__reviewer">
+                        <img src="https://i.pravatar.cc/40?img=12" alt="Priya Sharma">
+                        <div>
+                            <strong>Priya Sharma</strong>
+                            <span>🇮🇳 Mumbai, India · ★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Right Auth Panel ── -->
+        <div class="auth-container">
+            <div class="auth-box">
+
+                <!-- Tab Switch -->
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login" id="tab-login">Log In</button>
+                    <button class="auth-tab" data-tab="signup" id="tab-signup">Sign Up</button>
+                    <div class="auth-tab__slider"></div>
+                </div>
+
+                <!-- ═══ LOGIN FORM ═══ -->
+                <form class="auth-form" id="login-form" novalidate>
+                    <div class="auth-form__header">
+                        <h2>Welcome back!</h2>
+                        <p>Log in to access your bookings, wishlist, and more.</p>
+                    </div>
+
+                    <!-- Social Login -->
+                    <div class="social-login">
+                        <button type="button" class="social-btn social-btn--google">
+                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="18"
+                                height="18">
+                            Continue with Google
+                        </button>
+                        <button type="button" class="social-btn social-btn--facebook">
+                            <i class="fab fa-facebook-f" style="color:#1877F2"></i>
+                            Continue with Facebook
+                        </button>
+                    </div>
+
+                    <div class="auth-divider"><span>or continue with email</span></div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="login-email">Email Address</label>
+                        <div class="form-icon-wrap">
+                            <i class="fas fa-envelope form-icon"></i>
+                            <input class="form-control" type="email" id="login-email" placeholder="you@example.com"
+                                autocomplete="email">
+                        </div>
+                        <span class="form-error" id="login-email-err"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="flex justify-between items-center">
+                            <label class="form-label" for="login-password">Password</label>
+                            <a href="#" class="auth-forgot">Forgot password?</a>
+                        </div>
+                        <div class="form-icon-wrap">
+                            <i class="fas fa-lock form-icon"></i>
+                            <input class="form-control" type="password" id="login-password"
+                                placeholder="Enter your password" autocomplete="current-password">
+                            <button type="button" class="password-toggle" aria-label="Toggle password visibility"
+                                onclick="togglePass('login-password', this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <span class="form-error" id="login-pw-err"></span>
+                    </div>
+
+                    <label class="auth-remember">
+                        <input type="checkbox"> <span>Remember me for 30 days</span>
+                    </label>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%;margin-top:var(--space-2)">
+                        <i class="fas fa-sign-in-alt"></i> Log In
+                    </button>
+
+                    <p class="auth-switch">Don't have an account? <a href="#" onclick="switchTab('signup')">Sign up
+                            free</a></p>
+                </form>
+
+                <!-- ═══ SIGNUP FORM ═══ -->
+                <form class="auth-form" id="signup-form" style="display:none" novalidate>
+                    <div class="auth-form__header">
+                        <h2>Create Your Account</h2>
+                        <p>Join Wanderlust for free and start planning your adventure.</p>
+                    </div>
+
+                    <!-- Social Login -->
+                    <div class="social-login">
+                        <button type="button" class="social-btn social-btn--google">
+                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="18"
+                                height="18">
+                            Sign up with Google
+                        </button>
+                        <button type="button" class="social-btn social-btn--facebook">
+                            <i class="fab fa-facebook-f" style="color:#1877F2"></i>
+                            Sign up with Facebook
+                        </button>
+                    </div>
+
+                    <div class="auth-divider"><span>or sign up with email</span></div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signup-name">Full Name</label>
+                        <div class="form-icon-wrap">
+                            <i class="fas fa-user form-icon"></i>
+                            <input class="form-control" type="text" id="signup-name" placeholder="Your full name"
+                                autocomplete="name">
+                        </div>
+                        <span class="form-error" id="signup-name-err"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signup-email">Email Address</label>
+                        <div class="form-icon-wrap">
+                            <i class="fas fa-envelope form-icon"></i>
+                            <input class="form-control" type="email" id="signup-email" placeholder="you@example.com"
+                                autocomplete="email">
+                        </div>
+                        <span class="form-error" id="signup-email-err"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signup-phone">Phone Number</label>
+                        <div class="form-icon-wrap">
+                            <i class="fas fa-phone form-icon"></i>
+                            <input class="form-control" type="tel" id="signup-phone" placeholder="+91 XXXXX XXXXX"
+                                autocomplete="tel">
+                        </div>
+                        <span class="form-error" id="signup-phone-err"></span>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)">
+                        <div class="form-group">
+                            <label class="form-label" for="signup-password">Password</label>
+                            <div class="form-icon-wrap">
+                                <i class="fas fa-lock form-icon"></i>
+                                <input class="form-control" type="password" id="signup-password"
+                                    placeholder="Min. 8 characters">
+                                <button type="button" class="password-toggle"
+                                    onclick="togglePass('signup-password', this)"><i class="fas fa-eye"></i></button>
+                            </div>
+                            <span class="form-error" id="signup-pw-err"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="signup-confirm">Confirm Password</label>
+                            <div class="form-icon-wrap">
+                                <i class="fas fa-lock form-icon"></i>
+                                <input class="form-control" type="password" id="signup-confirm"
+                                    placeholder="Repeat password">
+                                <button type="button" class="password-toggle"
+                                    onclick="togglePass('signup-confirm', this)"><i class="fas fa-eye"></i></button>
+                            </div>
+                            <span class="form-error" id="signup-confirm-err"></span>
+                        </div>
+                    </div>
+
+                    <!-- Password strength -->
+                    <div class="pw-strength">
+                        <div class="pw-strength__bar" id="pw-strength-bar"></div>
+                    </div>
+                    <span class="pw-strength__label" id="pw-strength-label"></span>
+
+                    <label class="auth-remember" style="margin-top:var(--space-3)">
+                        <input type="checkbox" id="terms-check">
+                        <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                    </label>
+                    <span class="form-error" id="terms-err"></span>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%;margin-top:var(--space-4)">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+
+                    <p class="auth-switch">Already have an account? <a href="#" onclick="switchTab('login')">Log in</a>
+                    </p>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal" style="max-width:420px;text-align:center">
+            <div class="modal__body" style="padding:var(--space-10)">
+                <div style="font-size:3rem;margin-bottom:var(--space-4)">🎉</div>
+                <h3 style="margin-bottom:var(--space-3)">Account Created!</h3>
+                <p style="color:var(--text-light)">Welcome to Wanderlust! Start exploring packages and plan your next
+                    adventure.</p>
+                <a href="dashboard.html" class="btn btn-primary btn-lg" style="margin-top:var(--space-6);width:100%">
+                    <i class="fas fa-compass"></i> Go to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/session.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

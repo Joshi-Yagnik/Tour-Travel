@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us — Wanderlust</title>
+    <meta name="description"
+        content="About Wanderlust Travel Agency — our story, mission, team, and 28 years of crafting unforgettable journeys worldwide.">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* ── Inline About Page Styles ── */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16);
+            align-items: center;
+        }
+
+        .mission-img {
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .mission-img img {
+            width: 100%;
+            height: 460px;
+            object-fit: cover;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+        }
+
+        .value-card {
+            padding: var(--space-8);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-2xl);
+            text-align: center;
+            transition: var(--transition-slow);
+        }
+
+        .value-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .value-card__icon {
+            width: 68px;
+            height: 68px;
+            background: var(--primary-glow);
+            border-radius: var(--radius-2xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin: 0 auto var(--space-5);
+            transition: var(--transition-base);
+        }
+
+        .value-card:hover .value-card__icon {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .value-card h3 {
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-3);
+        }
+
+        .value-card p {
+            font-size: var(--text-sm);
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+        }
+
+        .team-card {
+            text-align: center;
+        }
+
+        .team-card__img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            margin: 0 auto var(--space-4);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-base);
+        }
+
+        .team-card:hover .team-card__img {
+            border-color: var(--primary-dark);
+            transform: scale(1.04);
+        }
+
+        .team-card h3 {
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-1);
+        }
+
+        .team-card__role {
+            font-size: var(--text-sm);
+            color: var(--primary);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-3);
+        }
+
+        .team-card__bio {
+            font-size: var(--text-sm);
+            color: var(--text-light);
+            line-height: var(--leading-relaxed);
+        }
+
+        .team-card__socials {
+            display: flex;
+            gap: var(--space-2);
+            justify-content: center;
+            margin-top: var(--space-3);
+        }
+
+        .team-card__socials a {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+            transition: var(--transition-base);
+        }
+
+        .team-card__socials a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--white);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: var(--space-8);
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary-light));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: var(--space-8);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-1 * var(--space-8) + 6px);
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--white);
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .timeline-year {
+            font-size: var(--text-sm);
+            font-weight: var(--weight-bold);
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: var(--space-1);
+        }
+
+        .timeline-title {
+            font-size: var(--text-lg);
+            font-weight: var(--weight-semibold);
+            margin-bottom: var(--space-2);
+        }
+
+        .timeline-desc {
+            font-size: var(--text-sm);
+            color: var(--text-light);
+        }
+
+        .partners-strip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: var(--space-10);
+        }
+
+        .partner {
+            font-size: var(--text-xl);
+            font-weight: var(--weight-bold);
+            color: var(--text-muted);
+            opacity: 0.5;
+            transition: var(--transition-base);
+        }
+
+        .partner:hover {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        @media(max-width:1024px) {
+            .mission-grid {
+                grid-template-columns: 1fr
+            }
+
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:768px) {
+            .team-grid {
+                grid-template-columns: 1fr
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr
+            }
+
+            .stats-grid-inline {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar dark">
+        <div class="navbar__inner">
+            <a href="index.html" class="navbar__logo">
+                <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                <span class="navbar__logo-text">Wander<span>lust</span></span>
+            </a>
+            <ul class="navbar__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="navbar__actions">
+                <a href="auth.html" class="btn btn-outline-white btn-sm">Login</a>
+                <a href="auth.html#signup" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+            <div class="navbar__hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div class="navbar__mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="packages.html">Packages</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <div class="navbar__mobile-actions">
+            <a href="auth.html" class="btn btn-ghost">Login</a>
+            <a href="auth.html#signup" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <header class="page-hero">
+        <div class="container page-hero__inner">
+            <div class="page-hero__tag"><i class="fas fa-building"></i> Our Story</div>
+            <h1 class="page-hero__title">About Wanderlust</h1>
+            <p class="page-hero__subtitle">28 years of crafting extraordinary journeys, connecting people with the
+                world's most remarkable destinations.</p>
+            <nav class="breadcrumb"><a href="index.html">Home</a><i class="fas fa-chevron-right"></i><span>About</span>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section style="background:var(--secondary);padding:var(--space-10) 0">
+        <div class="container">
+            <div class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-2)">
+                <div class="stat-item"
+                    style="text-align:center;padding:var(--space-8) var(--space-4);border-right:1px solid rgba(255,255,255,0.1)">
+                    <div style="font-size:2rem;color:var(--primary);margin-bottom:var(--space-3)"><i
+                            class="fas fa-globe-americas"></i></div>
+                    <div style="font-size:var(--text-4xl);font-weight:var(--weight-extrabold);color:var(--white)"><span
+                            data-target="500">0</span>+</div>
+                    <div
+                        style="font-size:var(--text-sm);color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.06em">
+                        Destinations</div>
+                </div>
+                <div class="stat-item"
+                    style="text-align:center;padding:var(--space-8) var(--space-4);border-right:1px solid rgba(255,255,255,0.1)">
+                    <div style="font-size:2rem;color:var(--primary);margin-bottom:var(--space-3)"><i
+                            class="fas fa-users"></i></div>
+                    <div style="font-size:var(--text-4xl);font-weight:var(--weight-extrabold);color:var(--white)"><span
+                            data-target="50000">0</span>+</div>
+                    <div
+                        style="font-size:var(--text-sm);color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.06em">
+                        Happy Travelers</div>
+                </div>
+                <div class="stat-item"
+                    style="text-align:center;padding:var(--space-8) var(--space-4);border-right:1px solid rgba(255,255,255,0.1)">
+                    <div style="font-size:2rem;color:var(--primary);margin-bottom:var(--space-3)"><i
+                            class="fas fa-user-shield"></i></div>
+                    <div style="font-size:var(--text-4xl);font-weight:var(--weight-extrabold);color:var(--white)"><span
+                            data-target="8000">0</span>+</div>
+                    <div
+                        style="font-size:var(--text-sm);color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.06em">
+                        Expert Guides</div>
+                </div>
+                <div class="stat-item" style="text-align:center;padding:var(--space-8) var(--space-4)">
+                    <div style="font-size:2rem;color:var(--primary);margin-bottom:var(--space-3)"><i
+                            class="fas fa-trophy"></i></div>
+                    <div style="font-size:var(--text-4xl);font-weight:var(--weight-extrabold);color:var(--white)"><span
+                            data-target="28">0</span>+</div>
+                    <div
+                        style="font-size:var(--text-sm);color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.06em">
+                        Years Experience</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="section">
+        <div class="container">
+            <div class="mission-grid">
+                <div class="mission-img" data-reveal>
+                    <img src="img/about_us1.jpg" alt="Our team">
+                </div>
+                <div data-reveal data-delay="150">
+                    <span class="section-label"><i class="fas fa-bullseye"></i> Our Mission</span>
+                    <h2 class="section-title">More Than Just Travel — We Create Lifelong Memories</h2>
+                    <p>Founded in 1996 by a group of passionate travelers and local experts, Wanderlust was born from a
+                        simple belief: every person deserves to experience the world's extraordinary diversity, safely
+                        and meaningfully.</p>
+                    <p>We connect curious travelers with expert local guides who bring destinations to life through
+                        authentic stories, hidden gems, and genuine cultural exchanges that no guidebook can replicate.
+                    </p>
+                    <blockquote
+                        style="border-left:4px solid var(--primary);padding-left:var(--space-5);margin:var(--space-6) 0;font-style:italic;color:var(--text-body);font-size:var(--text-lg)">
+                        "The world is a book, and those who do not travel read only one page." <br><small
+                            style="font-size:var(--text-sm);color:var(--text-muted)">— Augustine of Hippo</small>
+                    </blockquote>
+                    <a href="contact.html" class="btn btn-primary btn-lg" style="margin-top:var(--space-4)"><i
+                            class="fas fa-phone"></i> Talk to Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values -->
+    <section class="section" style="background:var(--bg-light)">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label"><i class="fas fa-heart"></i> Core Values</span>
+                <h2 class="section-title">What We Stand For</h2>
+                <p class="section-subtitle">Our values shape every itinerary we craft, every guide we partner with, and
+                    every traveler we serve.</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card" data-reveal>
+                    <div class="value-card__icon"><i class="fas fa-leaf"></i></div>
+                    <h3>Sustainable Travel</h3>
+                    <p>We partner with eco-certified operators and offset 100% of carbon footprint for every trip we
+                        book.</p>
+                </div>
+                <div class="value-card" data-reveal data-delay="80">
+                    <div class="value-card__icon"><i class="fas fa-handshake"></i></div>
+                    <h3>Authentic Experiences</h3>
+                    <p>We go beyond tourist traps to connect travelers with real communities, real food, and real
+                        stories.</p>
+                </div>
+                <div class="value-card" data-reveal data-delay="160">
+                    <div class="value-card__icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Safety First</h3>
+                    <p>Every guide is certified. Every route is vetted. Every traveler has 24/7 emergency support.</p>
+                </div>
+                <div class="value-card" data-reveal data-delay="80">
+                    <div class="value-card__icon"><i class="fas fa-star"></i></div>
+                    <h3>Excellence</h3>
+                    <p>We hold ourselves to the highest standards — in service, itinerary quality, and traveler
+                        satisfaction.</p>
+                </div>
+                <div class="value-card" data-reveal data-delay="160">
+                    <div class="value-card__icon"><i class="fas fa-globe"></i></div>
+                    <h3>Cultural Respect</h3>
+                    <p>We educate travelers on local customs, support indigenous communities, and always travel
+                        responsibly.</p>
+                </div>
+                <div class="value-card" data-reveal data-delay="240">
+                    <div class="value-card__icon"><i class="fas fa-tags"></i></div>
+                    <h3>Best Value</h3>
+                    <p>Premium experiences at fair prices — we never compromise on quality, and we never overcharge.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet the Team -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label"><i class="fas fa-users"></i> Our Team</span>
+                <h2 class="section-title">The People Behind the Magic</h2>
+                <p class="section-subtitle">A diverse team of passionate travelers, destination experts, and hospitality
+                    professionals.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card" data-reveal>
+                    <img src="img/Yagnik.jpg" alt="Joshi Yagnik" class="team-card__img" loading="lazy">
+                    <h3>Joshi Yagnik</h3>
+                    <p class="team-card__role">Lead Developer</p>
+                    <p class="team-card__bio">Full-stack engineer passionate about building beautiful and performant web
+                        applications. Loves exploring new technologies.</p>
+                    <div class="team-card__socials">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+                <div class="team-card" data-reveal data-delay="120">
+                    <img src="img/Ashmita1.jpg" alt="Ashmita Joshi" class="team-card__img" loading="lazy">
+                    <h3>Ashmita Joshi</h3>
+                    <p class="team-card__role">UI/UX Designer</p>
+                    <p class="team-card__bio">Creative designer with a sharp eye for detail. Crafts intuitive user
+                        experiences and striking visual interfaces.</p>
+                    <div class="team-card__socials">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-dribbble"></i></a>
+                    </div>
+                </div>
+                <div class="team-card" data-reveal data-delay="240">
+                    <img src="img/Ashish.jpg" alt="Ashish Gauswami" class="team-card__img" loading="lazy">
+                    <h3>Ashish Gauswami</h3>
+                    <p class="team-card__role">Backend Engineer</p>
+                    <p class="team-card__bio">Database architect and API specialist. Ensures the platform runs securely,
+                        smoothly, and handles scale effortlessly.</p>
+                    <div class="team-card__socials">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="section" style="background:var(--bg-light)">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label"><i class="fas fa-history"></i> Our Journey</span>
+                <h2 class="section-title">28 Years of Adventure</h2>
+            </div>
+            <div style="max-width:640px;margin:0 auto">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">1996</div>
+                        <div class="timeline-title">Founded</div>
+                        <div class="timeline-desc">Wanderlust opens its first office in Ahmedabad, India with just 3
+                            destinations and a team of 5.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2001</div>
+                        <div class="timeline-title">International Expansion</div>
+                        <div class="timeline-desc">Launched international packages to Europe and Southeast Asia. Grew to
+                            50+ destinations.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2008</div>
+                        <div class="timeline-title">Won Best Travel Agency Award</div>
+                        <div class="timeline-desc">Recognized by Indian Tourism Board for excellence in responsible and
+                            sustainable tourism.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2015</div>
+                        <div class="timeline-title">Digital Platform Launch</div>
+                        <div class="timeline-desc">Launched our online booking platform. Reached 10,000th customer
+                            milestone.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2020</div>
+                        <div class="timeline-title">Resilience Through COVID-19</div>
+                        <div class="timeline-desc">Supported stranded travelers globally and pioneered flexible
+                            cancellation policies that became industry standard.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2024</div>
+                        <div class="timeline-title">50,000 Happy Travelers</div>
+                        <div class="timeline-desc">Reached our 50,000th traveler milestone. Now operating in 500+
+                            destinations across 80+ countries.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners -->
+    <section class="section-sm section">
+        <div class="container">
+            <div class="section-header" style="margin-bottom:var(--space-8)">
+                <span class="section-label"><i class="fas fa-handshake"></i> Partners</span>
+                <h2 class="section-title">Trusted By Leading Brands</h2>
+            </div>
+            <div class="partners-strip">
+                <span class="partner">AirIndia</span>
+                <span class="partner">Marriott</span>
+                <span class="partner">IndiGo</span>
+                <span class="partner">Hilton</span>
+                <span class="partner">Emirates</span>
+                <span class="partner">Hyatt</span>
+                <span class="partner">IRCTC</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section
+        style="background:linear-gradient(135deg,var(--secondary),var(--secondary-light));padding:var(--space-16) 0;text-align:center">
+        <div class="container">
+            <h2 style="color:var(--white);margin-bottom:var(--space-3)">Ready to Start Your Journey?</h2>
+            <p
+                style="color:rgba(255,255,255,0.65);max-width:480px;margin:0 auto var(--space-8);font-size:var(--text-lg)">
+                Join 50,000+ travelers who trust Wanderlust to craft their most memorable adventures.</p>
+            <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap">
+                <a href="packages.html" class="btn btn-primary btn-lg"><i class="fas fa-suitcase"></i> Browse
+                    Packages</a>
+                <a href="contact.html" class="btn btn-outline-white btn-lg"><i class="fas fa-phone"></i> Talk to Us</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div>
+                    <a href="index.html" class="navbar__logo" style="margin-bottom:var(--space-4);display:inline-flex">
+                        <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div><span
+                            class="navbar__logo-text" style="color:white">Wander<span>lust</span></span>
+                    </a>
+                    <p class="footer__brand-desc">Crafting unforgettable travel since 1996.</p>
+                    <div class="footer__socials"><a href="#" class="footer__social-link"><i
+                                class="fab fa-facebook-f"></i></a><a href="#" class="footer__social-link"><i
+                                class="fab fa-instagram"></i></a><a href="#" class="footer__social-link"><i
+                                class="fab fa-twitter"></i></a></div>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="destinations.html"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                        <li><a href="packages.html"><i class="fas fa-chevron-right"></i> Packages</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Support</h4>
+                    <ul class="footer__links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cancellation</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Contact</h4>
+                    <div class="footer__contact-item"><i class="fas fa-map-marker-alt"></i>
+                        <p>Ganpat University, Kherva, Mehsana, Gujarat</p>
+                    </div>
+                    <div class="footer__contact-item"><i class="fas fa-envelope"></i>
+                        <p>joshiyagnik977@gmail.com</p>
+                    </div>
+                    <div class="footer__contact-item"><i class="fas fa-phone"></i>
+                        <p>+91 94283 72237</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>© 2025 Wanderlust Travel Agency. All rights reserved.</p>
+                <div class="footer__bottom-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scroll-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+    <script src="js/session.js"></script>
+    <script src="js/nav.js"></script>
+</body>
+
+</html>

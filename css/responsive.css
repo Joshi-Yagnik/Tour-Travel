@@ -1,0 +1,241 @@
+/* ============================================================
+   WANDERLUST — Responsive Breakpoints
+   ============================================================ */
+
+/* ── Tablet: ≤1024px ─────────────────────────────────────── */
+@media (max-width: 1024px) {
+    :root {
+        --nav-height: 64px;
+    }
+
+    .container {
+        padding: 0 var(--space-5);
+    }
+
+    .section-title {
+        font-size: var(--text-3xl);
+    }
+
+    .footer__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-8);
+    }
+
+    .footer__bottom {
+        flex-direction: column;
+        gap: var(--space-3);
+        text-align: center;
+    }
+
+    .search-bar {
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+
+    .search-bar__field {
+        min-width: calc(50% - var(--space-2));
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .search-bar__field:last-of-type {
+        border-bottom: none;
+    }
+
+    /* Destinations grid */
+    .destinations-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Packages grid */
+    .packages-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ── Mobile: ≤768px ─────────────────────────────────────── */
+@media (max-width: 768px) {
+    h1 {
+        font-size: var(--text-4xl);
+    }
+
+    h2 {
+        font-size: var(--text-3xl);
+    }
+
+    h3 {
+        font-size: var(--text-xl);
+    }
+
+    .section {
+        padding: var(--space-12) 0;
+    }
+
+    .section-title {
+        font-size: var(--text-2xl);
+    }
+
+    .section-subtitle {
+        font-size: var(--text-base);
+    }
+
+    /* Nav */
+    .navbar__links,
+    .navbar__actions {
+        display: none;
+    }
+
+    .navbar__hamburger {
+        display: flex;
+    }
+
+    /* Hero */
+    .page-hero {
+        padding: calc(var(--nav-height) + var(--space-12)) 0 var(--space-12);
+    }
+
+    .page-hero__title {
+        font-size: var(--text-4xl);
+    }
+
+    /* Search Bar */
+    .search-bar {
+        flex-direction: column;
+        gap: 0;
+        padding: var(--space-3);
+    }
+
+    .search-bar__field {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        min-width: unset;
+    }
+
+    .search-bar__field:last-of-type {
+        border-bottom: none;
+    }
+
+    /* Cards */
+    .destinations-grid,
+    .packages-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tour-card__image {
+        height: 200px;
+    }
+
+    /* Footer */
+    .footer__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+    }
+
+    .footer__brand-desc {
+        max-width: 100%;
+    }
+
+    /* Modal */
+    .modal {
+        border-radius: var(--radius-xl);
+    }
+
+    /* Index Page specifics */
+    .hero-slide__content h1 {
+        font-size: var(--text-4xl);
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Auth */
+    .auth-container {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-brand {
+        display: none;
+    }
+
+    /* Dashboard */
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    .dashboard-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    /* Package Detail */
+    .package-detail-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-widget {
+        position: static;
+    }
+
+    /* Contact */
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* About */
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mission-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Small Mobile: ≤480px ────────────────────────────────── */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--space-4);
+    }
+
+    h1 {
+        font-size: var(--text-3xl);
+    }
+
+    .page-hero__title {
+        font-size: var(--text-3xl);
+    }
+
+    .btn-lg {
+        padding: var(--space-3) var(--space-6);
+        font-size: var(--text-sm);
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #scroll-top {
+        bottom: var(--space-4);
+        right: var(--space-4);
+    }
+}

@@ -1,0 +1,170 @@
+/* ============================================================
+   WANDERLUST — Destinations & Filter Page Styles
+   ============================================================ */
+@import url('variables.css');
+
+/* ── Filter Bar ──────────────────────────────────────────── */
+.filter-section {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-5) 0;
+    position: sticky;
+    top: var(--nav-height);
+    z-index: var(--z-raised);
+    box-shadow: var(--shadow-sm);
+}
+
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.filter-bar__search {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-light);
+    transition: var(--transition-fast);
+}
+
+.filter-bar__search:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+    background: var(--white);
+}
+
+.filter-bar__search i {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+}
+
+.filter-bar__search input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: var(--text-sm);
+    color: var(--text-dark);
+}
+
+.filter-bar__search input::placeholder {
+    color: var(--text-muted);
+}
+
+.filter-bar__filters {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.filter-select {
+    padding: var(--space-3) var(--space-4);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    font-size: var(--text-sm);
+    color: var(--text-body);
+    background: var(--white);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718096' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 2.25rem;
+    transition: var(--transition-fast);
+    min-width: 150px;
+}
+
+.filter-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+    outline: none;
+}
+
+/* ── Results Header ──────────────────────────────────────── */
+.results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+}
+
+.results-count {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.results-count strong {
+    color: var(--text-dark);
+}
+
+/* ── Destinations Grid ───────────────────────────────────── */
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+}
+
+/* ── No Results ──────────────────────────────────────────── */
+.no-results {
+    text-align: center;
+    padding: var(--space-20) 0;
+}
+
+.no-results i {
+    font-size: 3rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-4);
+}
+
+.no-results h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+}
+
+.no-results p {
+    color: var(--text-muted);
+    margin-bottom: var(--space-6);
+}
+
+/* ── Filtered out state ──────────────────────────────────── */
+.dest-item.hidden {
+    display: none;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .destinations-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-bar__search {
+        min-width: unset;
+    }
+
+    .filter-bar__filters {
+        flex-direction: column;
+    }
+
+    .filter-select {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .destinations-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,7 @@
+# .gitignore — Wanderlust Tour & Travel
+node_modules/
+backend/node_modules/
+.env
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocky Mountains Adventure — Wanderlust</title>
+    <meta name="description"
+        content="7-day Rocky Mountains Adventure in Vancouver, Canada. Includes flights, hotels, expert guide, meals. Book from $1,870/person.">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/package-detail.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+</head>
+
+<body>
+
+    <nav class="navbar scrolled">
+        <div class="navbar__inner">
+            <a href="index.html" class="navbar__logo">
+                <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                <span class="navbar__logo-text" style="color:var(--text-dark)">Wander<span>lust</span></span>
+            </a>
+            <ul class="navbar__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="packages.html" class="active">Packages</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="navbar__actions">
+                <a href="auth.html" class="btn btn-ghost btn-sm">Login</a>
+                <a href="auth.html#signup" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+            <div class="navbar__hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div class="navbar__mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="packages.html">Packages</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <div class="navbar__mobile-actions">
+            <a href="auth.html" class="btn btn-ghost">Login</a>
+            <a href="auth.html#signup" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Image Gallery Swiper -->
+    <div class="pkg-gallery page-content">
+        <div class="swiper pkg-gallery-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="img/Vancouver, Canada.jpg" alt="Rocky Mountains"
+                        style="width:100%;height:100%;object-fit:cover"></div>
+                <div class="swiper-slide"><img
+                        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80"
+                        alt="Mountain peaks" style="width:100%;height:100%;object-fit:cover"></div>
+                <div class="swiper-slide"><img
+                        src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80" alt="Lake Louise"
+                        style="width:100%;height:100%;object-fit:cover"></div>
+                <div class="swiper-slide"><img
+                        src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=1200&q=80"
+                        alt="Northern lights" style="width:100%;height:100%;object-fit:cover"></div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div style="background:var(--bg-light);border-bottom:1px solid var(--border);padding:var(--space-3) 0">
+        <div class="container">
+            <nav class="breadcrumb" style="justify-content:flex-start;color:var(--text-muted)">
+                <a href="index.html" style="color:var(--text-muted)">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="packages.html" style="color:var(--text-muted)">Packages</a>
+                <i class="fas fa-chevron-right"></i>
+                <span style="color:var(--text-dark)">Rocky Mountains Adventure</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="section" style="padding-top:var(--space-10)">
+        <div class="container">
+            <div class="package-detail-layout">
+
+                <!-- Left: Main Content -->
+                <div class="pkg-main">
+
+                    <!-- Title & Meta -->
+                    <div class="pkg-header">
+                        <div class="flex items-center gap-4" style="margin-bottom:var(--space-3)">
+                            <span class="badge badge-primary">Bestseller</span>
+                            <span class="badge badge-success">Americas</span>
+                        </div>
+                        <h1 style="font-size:var(--text-4xl);margin-bottom:var(--space-4)">Rocky Mountains Adventure
+                        </h1>
+                        <div class="pkg-meta-row">
+                            <span class="pkg-meta-item"><i class="fas fa-clock"></i> 7 Days / 6 Nights</span>
+                            <span class="pkg-meta-item"><i class="fas fa-map-marker-alt"></i> Vancouver, Canada</span>
+                            <span class="pkg-meta-item"><i class="fas fa-users"></i> Max 12 People</span>
+                            <span class="pkg-meta-item"><i class="fas fa-star" style="color:var(--accent)"></i> 4.9
+                                <span style="color:var(--text-muted)">(128 reviews)</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Overview -->
+                    <div class="pkg-section">
+                        <h2 class="pkg-section-title">Tour Overview</h2>
+                        <p>Experience the breathtaking grandeur of Canada's Rocky Mountains in this 7-day adventure
+                            designed for those who seek both thrill and tranquility. From the shimmering turquoise
+                            waters of Lake Louise to the towering peaks of Banff National Park, this journey offers some
+                            of North America's most iconic landscapes.</p>
+                        <p>Led by expert local guides, you'll hike glacier-carved valleys, kayak pristine mountain
+                            lakes, witness wildlife in its natural habitat and marvel at the dancing Northern Lights.
+                            Whether you're an avid hiker or a first-time explorer, this tour delivers an unforgettable
+                            experience.</p>
+
+                        <div class="pkg-highlights">
+                            <div class="pkg-highlight"><i class="fas fa-mountain"></i> Banff National Park</div>
+                            <div class="pkg-highlight"><i class="fas fa-water"></i> Lake Louise Kayaking</div>
+                            <div class="pkg-highlight"><i class="fas fa-star"></i> Northern Lights</div>
+                            <div class="pkg-highlight"><i class="fas fa-paw"></i> Wildlife Safari</div>
+                            <div class="pkg-highlight"><i class="fas fa-cable-car"></i> Gondola Ride</div>
+                            <div class="pkg-highlight"><i class="fas fa-campfire"></i> Camp Bonfire</div>
+                        </div>
+                    </div>
+
+                    <!-- Inclusions / Exclusions -->
+                    <div class="pkg-section">
+                        <h2 class="pkg-section-title">What's Included</h2>
+                        <div class="inclusions-grid">
+                            <div class="inclusions-col">
+                                <h4 style="color:var(--success);margin-bottom:var(--space-4)"><i
+                                        class="fas fa-check-circle"></i> Included</h4>
+                                <ul class="inclusion-list inclusion-list--yes">
+                                    <li><i class="fas fa-plane"></i> Return flights (Economy class)</li>
+                                    <li><i class="fas fa-hotel"></i> 6 nights mountain resort accommodation</li>
+                                    <li><i class="fas fa-utensils"></i> Daily breakfast & 3 dinners</li>
+                                    <li><i class="fas fa-user-tie"></i> Expert bilingual guide (English/French)</li>
+                                    <li><i class="fas fa-bus"></i> All ground transportation</li>
+                                    <li><i class="fas fa-ticket-alt"></i> National Park entry fees</li>
+                                    <li><i class="fas fa-kayak"></i> Kayak equipment & lessons</li>
+                                    <li><i class="fas fa-headset"></i> 24/7 support contact</li>
+                                </ul>
+                            </div>
+                            <div class="inclusions-col">
+                                <h4 style="color:var(--danger);margin-bottom:var(--space-4)"><i
+                                        class="fas fa-times-circle"></i> Not Included</h4>
+                                <ul class="inclusion-list inclusion-list--no">
+                                    <li><i class="fas fa-suitcase"></i> Travel insurance (recommended)</li>
+                                    <li><i class="fas fa-glass-cheers"></i> Alcoholic beverages</li>
+                                    <li><i class="fas fa-shopping-bag"></i> Personal shopping</li>
+                                    <li><i class="fas fa-file-alt"></i> Visa fees</li>
+                                    <li><i class="fas fa-utensils"></i> Lunches on hiking days</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Itinerary Accordion -->
+                    <div class="pkg-section">
+                        <h2 class="pkg-section-title">Day-by-Day Itinerary</h2>
+                        <div class="itinerary">
+
+                            <div class="itinerary-item active">
+                                <div class="itinerary-header" onclick="toggleItinerary(this)">
+                                    <div class="itinerary-day">Day 1</div>
+                                    <div class="itinerary-title">Arrival in Vancouver — Welcome Dinner</div>
+                                    <i class="fas fa-chevron-down itinerary-icon"></i>
+                                </div>
+                                <div class="itinerary-body">
+                                    <p>Arrive at Vancouver International Airport where your guide will greet you.
+                                        Transfer to your mountain resort hotel. In the evening, join a welcome
+                                        orientation dinner and meet your fellow travelers. Overnight at Mountain View
+                                        Resort.</p>
+                                    <div class="itinerary-tags">
+                                        <span><i class="fas fa-plane"></i> Arrival</span>
+                                        <span><i class="fas fa-hotel"></i> Resort Check-in</span>
+                                        <span><i class="fas fa-utensils"></i> Welcome Dinner</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="itinerary-item">
+                                <div class="itinerary-header" onclick="toggleItinerary(this)">
+                                    <div class="itinerary-day">Day 2</div>
+                                    <div class="itinerary-title">Banff National Park — Hike & Gondola</div>
+                                    <i class="fas fa-chevron-down itinerary-icon"></i>
+                                </div>
+                                <div class="itinerary-body">
+                                    <p>Full day exploring Banff National Park. Morning hike through Johnston Canyon,
+                                        afternoon Sulphur Mountain Gondola ride for 360° mountain views. Spot grizzly
+                                        bears and elk in the wild.</p>
+                                    <div class="itinerary-tags">
+                                        <span><i class="fas fa-hiking"></i> Hiking</span>
+                                        <span><i class="fas fa-cable-car"></i> Gondola</span>
+                                        <span><i class="fas fa-paw"></i> Wildlife</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="itinerary-item">
+                                <div class="itinerary-header" onclick="toggleItinerary(this)">
+                                    <div class="itinerary-day">Day 3</div>
+                                    <div class="itinerary-title">Lake Louise — Kayaking & Glacier Walk</div>
+                                    <i class="fas fa-chevron-down itinerary-icon"></i>
+                                </div>
+                                <div class="itinerary-body">
+                                    <p>Visit the iconic turquoise Lake Louise. Morning kayaking session on the lake,
+                                        afternoon Glacier Walk on the Victoria Glacier with professional guides.
+                                        Stunning photography opportunities throughout.</p>
+                                    <div class="itinerary-tags">
+                                        <span><i class="fas fa-water"></i> Kayaking</span>
+                                        <span><i class="fas fa-snowflake"></i> Glacier Walk</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="itinerary-item">
+                                <div class="itinerary-header" onclick="toggleItinerary(this)">
+                                    <div class="itinerary-day">Day 4</div>
+                                    <div class="itinerary-title">Icefields Parkway — Columbia Icefield</div>
+                                    <i class="fas fa-chevron-down itinerary-icon"></i>
+                                </div>
+                                <div class="itinerary-body">
+                                    <p>Scenic drive along the legendary Icefields Parkway — consistently ranked one of
+                                        the world's most beautiful drives. Visit the Athabasca Glacier and the Glacier
+                                        Skywalk glass platform.</p>
+                                    <div class="itinerary-tags">
+                                        <span><i class="fas fa-route"></i> Scenic Drive</span>
+                                        <span><i class="fas fa-camera"></i> Photography</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="itinerary-item">
+                                <div class="itinerary-header" onclick="toggleItinerary(this)">
+                                    <div class="itinerary-day">Day 5</div>
+                                    <div class="itinerary-title">Jasper National Park — Wildlife Safari</div>
+                                    <i class="fas fa-chevron-down itinerary-icon"></i>
+                                </div>
+                                <div class="itinerary-body">
+                                    <p>Morning wildlife safari in Jasper National Park. High chance of spotting moose,
+                                        caribou, and mountain goats. Afternoon at Pyramid Lake — canoeing and
+                                        relaxation.</p>
+                                    <div class="itinerary-tags">
+                                        <span><i class="fas fa-binoculars"></i> Wildlife Safari</span>
+                                        <span><i class="fas fa-ship"></i> Canoeing</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="itinerary-item">
+                                <div class="itinerary-header" onclick="toggleItinerary(this)">
+                                    <div class="itinerary-day">Day 6</div>
+                                    <div class="itinerary-title">Northern Lights Experience & Bonfire Night</div>
+                                    <i class="fas fa-chevron-down itinerary-icon"></i>
+                                </div>
+                                <div class="itinerary-body">
+                                    <p>Daytime leisure and visit to local Banff town. In the evening, venture into the
+                                        wilderness for the awe-inspiring Northern Lights viewing experience (seasonal)
+                                        around a crackling bonfire.</p>
+                                    <div class="itinerary-tags">
+                                        <span><i class="fas fa-star"></i> Northern Lights</span>
+                                        <span><i class="fas fa-fire"></i> Bonfire</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="itinerary-item">
+                                <div class="itinerary-header" onclick="toggleItinerary(this)">
+                                    <div class="itinerary-day">Day 7</div>
+                                    <div class="itinerary-title">Departure — Farewell Breakfast</div>
+                                    <i class="fas fa-chevron-down itinerary-icon"></i>
+                                </div>
+                                <div class="itinerary-body">
+                                    <p>Enjoy a final farewell breakfast at the resort. Transfer to Vancouver
+                                        International Airport for your onward flights. Take home a lifetime of memories
+                                        from Canada's most spectacular wilderness.</p>
+                                    <div class="itinerary-tags">
+                                        <span><i class="fas fa-plane-departure"></i> Departure</span>
+                                        <span><i class="fas fa-utensils"></i> Farewell Breakfast</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Guide -->
+                    <div class="pkg-section">
+                        <h2 class="pkg-section-title">Your Guide</h2>
+                        <div class="guide-card">
+                            <img src="https://i.pravatar.cc/80?img=51" alt="Guide Marcus Reid"
+                                class="guide-card__avatar">
+                            <div class="guide-card__info">
+                                <h3>Marcus Reid</h3>
+                                <p class="guide-card__role">Lead Adventure Guide — Mountains & Wilderness Specialist</p>
+                                <div class="stars" style="margin-bottom:var(--space-2)">★★★★★ <span
+                                        style="color:var(--text-muted);font-size:var(--text-xs)">98% satisfaction
+                                        rate</span></div>
+                                <p style="font-size:var(--text-sm);color:var(--text-light)">Over 12 years guiding tours
+                                    in Canadian Rockies. Certified wilderness first responder, wildlife biologist, and
+                                    photography enthusiast.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews -->
+                    <div class="pkg-section">
+                        <h2 class="pkg-section-title">Traveler Reviews</h2>
+                        <div class="reviews-summary">
+                            <div class="reviews-score">4.9</div>
+                            <div>
+                                <div class="stars" style="font-size:1.25rem">★★★★★</div>
+                                <p style="color:var(--text-muted);font-size:var(--text-sm);margin:0">Based on 128
+                                    reviews</p>
+                            </div>
+                        </div>
+                        <div class="reviews-list">
+                            <div class="review-item">
+                                <img src="https://i.pravatar.cc/44?img=12" alt="Priya" class="review-item__avatar">
+                                <div class="review-item__content">
+                                    <div class="review-item__header">
+                                        <strong>Priya Sharma</strong>
+                                        <div class="stars" style="font-size:var(--text-sm)">★★★★★</div>
+                                    </div>
+                                    <p class="review-item__text">"Absolutely spectacular! The Northern Lights on Day 6
+                                        made the whole trip worth it. Marcus (our guide) was incredibly knowledgeable
+                                        and made everyone feel safe and included."</p>
+                                    <span class="review-item__date">October 2024</span>
+                                </div>
+                            </div>
+                            <div class="review-item">
+                                <img src="https://i.pravatar.cc/44?img=33" alt="James" class="review-item__avatar">
+                                <div class="review-item__content">
+                                    <div class="review-item__header">
+                                        <strong>James McAllister</strong>
+                                        <div class="stars" style="font-size:var(--text-sm)">★★★★★</div>
+                                    </div>
+                                    <p class="review-item__text">"Best vacation I've ever taken. Lake Louise kayaking
+                                        was magical. The logistics were flawless — every hotel, meal, and activity was
+                                        perfectly timed."</p>
+                                    <span class="review-item__date">September 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right: Booking Widget (Sticky) -->
+                <aside class="booking-widget">
+                    <div class="booking-card">
+                        <div class="booking-card__price">
+                            <div class="booking-card__amount">$1,870</div>
+                            <div class="booking-card__label">per person</div>
+                        </div>
+                        <div class="booking-card__meta">
+                            <span><i class="fas fa-check-circle" style="color:var(--success)"></i> Free cancellation up
+                                to 14 days</span>
+                            <span><i class="fas fa-lock" style="color:var(--primary)"></i> Secure booking
+                                guaranteed</span>
+                        </div>
+                        <form class="booking-form" onsubmit="handleBooking(event)">
+                            <div class="form-group">
+                                <label class="form-label">Travel Date</label>
+                                <div class="form-icon-wrap" style="--icon-left:1rem">
+                                    <i class="fas fa-calendar form-icon"
+                                        style="left:1rem;top:50%;transform:translateY(-50%);position:absolute;color:var(--text-muted)"></i>
+                                    <input class="form-control" type="date" style="padding-left:2.5rem" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Number of Travelers</label>
+                                <select class="form-control" id="travelers-count" onchange="updateTotal()">
+                                    <option value="1">1 Person — $1,870</option>
+                                    <option value="2">2 People — $3,740</option>
+                                    <option value="3">3 People — $5,610</option>
+                                    <option value="4">4 People — $7,480</option>
+                                    <option value="5">5+ People (contact us)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input class="form-control" type="text" placeholder="Your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input class="form-control" type="email" placeholder="you@example.com" required>
+                            </div>
+                            <div class="booking-total">
+                                <span>Total</span>
+                                <strong id="booking-total-price">$1,870</strong>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width:100%;font-size:var(--text-base)">
+                                <i class="fas fa-calendar-check"></i> Book This Package
+                            </button>
+                            <a href="contact.html" class="btn btn-ghost"
+                                style="width:100%;margin-top:var(--space-2);text-align:center">
+                                <i class="fas fa-phone"></i> Inquire First
+                            </a>
+                        </form>
+                        <div class="booking-card__trust">
+                            <span><i class="fas fa-shield-alt"></i> No hidden fees</span>
+                            <span><i class="fas fa-headset"></i> 24/7 support</span>
+                            <span><i class="fas fa-credit-card"></i> Secure payment</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Info Box -->
+                    <div class="quick-info">
+                        <h4>Quick Info</h4>
+                        <div class="quick-info-item"><i class="fas fa-clock"></i><span>Duration: 7 Days / 6
+                                Nights</span></div>
+                        <div class="quick-info-item"><i class="fas fa-globe"></i><span>Destination: Vancouver,
+                                Canada</span></div>
+                        <div class="quick-info-item"><i class="fas fa-users"></i><span>Group Size: Max 12 people</span>
+                        </div>
+                        <div class="quick-info-item"><i class="fas fa-mountain"></i><span>Difficulty: Moderate</span>
+                        </div>
+                        <div class="quick-info-item"><i class="fas fa-language"></i><span>Language: English /
+                                French</span></div>
+                        <div class="quick-info-item"><i class="fas fa-calendar-alt"></i><span>Best Season: Jun –
+                                Oct</span></div>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Success Modal -->
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal" style="max-width:440px;text-align:center">
+            <div class="modal__body" style="padding:var(--space-10)">
+                <div style="font-size:3rem;margin-bottom:var(--space-4)">✅</div>
+                <h3>Booking Request Sent!</h3>
+                <p style="color:var(--text-light);margin-bottom:var(--space-6)">Thank you! Our team will confirm your
+                    booking within 24 hours and send full details to your email.</p>
+                <div style="display:flex;gap:var(--space-3);justify-content:center">
+                    <a href="dashboard.html" class="btn btn-primary">View My Bookings</a>
+                    <button class="btn btn-ghost" onclick="closeModal('booking-modal')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div>
+                    <a href="index.html" class="navbar__logo" style="margin-bottom:var(--space-4);display:inline-flex">
+                        <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                        <span class="navbar__logo-text" style="color:white">Wander<span>lust</span></span>
+                    </a>
+                    <p class="footer__brand-desc">Crafting unforgettable travel experiences since 1996.</p>
+                    <div class="footer__socials">
+                        <a href="#" class="footer__social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer__social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="footer__social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="packages.html"><i class="fas fa-chevron-right"></i> All Packages</a></li>
+                        <li><a href="destinations.html"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Support</h4>
+                    <ul class="footer__links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cancellation Policy</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Contact</h4>
+                    <div class="footer__contact-item"><i class="fas fa-envelope"></i>
+                        <p>joshiyagnik977@gmail.com</p>
+                    </div>
+                    <div class="footer__contact-item"><i class="fas fa-phone"></i>
+                        <p>+91 94283 72237</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>© 2025 Wanderlust. All rights reserved.</p>
+                <div class="footer__bottom-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scroll-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/nav.js"></script>
+    <script>
+        new Swiper('.pkg-gallery-swiper', {
+            loop: true,
+            autoplay: { delay: 4000 },
+            speed: 700,
+            pagination: { el: '.swiper-pagination', clickable: true },
+            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        });
+
+        function toggleItinerary(header) {
+            const item = header.parentElement;
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.itinerary-item').forEach(i => i.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        }
+
+        function updateTotal() {
+            const select = document.getElementById('travelers-count');
+            const prices = [1870, 3740, 5610, 7480];
+            const val = parseInt(select.value);
+            const totalEl = document.getElementById('booking-total-price');
+            if (val <= 4 && totalEl) {
+                totalEl.textContent = '$' + prices[val - 1].toLocaleString();
+            } else if (totalEl) {
+                totalEl.textContent = 'Contact us';
+            }
+        }
+
+        function handleBooking(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+            setTimeout(() => {
+                openModal('booking-modal');
+                btn.innerHTML = '<i class="fas fa-calendar-check"></i> Book This Package';
+                btn.disabled = false;
+                e.target.reset();
+            }, 1400);
+        }
+    </script>
+</body>
+
+</html>

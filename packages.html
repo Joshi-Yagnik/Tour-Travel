@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Packages — Wanderlust</title>
+    <meta name="description"
+        content="Browse expert-curated tour packages worldwide. Filter by destination, duration, budget and group size.">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/destinations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <nav class="navbar dark">
+        <div class="navbar__inner">
+            <a href="index.html" class="navbar__logo">
+                <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                <span class="navbar__logo-text">Wander<span>lust</span></span>
+            </a>
+            <ul class="navbar__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="packages.html" class="active">Packages</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="navbar__actions">
+                <a href="auth.html" class="btn btn-outline-white btn-sm">Login</a>
+                <a href="auth.html#signup" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+            <div class="navbar__hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div class="navbar__mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="packages.html">Packages</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <div class="navbar__mobile-actions">
+            <a href="auth.html" class="btn btn-ghost">Login</a>
+            <a href="auth.html#signup" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Page Hero -->
+    <header class="page-hero">
+        <div class="container page-hero__inner">
+            <div class="page-hero__tag"><i class="fas fa-suitcase-rolling"></i> Expert Curated</div>
+            <h1 class="page-hero__title">Tour Packages</h1>
+            <p class="page-hero__subtitle">All-inclusive packages crafted by expert guides. Flights, hotels, sightseeing
+                and support — all taken care of.</p>
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Packages</span>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Filter Bar -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-bar">
+                <div class="filter-bar__search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search packages..." id="pkg-search">
+                </div>
+                <div class="filter-bar__filters">
+                    <select class="filter-select" id="pkg-region">
+                        <option value="">All Regions</option>
+                        <option value="Asia">Asia</option>
+                        <option value="Europe">Europe</option>
+                        <option value="Americas">Americas</option>
+                        <option value="Africa">Africa</option>
+                    </select>
+                    <select class="filter-select" id="pkg-duration">
+                        <option value="">Any Duration</option>
+                        <option value="short">1–3 Days</option>
+                        <option value="medium">4–7 Days</option>
+                        <option value="long">7+ Days</option>
+                    </select>
+                    <select class="filter-select" id="pkg-sort">
+                        <option value="popular">Most Popular</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Grid -->
+    <section class="section" style="padding-top:var(--space-10)">
+        <div class="container">
+            <div class="results-header">
+                <p class="results-count">Showing <strong>9</strong> packages</p>
+            </div>
+            <div class="destinations-grid">
+
+                <div class="tour-card" data-region="Americas" data-price="1870" data-days="7">
+                    <div class="tour-card__image">
+                        <img src="img/Vancouver, Canada.jpg" alt="Rocky Mountains Adventure" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-primary">Bestseller</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(128)</span></div>
+                        <h3 class="tour-card__title">Rocky Mountains Adventure</h3>
+                        <p style="font-size:var(--text-sm);color:var(--text-light);margin-bottom:var(--space-3)">Hike
+                            through Banff National Park, kayak on Lake Louise, and witness the Northern Lights.</p>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-clock"></i> 7 Days</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-map-marker-alt"></i> Vancouver</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-users"></i> Max 12</span>
+                        </div>
+                        <div class="pkg-includes">
+                            <span><i class="fas fa-plane-departure"></i> Flights</span>
+                            <span><i class="fas fa-hotel"></i> Hotels</span>
+                            <span><i class="fas fa-user-tie"></i> Guide</span>
+                            <span><i class="fas fa-utensils"></i> Meals</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$1,870</div>
+                                <div class="label">per person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card" data-region="Europe" data-price="2450" data-days="5">
+                    <div class="tour-card__image">
+                        <img src="img/Paris, France.jpg" alt="Paris City of Love" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-success">New</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(94)</span></div>
+                        <h3 class="tour-card__title">Paris City of Love</h3>
+                        <p style="font-size:var(--text-sm);color:var(--text-light);margin-bottom:var(--space-3)">Eiffel
+                            Tower, Louvre, Seine River cruise and authentic French culinary experience.</p>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-clock"></i> 5 Days</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-map-marker-alt"></i> Paris</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-users"></i> Max 10</span>
+                        </div>
+                        <div class="pkg-includes">
+                            <span><i class="fas fa-plane-departure"></i> Flights</span>
+                            <span><i class="fas fa-hotel"></i> Hotels</span>
+                            <span><i class="fas fa-user-tie"></i> Guide</span>
+                            <span><i class="fas fa-utensils"></i> Meals</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$2,450</div>
+                                <div class="label">per person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card" data-region="Europe" data-price="3200" data-days="4">
+                    <div class="tour-card__image">
+                        <img src="img/Monaco, Monaco.jpg" alt="Monaco Grand Luxury" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-warning">Luxury</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(67)</span></div>
+                        <h3 class="tour-card__title">Monaco Grand Luxury Tour</h3>
+                        <p style="font-size:var(--text-sm);color:var(--text-light);margin-bottom:var(--space-3)">Monte
+                            Carlo Casino, Formula 1 circuit tour, luxury yacht experience and 5-star dining.</p>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-clock"></i> 4 Days</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-map-marker-alt"></i> Monaco</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-users"></i> Max 8</span>
+                        </div>
+                        <div class="pkg-includes">
+                            <span><i class="fas fa-plane-departure"></i> Flights</span>
+                            <span><i class="fas fa-hotel"></i> 5-Star</span>
+                            <span><i class="fas fa-user-tie"></i> Guide</span>
+                            <span><i class="fas fa-ship"></i> Yacht</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$3,200</div>
+                                <div class="label">per person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card" data-region="Asia" data-price="1549" data-days="7">
+                    <div class="tour-card__image">
+                        <img src="img/Tokyo, japan.jpg" alt="Japan Cherry Blossom Tour" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-danger">Trending</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(156)</span></div>
+                        <h3 class="tour-card__title">Japan Cherry Blossom Tour</h3>
+                        <p style="font-size:var(--text-sm);color:var(--text-light);margin-bottom:var(--space-3)">Tokyo
+                            Shibuya, Kyoto temples, Mount Fuji and authentic ramen tasting experience.</p>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-clock"></i> 7 Days</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-map-marker-alt"></i> Tokyo</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-users"></i> Max 15</span>
+                        </div>
+                        <div class="pkg-includes">
+                            <span><i class="fas fa-plane-departure"></i> Flights</span>
+                            <span><i class="fas fa-hotel"></i> Hotels</span>
+                            <span><i class="fas fa-user-tie"></i> Guide</span>
+                            <span><i class="fas fa-utensils"></i> Meals</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$1,549</div>
+                                <div class="label">per person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card" data-region="Europe" data-price="2199" data-days="6">
+                    <div class="tour-card__image">
+                        <img src="img/Bern, Switzerland.jpg" alt="Swiss Alps Hiking" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-primary">Adventure</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(203)</span></div>
+                        <h3 class="tour-card__title">Swiss Alps Hiking Expedition</h3>
+                        <p style="font-size:var(--text-sm);color:var(--text-light);margin-bottom:var(--space-3)">Glacier
+                            hikes, scenic train rides, Jungfraujoch peak and cozy Swiss chalets.</p>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-clock"></i> 6 Days</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-map-marker-alt"></i> Bern,
+                                Switzerland</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-users"></i> Max 10</span>
+                        </div>
+                        <div class="pkg-includes">
+                            <span><i class="fas fa-plane-departure"></i> Flights</span>
+                            <span><i class="fas fa-hotel"></i> Chalets</span>
+                            <span><i class="fas fa-user-tie"></i> Guide</span>
+                            <span><i class="fas fa-train"></i> Rail Pass</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$2,199</div>
+                                <div class="label">per person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card" data-region="Asia" data-price="899" data-days="5">
+                    <div class="tour-card__image">
+                        <img src="img/Jaipur-Travel-Shopping-Restaurants.webp" alt="Rajasthan Royal Heritage"
+                            loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-success">Budget</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(412)</span></div>
+                        <h3 class="tour-card__title">Rajasthan Royal Heritage</h3>
+                        <p style="font-size:var(--text-sm);color:var(--text-light);margin-bottom:var(--space-3)">Amber
+                            Fort, pink city Jaipur, camel safari, folk music and authentic Rajasthani cuisine.</p>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-clock"></i> 5 Days</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-map-marker-alt"></i> Jaipur,
+                                India</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-users"></i> Max 20</span>
+                        </div>
+                        <div class="pkg-includes">
+                            <span><i class="fas fa-hotel"></i> Hotels</span>
+                            <span><i class="fas fa-user-tie"></i> Guide</span>
+                            <span><i class="fas fa-utensils"></i> Meals</span>
+                            <span><i class="fas fa-bus"></i> Transport</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$899</div>
+                                <div class="label">per person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card" data-region="Asia" data-price="2500" data-days="7">
+                    <div class="tour-card__image">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80"
+                            alt="Maldives Paradise" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-warning">Luxury</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(276)</span></div>
+                        <h3 class="tour-card__title">Maldives Paradise Escape</h3>
+                        <p style="font-size:var(--text-sm);color:var(--text-light);margin-bottom:var(--space-3)">
+                            Overwater bungalows, snorkeling, dolphin watching and private sunset dinners.</p>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-clock"></i> 7 Days</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-map-marker-alt"></i> Maldives</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-users"></i> Max 6</span>
+                        </div>
+                        <div class="pkg-includes">
+                            <span><i class="fas fa-plane-departure"></i> Flights</span>
+                            <span><i class="fas fa-hotel"></i> Villas</span>
+                            <span><i class="fas fa-fish"></i> Snorkel</span>
+                            <span><i class="fas fa-utensils"></i> All meals</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$2,500</div>
+                                <div class="label">per person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card" data-region="Africa" data-price="3500" data-days="8">
+                    <div class="tour-card__image">
+                        <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&q=80"
+                            alt="African Safari" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-danger">Adventure</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(142)</span></div>
+                        <h3 class="tour-card__title">African Safari Adventure</h3>
+                        <p style="font-size:var(--text-sm);color:var(--text-light);margin-bottom:var(--space-3)">Big
+                            Five game drives, Masai Mara great migration, hot air balloon sunrise and bush camps.</p>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-clock"></i> 8 Days</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-map-marker-alt"></i> Kenya</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-users"></i> Max 8</span>
+                        </div>
+                        <div class="pkg-includes">
+                            <span><i class="fas fa-plane-departure"></i> Flights</span>
+                            <span><i class="fas fa-campground"></i> Camps</span>
+                            <span><i class="fas fa-user-tie"></i> Ranger</span>
+                            <span><i class="fas fa-utensils"></i> Meals</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$3,500</div>
+                                <div class="label">per person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card" data-region="Asia" data-price="1100" data-days="6">
+                    <div class="tour-card__image">
+                        <img src="img/lakdak.jpg" alt="Ladakh High Altitude" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-primary">Adventure</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(189)</span></div>
+                        <h3 class="tour-card__title">Ladakh High Altitude Trail</h3>
+                        <p style="font-size:var(--text-sm);color:var(--text-light);margin-bottom:var(--space-3)">Pangong
+                            Lake, magnetic hill, mountain monasteries and ancient Tibetan culture exploration.</p>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-clock"></i> 6 Days</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-map-marker-alt"></i> Ladakh,
+                                India</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-users"></i> Max 12</span>
+                        </div>
+                        <div class="pkg-includes">
+                            <span><i class="fas fa-hotel"></i> Hotels</span>
+                            <span><i class="fas fa-user-tie"></i> Guide</span>
+                            <span><i class="fas fa-utensils"></i> Meals</span>
+                            <span><i class="fas fa-bus"></i> Transport</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$1,100</div>
+                                <div class="label">per person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top:var(--space-12)">
+                <button class="btn btn-outline btn-lg" onclick="showToast('Loading more packages...','info')">
+                    <i class="fas fa-plus"></i> Load More Packages
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section style="background:var(--secondary);padding:var(--space-16) 0;text-align:center">
+        <div class="container">
+            <h2 style="color:var(--white);margin-bottom:var(--space-3)">Can't Find What You're Looking For?</h2>
+            <p
+                style="color:rgba(255,255,255,0.65);max-width:480px;margin:0 auto var(--space-8);font-size:var(--text-lg)">
+                Our travel experts can build a completely custom itinerary just for you.</p>
+            <a href="contact.html" class="btn btn-primary btn-lg"><i class="fas fa-phone"></i> Talk to an Expert</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div>
+                    <a href="index.html" class="navbar__logo" style="margin-bottom:var(--space-4);display:inline-flex">
+                        <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                        <span class="navbar__logo-text" style="color:white">Wander<span>lust</span></span>
+                    </a>
+                    <p class="footer__brand-desc">Crafting unforgettable travel experiences since 1996.</p>
+                    <div class="footer__socials">
+                        <a href="#" class="footer__social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer__social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="footer__social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="destinations.html"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                        <li><a href="packages.html"><i class="fas fa-chevron-right"></i> Packages</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Support</h4>
+                    <ul class="footer__links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cancellation Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Payment Issues</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Contact</h4>
+                    <div class="footer__contact-item"><i class="fas fa-envelope"></i>
+                        <p>joshiyagnik977@gmail.com</p>
+                    </div>
+                    <div class="footer__contact-item"><i class="fas fa-phone"></i>
+                        <p>+91 94283 72237</p>
+                    </div>
+                    <div class="footer__contact-item"><i class="fas fa-clock"></i>
+                        <p>Mon–Fri: 9 AM – 6 PM IST</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>© 2025 Wanderlust Travel Agency. All rights reserved.</p>
+                <div class="footer__bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scroll-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <script src="js/session.js"></script>
+    <script src="js/nav.js"></script>
+    <script>
+        /* Simple packages filter */
+        (function () {
+            const search = document.getElementById('pkg-search');
+            const region = document.getElementById('pkg-region');
+            const duration = document.getElementById('pkg-duration');
+            const sort = document.getElementById('pkg-sort');
+            const cards = document.querySelectorAll('.tour-card[data-region]');
+
+            function filter() {
+                let visible = 0;
+                cards.forEach(c => {
+                    const r = c.dataset.region;
+                    const p = parseInt(c.dataset.price);
+                    const d = parseInt(c.dataset.days);
+                    const name = c.querySelector('.tour-card__title').textContent.toLowerCase();
+                    const searchVal = search.value.toLowerCase();
+
+                    let show = true;
+                    if (searchVal && !name.includes(searchVal)) show = false;
+                    if (region.value && r !== region.value) show = false;
+                    if (duration.value === 'short' && d > 3) show = false;
+                    if (duration.value === 'medium' && (d < 4 || d > 7)) show = false;
+                    if (duration.value === 'long' && d <= 7) show = false;
+
+                    c.style.display = show ? '' : 'none';
+                    if (show) visible++;
+                });
+                document.querySelector('.results-count strong').textContent = visible;
+            }
+
+            [search, region, duration, sort].forEach(el => el && el.addEventListener('change', filter));
+            search && search.addEventListener('input', filter);
+        })();
+    </script>
+    <style>
+        .pkg-includes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+        }
+
+        .pkg-includes span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--text-muted);
+            background: var(--bg-light);
+            padding: 3px 8px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border);
+        }
+
+        .pkg-includes span i {
+            color: var(--primary);
+            font-size: 10px;
+        }
+    </style>
+</body>
+
+</html>

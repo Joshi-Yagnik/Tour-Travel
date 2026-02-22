@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Destinations — Wanderlust</title>
+    <meta name="description"
+        content="Explore 500+ destinations worldwide — Asia, Europe, Americas, Africa & more. Filter by region, rating, and budget.">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/destinations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <nav class="navbar dark">
+        <div class="navbar__inner">
+            <a href="index.html" class="navbar__logo">
+                <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                <span class="navbar__logo-text">Wander<span>lust</span></span>
+            </a>
+            <ul class="navbar__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html" class="active">Destinations</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="navbar__actions">
+                <a href="auth.html" class="btn btn-outline-white btn-sm">Login</a>
+                <a href="auth.html#signup" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+            <div class="navbar__hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div class="navbar__mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="packages.html">Packages</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <div class="navbar__mobile-actions">
+            <a href="auth.html" class="btn btn-ghost">Login</a>
+            <a href="auth.html#signup" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Page Hero -->
+    <header class="page-hero">
+        <div class="container page-hero__inner">
+            <div class="page-hero__tag"><i class="fas fa-globe-americas"></i> World's Best</div>
+            <h1 class="page-hero__title">Explore Destinations</h1>
+            <p class="page-hero__subtitle">From ancient wonders to tropical paradises — discover your next adventure
+                across 500+ destinations worldwide.</p>
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Destinations</span>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Filter Bar -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-bar">
+                <div class="filter-bar__search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search destinations..." id="dest-search">
+                </div>
+                <div class="filter-bar__filters">
+                    <select class="filter-select" id="region-filter">
+                        <option value="">All Regions</option>
+                        <option value="Asia">Asia</option>
+                        <option value="Europe">Europe</option>
+                        <option value="Americas">Americas</option>
+                        <option value="Africa">Africa</option>
+                        <option value="Oceania">Oceania</option>
+                    </select>
+                    <select class="filter-select" id="budget-filter">
+                        <option value="">Any Budget</option>
+                        <option value="budget">Budget (Under $1000)</option>
+                        <option value="mid">Mid-range ($1000–$2000)</option>
+                        <option value="luxury">Luxury ($2000+)</option>
+                    </select>
+                    <select class="filter-select" id="sort-filter">
+                        <option value="popular">Most Popular</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Grid -->
+    <section class="section" style="padding-top: var(--space-10)">
+        <div class="container">
+            <div class="results-header">
+                <p class="results-count">Showing <strong id="results-count">12</strong> destinations</p>
+            </div>
+            <div class="destinations-grid" id="destinations-grid">
+
+                <!-- Destination Cards (data-filterable) -->
+                <div class="tour-card dest-item" data-region="Europe" data-price="2450" data-rating="5"
+                    data-name="Paris France">
+                    <div class="tour-card__image">
+                        <img src="img/Paris, France.jpg" alt="Paris, France" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-primary">Europe</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(318)</span></div>
+                        <h3 class="tour-card__title">Paris, France</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: Apr–Jun</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> French</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$2,450</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Asia" data-price="1549" data-rating="5"
+                    data-name="Tokyo Japan">
+                    <div class="tour-card__image">
+                        <img src="img/Tokyo, japan.jpg" alt="Tokyo, Japan" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-success">Asia</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(244)</span></div>
+                        <h3 class="tour-card__title">Tokyo, Japan</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: Mar–May</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> Japanese</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$1,549</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Europe" data-price="2199" data-rating="5"
+                    data-name="Bern Switzerland">
+                    <div class="tour-card__image">
+                        <img src="img/Bern, Switzerland.jpg" alt="Bern, Switzerland" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-primary">Europe</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(187)</span></div>
+                        <h3 class="tour-card__title">Bern, Switzerland</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: Jun–Sep</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> German</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$2,199</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Asia" data-price="1389" data-rating="4"
+                    data-name="Seoul South Korea">
+                    <div class="tour-card__image">
+                        <img src="img/Seoul, South Korea.jpg" alt="Seoul, South Korea" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-success">Asia</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★☆</span><span
+                                class="tour-card__rating-count">(156)</span></div>
+                        <h3 class="tour-card__title">Seoul, South Korea</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: Sep–Nov</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> Korean</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$1,389</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Americas" data-price="1870" data-rating="5"
+                    data-name="Vancouver Canada">
+                    <div class="tour-card__image">
+                        <img src="img/Vancouver, Canada.jpg" alt="Vancouver, Canada" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-info">Americas</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(203)</span></div>
+                        <h3 class="tour-card__title">Vancouver, Canada</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: Jul–Sep</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> English</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$1,870</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Europe" data-price="3200" data-rating="5"
+                    data-name="Monaco">
+                    <div class="tour-card__image">
+                        <img src="img/Monaco, Monaco.jpg" alt="Monaco" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-warning">Luxury</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(98)</span></div>
+                        <h3 class="tour-card__title">Monaco</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: May–Sep</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> French</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$3,200</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Asia" data-price="899" data-rating="5"
+                    data-name="Jaipur India">
+                    <div class="tour-card__image">
+                        <img src="img/Jaipur-Travel-Shopping-Restaurants.webp" alt="Jaipur, India" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-success">Asia</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(412)</span></div>
+                        <h3 class="tour-card__title">Jaipur, India</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: Oct–Mar</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> Hindi</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$899</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Asia" data-price="1100" data-rating="5"
+                    data-name="Ladakh India">
+                    <div class="tour-card__image">
+                        <img src="img/lakdak.jpg" alt="Ladakh, India" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-success">Asia</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(189)</span></div>
+                        <h3 class="tour-card__title">Ladakh, India</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: Jun–Sep</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> Hindi</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$1,100</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Asia" data-price="2500" data-rating="5"
+                    data-name="Maldives">
+                    <div class="tour-card__image">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80"
+                            alt="Maldives" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-danger">Trending</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(276)</span></div>
+                        <h3 class="tour-card__title">Maldives</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: Nov–Apr</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> Dhivehi</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$2,500</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Europe" data-price="1799" data-rating="5"
+                    data-name="Barcelona Spain">
+                    <div class="tour-card__image">
+                        <img src="https://images.unsplash.com/photo-1583422409516-2895a77efded?w=600&q=80"
+                            alt="Barcelona, Spain" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-primary">Europe</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(221)</span></div>
+                        <h3 class="tour-card__title">Barcelona, Spain</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: May–Sep</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> Spanish</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$1,799</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Africa" data-price="3500" data-rating="5"
+                    data-name="Safari Kenya">
+                    <div class="tour-card__image">
+                        <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&q=80"
+                            alt="Safari, Kenya" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-warning">Africa</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span><span
+                                class="tour-card__rating-count">(142)</span></div>
+                        <h3 class="tour-card__title">Safari, Kenya</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: Jul–Oct</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> Swahili</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$3,500</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tour-card dest-item" data-region="Oceania" data-price="2800" data-rating="4"
+                    data-name="Sydney Australia">
+                    <div class="tour-card__image">
+                        <img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=600&q=80"
+                            alt="Sydney, Australia" loading="lazy">
+                        <div class="tour-card__badge"><span class="badge badge-info">Oceania</span></div>
+                        <div class="tour-card__wishlist"><i class="far fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★☆</span><span
+                                class="tour-card__rating-count">(198)</span></div>
+                        <h3 class="tour-card__title">Sydney, Australia</h3>
+                        <div class="tour-card__meta">
+                            <span class="tour-card__meta-item"><i class="fas fa-sun"></i> Best: Sep–Apr</span>
+                            <span class="tour-card__meta-item"><i class="fas fa-language"></i> English</span>
+                        </div>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">$2,800</div>
+                                <div class="label">from / person</div>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- No results -->
+            <div class="no-results" id="no-results" style="display:none">
+                <i class="fas fa-search"></i>
+                <h3>No destinations found</h3>
+                <p>Try adjusting your filters or search term.</p>
+                <button class="btn btn-primary" onclick="clearFilters()">Clear Filters</button>
+            </div>
+
+            <!-- Load more -->
+            <div class="text-center" style="margin-top:var(--space-12)">
+                <button class="btn btn-outline btn-lg" id="load-more">
+                    <i class="fas fa-plus"></i> Load More Destinations
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div>
+                    <a href="index.html" class="navbar__logo" style="margin-bottom:var(--space-4);display:inline-flex">
+                        <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                        <span class="navbar__logo-text" style="color:white">Wander<span>lust</span></span>
+                    </a>
+                    <p class="footer__brand-desc">Crafting unforgettable travel experiences since 1996.</p>
+                    <div class="footer__socials">
+                        <a href="#" class="footer__social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer__social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="footer__social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="destinations.html"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                        <li><a href="packages.html"><i class="fas fa-chevron-right"></i> Packages</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Regions</h4>
+                    <ul class="footer__links">
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Asia</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Europe</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Americas</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Africa</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Oceania</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Contact</h4>
+                    <div class="footer__contact-item"><i class="fas fa-envelope"></i>
+                        <p>joshiyagnik977@gmail.com</p>
+                    </div>
+                    <div class="footer__contact-item"><i class="fas fa-phone"></i>
+                        <p>+91 94283 72237</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>© 2025 Wanderlust Travel Agency. All rights reserved.</p>
+                <div class="footer__bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scroll-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <script src="js/session.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/destinations.js"></script>
+</body>
+
+</html>

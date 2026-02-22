@@ -1,294 +1,702 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tour and Travel Website</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/style2.css">
-    <link rel="stylesheet" href="css/responsive2.css">
+    <title>Wanderlust — Discover the World</title>
+    <meta name="description"
+        content="Wanderlust Travel Agency — explore 500+ destinations, tour packages curated by expert guides. Book your dream holiday today.">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-  <link rel="stylesheet" href="css/r3.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
+
 <body>
-    <!--========Header ========start-->
-    <header>
-        <div class="container">
-        <nav >
-            <div class="logo">
-                <img src="img/logo.png" alt="">
-            </div>
-            <ul class="navbar-lists" id="myTopnav">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Tours</a></li>
-                <li><a href="#">Destination</a></li>
-                <li><a href="#">Gallery</a></li>
-                <li><a href="logi.html">Login</a></li>
-            </ul>
-            <a href="javascript:void(0);" 
-               class="icon" onclick="myFunction()">
-                <i class="fa fa-bars"></i>
+
+    <!-- ════════════════════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════════════════ -->
+    <nav class="navbar" data-transparent="true">
+        <div class="navbar__inner">
+            <a href="index.html" class="navbar__logo">
+                <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                <span class="navbar__logo-text">Wander<span>lust</span></span>
             </a>
-        </nav>
-        </div>
-    </header>
-    <!--========Header ========close-->
-
-    <!--========showcase ========start-->
-      <main>
-        <div class="slider-container swiper">
-            <div class="slide-content swiper-wrapper">
-                <div class="overlay swiper-slide">
-                    <img src="img/sc-1.webp" alt="">
-                    <div class="img-overlay">
-                        <p>Let's Travel the woed with us</p>
-                        <h2><span>Discover</span> The World</h2>
-                        <h2>With Our Guide</h2>
-                    </div>
-                </div>
-                <div class="overlay swiper-slide">
-                    <img src="img/sc2.jpg" alt="">
-                    <div class="img-overlay">
-                        <p>Let's Travel the woed with us</p>
-                        <h2><span>Discover</span> The World</h2>
-                        <h2>With Our Guide</h2>
-                    </div>
-                </div>
-                <div class="overlay swiper-slide">
-                    <img src="img/sc-2.jpeg" alt="">
-                    <div class="img-overlay">
-                        <p>Let's Travel the woed with us</p>
-                        <h2>DiscoverThe World</h2>
-                        <h2>With Our <span>Travelo</span></h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </main>
-    <!--========showcase ========close-->
-
-    <!--======== Search Location ========start-->
-      
-      <section id="location-search">
-        <div class="containeraa">
-            <div class="from-wrapper">
-                <form action="#">
-                    <input type="text" placeholder="Where to ?" class="form-control">
-                      <select class="form-control">
-                        <option value="Destination">Destination</option>
-                        <option value="Destination">Greece</option>
-                        <option value="Destination">London</option>
-                        <option value="Destination">laksh div</option>
-                        <option value="Destination">Paris</option>
-                      </select> 
-                      <select class="form-control">
-                        <option value="Duration">Duration</option>
-                        <option value="1 Day Tour">1 Day Tour</option>
-                        <option value="2-4 Day Tour">2-4 Day Tour</option>
-                        <option value="5-7 Day Tour">5-7 Day Tour</option>
-                        <option value="7+ Day Tour">7+ Day Tour</option>
-                      </select>   
-                      <button type="button" class="primary-btn">Search Now</button>
-                </form>
-            </div>
-        </div>
-      </section>
-    <!--======== Search Location ========close-->
-     
-
-     <!--=========Services===============-->
-     <section class="services">
-        <div class="service-item">
-            <img src="img/LG-Bruce-Friedman-brooklyn-bridge-new-york-1200.jpg">
-            <h2>8000+ Our Local Guides</h2>
-        </div>
-        <div class="service-item">
-            <img src="img/Jaipur-Travel-Shopping-Restaurants.webp">
-            <h2>100% Trusted Tour Agency</h2>
-        </div>
-        <div class="service-item">
-            <img src="img/sury mandir.webp">
-            <h2>28+ Years of Travel Experience</h2>
-        </div>
-        <div class="service-item">
-            <img src="img/lakdak.jpg">
-            <h2>98% Our Travelers are Happy</h2>
-        </div>
-    </section>
-    <!--==============Places===================-->
-    <section class="places">
-        <div class="cards">
-            <div class="card">
-                <div class="zoom-img">
-                    <div class="img-card">
-                        <img
-                            src="img/Vancouver, Canada.jpg">
-                    </div>
-                </div>
-
-                <div class="text">
-                    <span class="rating">⭐⭐⭐⭐⭐</span>
-                    <h2>The Dark Forest Adventure</h2>
-                    <p class="cost">$1870 / Per Person</p>
-                    <div class="card-box">
-                        <p class="time">🕓 3 Days</p>
-                        <p class="location">✈ Vancouver, Canada</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="card">
-                <div class="zoom-img">
-                    <div class="img-card">
-                        <img src="img/Paris, France.jpg">
-                    </div>
-                </div>
-
-                <div class="text">
-                    <span class="rating">⭐⭐⭐⭐⭐</span>
-                    <h2>The Dark Forest Adventure</h2>
-                    <p class="cost">$1870 / Per Person</p>
-                    <div class="card-box">
-                        <p class="time">🕓 3 Days</p>
-                        <p class="location">✈ Paris, France</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="card">
-                <div class="zoom-img">
-                    <div class="img-card">
-                        <img src="img/Monaco, Monaco.jpg">
-                    </div>
-                </div>
-
-                <div class="text">
-                    <span class="rating">⭐⭐⭐⭐⭐</span>
-                    <h2>The Dark Forest Adventure</h2>
-                    <p class="cost">$1870 / Per Person</p>
-                    <div class="card-box">
-                        <p class="time">🕓 3 Days</p>
-                        <p class="location">✈ Monaco, Monaco</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="card">
-                <div class="zoom-img">
-                    <div class="img-card">
-                        <img
-                        src="img/Bern, Switzerland.jpg">
-                    </div>
-                </div>
-
-                <div class="text">
-                    <span class="rating">⭐⭐⭐⭐⭐</span>
-                    <h2>The Dark Forest Adventure</h2>
-                    <p class="cost">$1870 / Per Person</p>
-                    <div class="card-box">
-                        <p class="time">🕓 3 Days</p>
-                        <p class="location">✈ Bern, Switzerland</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="card">
-                <div class="zoom-img">
-                    <div class="img-card">
-                        <img src="img/Seoul, South Korea.jpg">
-                    </div>
-                </div>
-
-                <div class="text">
-                    <span class="rating">⭐⭐⭐⭐⭐</span>
-                    <h2>The Dark Forest Adventure</h2>
-                    <p class="cost">$1870 / Per Person</p>
-                    <div class="card-box">
-                        <p class="time">🕓 3 Days</p>
-                        <p class="location">✈ Seoul, South Korea</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="card">
-                <div class="zoom-img">
-                    <div class="img-card">
-                        <img src="img/Tokyo, japan.jpg"></img>
-                    </div>
-                </div>
-
-                <div class="text">
-                    <span class="rating">⭐⭐⭐⭐⭐</span>
-                    <h2>The Dark Forest Adventure</h2>
-                    <p class="cost">$1870 / Per Person</p>
-                    <div class="card-box">
-                        <p class="time">🕓 3 Days</p>
-                        <p class="location">✈ Tokyo, japan</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--===========About Us===============-->
-    <section class="about">
-        <div class="about-img">
-            <img src="img/about_us1.jpg">
-        </div>
-        <div class="about-text">
-            <small>ABOUT OUR COMPANY</small>
-            <h2>We are Go Trip Ravels Support Company</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud</p>
-
-            <label><input type="checkbox" checked>Lorem ipsum dolor sit amet</label>
-            <label><input type="checkbox" checked>consectetur adipisicing elit</label>
-            <label><input type="checkbox" checked>Architecto atque consequuntur</label>
-            <label><input type="checkbox" checked>cupiditate doloremque ducimus</label>
-            <a href="#">ABOUT US</a>
-        </div>
-    </section>
-
-    <!--===========Footer=================-->
-    <div class="footer">
-        <div class="links">
-            <h3>Quick Links</h3>
-            <ul>
-                <li>Offers & Discounts</li>
-                <li>Get Coupon</li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li>About</li>
+            <ul class="navbar__links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
+            <div class="navbar__actions">
+                <a href="auth.html" class="btn btn-outline-white btn-sm">Login</a>
+                <a href="auth.html#signup" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+            <div class="navbar__hamburger" aria-label="Toggle menu" role="button" tabindex="0">
+                <span></span><span></span><span></span>
+            </div>
         </div>
-        <div class="links">
-            <h3>New Products</h3>
-            <ul>
-                <li>Woman Cloth</li>
-                <li>Fashion Accessories</li>
-                <li>Man Accessories</li>
-                <li>Rubber made Toys</li>
-            </ul>
-        </div>
-        <div class="links">
-            <h3>Support</h3>
-            <ul>
-                <li>Frequently Asked Questions</li>
-                <li>Report a Payment Issue</li>
-                <li>Terms & Conditions</li>
-                <li>Privacy Policy</li>
-            </ul>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="navbar__mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="packages.html">Packages</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <div class="navbar__mobile-actions">
+            <a href="auth.html" class="btn btn-ghost">Login</a>
+            <a href="auth.html#signup" class="btn btn-primary">Sign Up Free</a>
         </div>
     </div>
 
+    <!-- ════════════════════════════════════════════════════════
+     HERO SLIDER
+════════════════════════════════════════════════════════ -->
+    <section class="hero">
+        <div class="swiper hero-swiper">
+            <div class="swiper-wrapper">
 
-     
+                <!-- Slide 1 -->
+                <div class="swiper-slide hero-slide"
+                    style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80')">
+                    <div class="hero-slide__overlay"></div>
+                    <div class="hero-slide__content container">
+                        <span class="hero-slide__tag" data-reveal data-delay="0"><i class="fas fa-map-marker-alt"></i>
+                            Featured Destination</span>
+                        <h1 data-reveal data-delay="100">Explore the<br><span class="text-primary">Majestic Alps</span>
+                        </h1>
+                        <p data-reveal data-delay="200">Experience the breathtaking beauty of Switzerland's iconic
+                            mountain landscape with our exclusive guided tours.</p>
+                        <div class="hero-slide__actions" data-reveal data-delay="300">
+                            <a href="packages.html" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane"></i> Explore Packages
+                            </a>
+                            <a href="destinations.html" class="btn btn-outline-white btn-lg">
+                                <i class="fas fa-compass"></i> Browse Destinations
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="swiper-slide hero-slide"
+                    style="background-image: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1920&q=80')">
+                    <div class="hero-slide__overlay"></div>
+                    <div class="hero-slide__content container">
+                        <span class="hero-slide__tag"><i class="fas fa-star"></i> Most Popular</span>
+                        <h1>Discover<br><span class="text-primary">Kyoto, Japan</span></h1>
+                        <p>Wander through ancient temples, cherry blossom gardens, and vibrant street markets in the
+                            heart of Japan.</p>
+                        <div class="hero-slide__actions">
+                            <a href="packages.html" class="btn btn-primary btn-lg"><i class="fas fa-paper-plane"></i>
+                                Explore Packages</a>
+                            <a href="destinations.html" class="btn btn-outline-white btn-lg"><i
+                                    class="fas fa-compass"></i> Browse Destinations</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="swiper-slide hero-slide"
+                    style="background-image: url('https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1920&q=80')">
+                    <div class="hero-slide__overlay"></div>
+                    <div class="hero-slide__content container">
+                        <span class="hero-slide__tag"><i class="fas fa-fire"></i> New Package</span>
+                        <h1>Paradise Awaits<br><span class="text-primary">Maldives</span></h1>
+                        <p>Crystal clear waters, overwater bungalows, and vibrant coral reefs — your tropical dream
+                            vacation, planned perfectly.</p>
+                        <div class="hero-slide__actions">
+                            <a href="packages.html" class="btn btn-primary btn-lg"><i class="fas fa-paper-plane"></i>
+                                Explore Packages</a>
+                            <a href="destinations.html" class="btn btn-outline-white btn-lg"><i
+                                    class="fas fa-compass"></i> Browse Destinations</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Swiper controls -->
+            <div class="swiper-button-next hero-swiper__next"><i class="fas fa-chevron-right"></i></div>
+            <div class="swiper-button-prev hero-swiper__prev"><i class="fas fa-chevron-left"></i></div>
+            <div class="swiper-pagination hero-swiper__pagination"></div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="hero__scroll-hint">
+            <div class="hero__scroll-mouse">
+                <div></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+     SEARCH BAR (floating below hero)
+════════════════════════════════════════════════════════ -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-bar">
+                <div class="search-bar__field">
+                    <i class="fas fa-map-marker-alt search-bar__field-icon"></i>
+                    <div class="search-bar__field-content">
+                        <span class="search-bar__field-label">Destination</span>
+                        <input type="text" placeholder="Where do you want to go?">
+                    </div>
+                </div>
+                <div class="search-bar__field">
+                    <i class="fas fa-calendar-alt search-bar__field-icon"></i>
+                    <div class="search-bar__field-content">
+                        <span class="search-bar__field-label">Travel Date</span>
+                        <input type="date">
+                    </div>
+                </div>
+                <div class="search-bar__field">
+                    <i class="fas fa-clock search-bar__field-icon"></i>
+                    <div class="search-bar__field-content">
+                        <span class="search-bar__field-label">Duration</span>
+                        <select>
+                            <option value="">Any Duration</option>
+                            <option>1–3 Days</option>
+                            <option>4–7 Days</option>
+                            <option>1–2 Weeks</option>
+                            <option>2+ Weeks</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search-bar__field">
+                    <i class="fas fa-users search-bar__field-icon"></i>
+                    <div class="search-bar__field-content">
+                        <span class="search-bar__field-label">Travelers</span>
+                        <select>
+                            <option>1 Person</option>
+                            <option>2 People</option>
+                            <option>3–5 People</option>
+                            <option>6+ People</option>
+                        </select>
+                    </div>
+                </div>
+                <a href="packages.html" class="btn btn-primary btn-lg search-bar__submit">
+                    <i class="fas fa-search"></i> Search Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+     STATS ROW
+════════════════════════════════════════════════════════ -->
+    <section class="stats-section section-sm">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item" data-reveal>
+                    <div class="stat-item__icon"><i class="fas fa-globe-americas"></i></div>
+                    <div class="stat-item__value"><span data-target="500">0</span>+</div>
+                    <div class="stat-item__label">Destinations</div>
+                </div>
+                <div class="stat-item" data-reveal data-delay="100">
+                    <div class="stat-item__icon"><i class="fas fa-user-shield"></i></div>
+                    <div class="stat-item__value"><span data-target="8000">0</span>+</div>
+                    <div class="stat-item__label">Expert Guides</div>
+                </div>
+                <div class="stat-item" data-reveal data-delay="200">
+                    <div class="stat-item__icon"><i class="fas fa-trophy"></i></div>
+                    <div class="stat-item__value"><span data-target="28">0</span>+</div>
+                    <div class="stat-item__label">Years Experience</div>
+                </div>
+                <div class="stat-item" data-reveal data-delay="300">
+                    <div class="stat-item__icon"><i class="fas fa-smile-beam"></i></div>
+                    <div class="stat-item__value"><span data-target="98">0</span>%</div>
+                    <div class="stat-item__label">Happy Travelers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+     FEATURED DESTINATIONS
+════════════════════════════════════════════════════════ -->
+    <section class="section fd-section" id="destinations">
+        <div class="container">
+            <div class="section-header" data-reveal>
+                <span class="section-label"><i class="fas fa-globe-americas"></i> Top Picks</span>
+                <h2 class="section-title">Featured Destinations</h2>
+                <p class="section-subtitle">From ancient wonders to pristine shores — curated destinations for every
+                    type of traveler.</p>
+            </div>
+
+            <div class="fd-mosaic" data-reveal>
+                <a href="destinations.html" class="fd-card fd-card--large">
+                    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=900&q=80"
+                        alt="Paris, France" loading="lazy">
+                    <div class="fd-card__overlay"></div>
+                    <div class="fd-card__body">
+                        <div class="fd-card__tag">France</div>
+                        <h3 class="fd-card__city">Paris</h3>
+                        <div class="fd-card__price"><i class="fas fa-tag"></i> From $1,299 / person</div>
+                    </div>
+                    <div class="fd-card__arrow"><i class="fas fa-arrow-right"></i></div>
+                </a>
+                <div class="fd-stack">
+                    <a href="destinations.html" class="fd-card fd-card--small">
+                        <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&q=80"
+                            alt="Tokyo, Japan" loading="lazy">
+                        <div class="fd-card__overlay"></div>
+                        <div class="fd-card__body">
+                            <div class="fd-card__tag">Japan</div>
+                            <h3 class="fd-card__city">Tokyo</h3>
+                            <div class="fd-card__price"><i class="fas fa-tag"></i> From $1,549 / person</div>
+                        </div>
+                        <div class="fd-card__arrow"><i class="fas fa-arrow-right"></i></div>
+                    </a>
+                    <a href="destinations.html" class="fd-card fd-card--small">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80"
+                            alt="Swiss Alps" loading="lazy">
+                        <div class="fd-card__overlay"></div>
+                        <div class="fd-card__body">
+                            <div class="fd-card__tag">Switzerland</div>
+                            <h3 class="fd-card__city">Swiss Alps</h3>
+                            <div class="fd-card__price"><i class="fas fa-tag"></i> From $2,199 / person</div>
+                        </div>
+                        <div class="fd-card__arrow"><i class="fas fa-arrow-right"></i></div>
+                    </a>
+                    <a href="destinations.html" class="fd-card fd-card--small">
+                        <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80"
+                            alt="Bali, Indonesia" loading="lazy">
+                        <div class="fd-card__overlay"></div>
+                        <div class="fd-card__body">
+                            <div class="fd-card__tag">Indonesia</div>
+                            <h3 class="fd-card__city">Bali</h3>
+                            <div class="fd-card__price"><i class="fas fa-tag"></i> From $899 / person</div>
+                        </div>
+                        <div class="fd-card__arrow"><i class="fas fa-arrow-right"></i></div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center fd-footer" data-reveal>
+                <a href="destinations.html" class="btn btn-outline btn-lg">
+                    <i class="fas fa-compass"></i> Explore All Destinations
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+     POPULAR PACKAGES
+════════════════════════════════════════════════════════ -->
+    <section class="section pp-section">
+        <div class="container">
+            <div class="section-header" data-reveal>
+                <span class="section-label"><i class="fas fa-fire"></i> Best Sellers</span>
+                <h2 class="section-title">Popular Tour Packages</h2>
+                <p class="section-subtitle">Handcrafted itineraries with everything included — guides, transport, stays,
+                    and unforgettable experiences.</p>
+            </div>
+
+            <div class="pp-grid">
+
+                <div class="pp-card" data-reveal>
+                    <div class="pp-card__img-wrap">
+                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=700&q=80"
+                            alt="Rocky Mountains Adventure" loading="lazy">
+                        <span class="pp-card__badge pp-badge--hot">Bestseller</span>
+                        <button class="pp-card__wish" title="Wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="pp-card__body">
+                        <div class="pp-card__tags">
+                            <span><i class="fas fa-clock"></i> 7 Days</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Canada</span>
+                            <span><i class="fas fa-users"></i> Max 12</span>
+                        </div>
+                        <h3 class="pp-card__title">Rocky Mountains Adventure</h3>
+                        <div class="pp-card__stars">★★★★★ <span>(128 reviews)</span></div>
+                        <div class="pp-card__footer">
+                            <div class="pp-card__price">
+                                <span class="pp-price__amount">$1,870</span>
+                                <span class="pp-price__label">/ person</span>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pp-card pp-card--featured" data-reveal data-delay="100">
+                    <div class="pp-card__img-wrap">
+                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=700&q=80"
+                            alt="Paris City of Love" loading="lazy">
+                        <span class="pp-card__badge pp-badge--new">New</span>
+                        <button class="pp-card__wish" title="Wishlist"><i class="far fa-heart"></i></button>
+                        <div class="pp-card__pick"><i class="fas fa-crown"></i> Editor's Pick</div>
+                    </div>
+                    <div class="pp-card__body">
+                        <div class="pp-card__tags">
+                            <span><i class="fas fa-clock"></i> 5 Days</span>
+                            <span><i class="fas fa-map-marker-alt"></i> France</span>
+                            <span><i class="fas fa-users"></i> Max 10</span>
+                        </div>
+                        <h3 class="pp-card__title">Paris City of Love</h3>
+                        <div class="pp-card__stars">★★★★★ <span>(94 reviews)</span></div>
+                        <div class="pp-card__footer">
+                            <div class="pp-card__price">
+                                <span class="pp-price__amount">$2,450</span>
+                                <span class="pp-price__label">/ person</span>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pp-card" data-reveal data-delay="200">
+                    <div class="pp-card__img-wrap">
+                        <img src="https://images.unsplash.com/photo-1583422409516-2895a77efded?w=700&q=80"
+                            alt="Monaco Grand Prix Tour" loading="lazy">
+                        <span class="pp-card__badge pp-badge--luxury">Luxury</span>
+                        <button class="pp-card__wish" title="Wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="pp-card__body">
+                        <div class="pp-card__tags">
+                            <span><i class="fas fa-clock"></i> 4 Days</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Monaco</span>
+                            <span><i class="fas fa-users"></i> Max 8</span>
+                        </div>
+                        <h3 class="pp-card__title">Monaco Grand Prix Tour</h3>
+                        <div class="pp-card__stars">★★★★☆ <span>(67 reviews)</span></div>
+                        <div class="pp-card__footer">
+                            <div class="pp-card__price">
+                                <span class="pp-price__amount">$3,200</span>
+                                <span class="pp-price__label">/ person</span>
+                            </div>
+                            <a href="package-detail.html" class="btn btn-primary btn-sm">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center" style="margin-top: var(--space-12)" data-reveal>
+                <a href="packages.html" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-suitcase"></i> View All Packages
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+     WHY CHOOSE US
+════════════════════════════════════════════════════════ -->
+    <section class="section features-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label"><i class="fas fa-check-circle"></i> Why Wanderlust</span>
+                <h2 class="section-title">Travel With Confidence</h2>
+                <p class="section-subtitle">We handle every detail so you can focus on what matters — making memories.
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" data-reveal>
+                    <div class="feature-card__icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>100% Trusted Agency</h3>
+                    <p>Certified, licensed, and trusted by over 50,000 travelers worldwide since 1996.</p>
+                </div>
+                <div class="feature-card" data-reveal data-delay="100">
+                    <div class="feature-card__icon"><i class="fas fa-user-tie"></i></div>
+                    <h3>Expert Local Guides</h3>
+                    <p>8,000+ certified local guides who know every hidden gem in their destination.</p>
+                </div>
+                <div class="feature-card" data-reveal data-delay="200">
+                    <div class="feature-card__icon"><i class="fas fa-tags"></i></div>
+                    <h3>Best Price Guarantee</h3>
+                    <p>Find a lower price elsewhere? We'll match it and give you a 10% discount.</p>
+                </div>
+                <div class="feature-card" data-reveal data-delay="300">
+                    <div class="feature-card__icon"><i class="fas fa-headset"></i></div>
+                    <h3>24/7 Support</h3>
+                    <p>Our travel experts are available around the clock — before, during, and after your trip.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+     ABOUT SECTION
+════════════════════════════════════════════════════════ -->
+    <section class="section about-section" style="background: var(--bg-light)">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image" data-reveal>
+                    <img src="img/about_us1.jpg" alt="Our team of travel experts">
+                    <div class="about-image__badge">
+                        <span class="about-image__badge-num">28+</span>
+                        <span>Years of Experience</span>
+                    </div>
+                </div>
+                <div class="about-text" data-reveal data-delay="150">
+                    <span class="section-label"><i class="fas fa-info-circle"></i> About Us</span>
+                    <h2 class="section-title">We Are Wanderlust Travel Agency</h2>
+                    <p>Founded in 1996, Wanderlust has spent over two decades connecting travelers with the world's most
+                        extraordinary destinations. We believe travel is not just about visiting places — it's about
+                        discovering yourself.</p>
+                    <p>From serene mountain retreats to vibrant city escapes, our team of dedicated travel experts
+                        crafts personalized experiences that go far beyond the ordinary tour package.</p>
+                    <ul class="about-list">
+                        <li><i class="fas fa-check-circle"></i> Expert-curated itineraries tailored to you</li>
+                        <li><i class="fas fa-check-circle"></i> Fully licensed and internationally certified</li>
+                        <li><i class="fas fa-check-circle"></i> Sustainable & responsible travel practices</li>
+                        <li><i class="fas fa-check-circle"></i> 24/7 on-trip emergency support</li>
+                    </ul>
+                    <div class="about-ctas">
+                        <a href="about.html" class="btn btn-primary btn-lg">Discover Our Story</a>
+                        <a href="contact.html" class="btn btn-ghost btn-lg">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════════════════════ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label"><i class="fas fa-quote-left"></i> Reviews</span>
+                <h2 class="section-title">What Our Travelers Say</h2>
+                <p class="section-subtitle">Real stories from real adventurers who trusted Wanderlust with their
+                    journeys.</p>
+            </div>
+
+            <div class="swiper testimonials-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <p class="testimonial-card__text">"Wanderlust made our honeymoon in Bali absolutely perfect.
+                                Every single detail was taken care of — from the airport pickup to the private sunset
+                                dinner. We felt completely stress-free the entire trip."</p>
+                            <div class="testimonial-card__author">
+                                <img src="https://i.pravatar.cc/52?img=12" alt="Priya Sharma"
+                                    class="testimonial-card__avatar" loading="lazy">
+                                <div>
+                                    <div class="testimonial-card__name">Priya Sharma</div>
+                                    <div class="testimonial-card__role">🇮🇳 Mumbai, India</div>
+                                    <div class="stars">★★★★★</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <p class="testimonial-card__text">"I've traveled with 5 different agencies over the years.
+                                Wanderlust is by far the best. Our Japan tour was immaculate — the guide spoke English
+                                perfectly and took us to places no tourist ever gets to see."</p>
+                            <div class="testimonial-card__author">
+                                <img src="https://i.pravatar.cc/52?img=33" alt="James McAllister"
+                                    class="testimonial-card__avatar" loading="lazy">
+                                <div>
+                                    <div class="testimonial-card__name">James McAllister</div>
+                                    <div class="testimonial-card__role">🇬🇧 London, UK</div>
+                                    <div class="stars">★★★★★</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <p class="testimonial-card__text">"Booked the Swiss Alps hiking package and it exceeded
+                                every expectation. The accommodations were gorgeous, the itinerary perfectly paced, and
+                                our group guide Ramesh was incredibly knowledgeable."</p>
+                            <div class="testimonial-card__author">
+                                <img src="https://i.pravatar.cc/52?img=47" alt="Aisha Rahman"
+                                    class="testimonial-card__avatar" loading="lazy">
+                                <div>
+                                    <div class="testimonial-card__name">Aisha Rahman</div>
+                                    <div class="testimonial-card__role">🇵🇰 Karachi, Pakistan</div>
+                                    <div class="stars">★★★★★</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <p class="testimonial-card__text">"The Maldives overwater villa package was absolutely
+                                dreamy. Wanderlust handled everything seamlessly — visas, seaplane transfers, snorkeling
+                                trips. We didn't have to worry about a single thing!"</p>
+                            <div class="testimonial-card__author">
+                                <img src="https://i.pravatar.cc/52?img=60" alt="Liu Wei"
+                                    class="testimonial-card__avatar" loading="lazy">
+                                <div>
+                                    <div class="testimonial-card__name">Liu Wei</div>
+                                    <div class="testimonial-card__role">🇨🇳 Shanghai, China</div>
+                                    <div class="stars">★★★★★</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination testimonials-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+     NEWSLETTER CTA
+════════════════════════════════════════════════════════ -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-box">
+                <div class="newsletter-box__bg"></div>
+                <div class="newsletter-box__content">
+                    <span class="section-label" style="color:var(--accent)"><i class="fas fa-envelope"></i>
+                        Newsletter</span>
+                    <h2>Get Exclusive Travel Deals</h2>
+                    <p>Subscribe and receive 10% off your first booking, plus weekly deals, travel tips, and destination
+                        inspiration.</p>
+                    <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+                        <div class="newsletter-form__input-wrap">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="Enter your email address" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-paper-plane"></i> Subscribe
+                        </button>
+                    </form>
+                    <p class="newsletter-note"><i class="fas fa-lock"></i> No spam. Unsubscribe anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+
+                <div>
+                    <a href="index.html" class="navbar__logo" style="margin-bottom:var(--space-4);display:inline-flex">
+                        <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                        <span class="navbar__logo-text" style="color:white">Wander<span>lust</span></span>
+                    </a>
+                    <p class="footer__brand-desc">Crafting unforgettable travel experiences since 1996. Your journey,
+                        our passion — from local wonders to global adventures.</p>
+                    <div class="footer__socials">
+                        <a href="#" class="footer__social-link" aria-label="Facebook"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer__social-link" aria-label="Instagram"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#" class="footer__social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer__social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer__col-title">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="destinations.html"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                        <li><a href="packages.html"><i class="fas fa-chevron-right"></i> Packages</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer__col-title">Top Destinations</h4>
+                    <ul class="footer__links">
+                        <li><a href="destinations.html"><i class="fas fa-map-marker-alt"></i> Paris, France</a></li>
+                        <li><a href="destinations.html"><i class="fas fa-map-marker-alt"></i> Tokyo, Japan</a></li>
+                        <li><a href="destinations.html"><i class="fas fa-map-marker-alt"></i> Bali, Indonesia</a></li>
+                        <li><a href="destinations.html"><i class="fas fa-map-marker-alt"></i> Swiss Alps</a></li>
+                        <li><a href="destinations.html"><i class="fas fa-map-marker-alt"></i> Maldives</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer__col-title">Contact Us</h4>
+                    <div class="footer__contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Ganpat University, Kherva, Mehsana, Gujarat 384012, India</p>
+                    </div>
+                    <div class="footer__contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>joshiyagnik977@gmail.com</p>
+                    </div>
+                    <div class="footer__contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+91 94283 72237</p>
+                    </div>
+                    <div class="footer__contact-item">
+                        <i class="fas fa-clock"></i>
+                        <p>Mon – Fri: 9:00 AM – 6:00 PM IST</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer__bottom">
+                <p>© 2025 Wanderlust Travel Agency. All rights reserved.</p>
+                <div class="footer__bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- ════════════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════════════ -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="js/script.js"></script>
-    <script src="js/swiper.js"></script>
-    
+    <script src="js/session.js"></script>
+    <script src="js/nav.js"></script>
+    <script>
+        // Hero Swiper
+        new Swiper('.hero-swiper', {
+            loop: true,
+            autoplay: { delay: 5500, disableOnInteraction: false },
+            speed: 900,
+            effect: 'fade',
+            fadeEffect: { crossFade: true },
+            pagination: { el: '.hero-swiper__pagination', clickable: true },
+            navigation: {
+                nextEl: '.hero-swiper__next',
+                prevEl: '.hero-swiper__prev',
+            },
+        });
+
+        // Testimonials Swiper
+        new Swiper('.testimonials-swiper', {
+            loop: true,
+            autoplay: { delay: 4500, disableOnInteraction: false },
+            speed: 700,
+            slidesPerView: 1,
+            spaceBetween: 24,
+            pagination: { el: '.testimonials-pagination', clickable: true },
+            breakpoints: {
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+            },
+        });
+
+        function handleNewsletterSubmit(e) {
+            e.preventDefault();
+            const input = e.target.querySelector('input[type="email"]');
+            showToast('🎉 Subscribed! Check your inbox for your 10% discount.', 'success', 4000);
+            input.value = '';
+        }
+    </script>
 </body>
+
 </html>
