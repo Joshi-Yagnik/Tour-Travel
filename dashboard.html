@@ -6,16 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Dashboard — Wanderlust</title>
     <meta name="description" content="Manage your bookings, wishlist, and profile on Wanderlust Travel.">
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
+    <!-- ── Navbar ── -->
     <nav class="navbar scrolled" style="position:relative;background:var(--white);box-shadow:var(--shadow-sm)">
         <div class="navbar__inner">
             <a href="index.html" class="navbar__logo">
@@ -26,49 +29,70 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="destinations.html">Destinations</a></li>
                 <li><a href="packages.html">Packages</a></li>
+                <li><a href="hotels.html">Hotels</a></li>
+                <li><a href="map.html">Map</a></li>
             </ul>
             <div class="navbar__actions">
-                <span style="font-size:var(--text-sm);color:var(--text-body)">Welcome, <strong>Yagnik</strong></span>
-                <a href="index.html" class="btn btn-ghost btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <button class="dark-mode-toggle" id="dark-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <span style="font-size:var(--text-sm);color:var(--text-body)">
+                    Welcome, <strong id="nav-username">...</strong>
+                </span>
+                <button onclick="WL.Session.logout()" class="btn btn-ghost btn-sm" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
-            <div class="navbar__hamburger"><span></span><span></span><span></span></div>
+            <button class="navbar__hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
-    <div class="navbar__mobile-menu">
+    <div class="navbar__mobile-menu" id="mobile-menu">
         <a href="index.html">Home</a>
         <a href="destinations.html">Destinations</a>
         <a href="packages.html">Packages</a>
-        <div class="navbar__mobile-actions"><a href="index.html" class="btn btn-ghost">Logout</a></div>
+        <a href="hotels.html">Hotels</a>
+        <a href="map.html">Map</a>
+        <div class="navbar__mobile-actions">
+            <a href="packages.html" class="btn btn-primary">Book a Trip</a>
+            <button class="btn btn-ghost" id="mobile-logout-btn" onclick="WL.Session.logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
     </div>
 
     <div class="dashboard-layout page-content">
 
-        <!-- Sidebar -->
+        <!-- ── Sidebar ── -->
         <aside class="dashboard-sidebar">
             <!-- User Profile -->
             <div class="sidebar-profile">
                 <div class="sidebar-avatar">
-                    <img src="https://i.pravatar.cc/80?img=55" alt="Yagnik Joshi">
+                    <img src="" alt="User" id="user-avatar"
+                        style="width:80px;height:80px;border-radius:50%;object-fit:cover;background:var(--bg-light)">
                     <div class="sidebar-avatar__edit"><i class="fas fa-camera"></i></div>
                 </div>
-                <h3>Yagnik Joshi</h3>
-                <p>joshiyagnik977@gmail.com</p>
-                <div class="sidebar-badge"><i class="fas fa-star"></i> Gold Member</div>
+                <h3 id="user-name">Loading...</h3>
+                <p id="user-email" style="font-size:var(--text-sm);color:var(--text-muted)">...</p>
+                <div class="sidebar-badge" id="user-tier">
+                    <i class="fas fa-star"></i> <span>Bronze</span> Member
+                </div>
             </div>
 
             <!-- Stats Row -->
             <div class="sidebar-stats">
                 <div class="sidebar-stat">
-                    <div class="sidebar-stat__val">3</div>
+                    <div class="sidebar-stat__val" id="stat-trips">—</div>
                     <div class="sidebar-stat__label">Trips</div>
                 </div>
                 <div class="sidebar-stat">
-                    <div class="sidebar-stat__val">5</div>
+                    <div class="sidebar-stat__val" id="stat-wishlist">—</div>
                     <div class="sidebar-stat__label">Wishlist</div>
                 </div>
                 <div class="sidebar-stat">
-                    <div class="sidebar-stat__val">2</div>
-                    <div class="sidebar-stat__label">Upcoming</div>
+                    <div class="sidebar-stat__val" id="stat-points">—</div>
+                    <div class="sidebar-stat__label">Points</div>
                 </div>
             </div>
 
@@ -83,6 +107,9 @@
                 <button class="sidebar-nav-btn" data-panel="profile" onclick="switchPanel(this)">
                     <i class="fas fa-user"></i> Edit Profile
                 </button>
+                <button class="sidebar-nav-btn" data-panel="security" onclick="switchPanel(this)">
+                    <i class="fas fa-shield-alt"></i> Security
+                </button>
                 <button class="sidebar-nav-btn" data-panel="settings" onclick="switchPanel(this)">
                     <i class="fas fa-cog"></i> Settings
                 </button>
@@ -93,7 +120,7 @@
             </a>
         </aside>
 
-        <!-- Main Content -->
+        <!-- ── Main Content ── -->
         <main class="dashboard-main">
 
             <!-- ═══ BOOKINGS PANEL ═══ -->
@@ -107,84 +134,16 @@
                         <button class="panel-tab" onclick="filterBookings(this,'cancelled')">Cancelled</button>
                     </div>
                 </div>
-
                 <div class="bookings-list" id="bookings-list">
-
-                    <!-- Booking 1 -->
-                    <div class="booking-card-row" data-status="upcoming">
-                        <div class="booking-card-row__img">
-                            <img src="img/Vancouver, Canada.jpg" alt="Rocky Mountains">
-                        </div>
-                        <div class="booking-card-row__info">
-                            <div class="booking-card-row__header">
-                                <h3>Rocky Mountains Adventure</h3>
-                                <span class="badge badge-success">Confirmed</span>
-                            </div>
-                            <p class="booking-card-row__dest"><i class="fas fa-map-marker-alt"></i> Vancouver, Canada
-                            </p>
-                            <div class="booking-card-row__meta">
-                                <span><i class="fas fa-calendar"></i> Mar 15, 2025 – Mar 21, 2025</span>
-                                <span><i class="fas fa-users"></i> 2 Travelers</span>
-                                <span><i class="fas fa-receipt"></i> Booking #WL-20250315</span>
-                            </div>
-                        </div>
-                        <div class="booking-card-row__price">
-                            <strong>$3,740</strong>
-                            <span>Total paid</span>
-                            <a href="package-detail.html" class="btn btn-outline btn-sm">View Details</a>
-                        </div>
+                    <!-- Populated by JS -->
+                    <div class="empty-state" id="bookings-empty" style="display:none">
+                        <div style="font-size:3rem;margin-bottom:1rem">🗺️</div>
+                        <h3>No bookings yet</h3>
+                        <p>Start planning your next adventure!</p>
+                        <a href="packages.html" class="btn btn-primary" style="margin-top:1rem">
+                            <i class="fas fa-suitcase"></i> Browse Packages
+                        </a>
                     </div>
-
-                    <!-- Booking 2 -->
-                    <div class="booking-card-row" data-status="upcoming">
-                        <div class="booking-card-row__img">
-                            <img src="img/Tokyo, japan.jpg" alt="Japan">
-                        </div>
-                        <div class="booking-card-row__info">
-                            <div class="booking-card-row__header">
-                                <h3>Japan Cherry Blossom Tour</h3>
-                                <span class="badge badge-warning">Pending Payment</span>
-                            </div>
-                            <p class="booking-card-row__dest"><i class="fas fa-map-marker-alt"></i> Tokyo, Japan</p>
-                            <div class="booking-card-row__meta">
-                                <span><i class="fas fa-calendar"></i> Apr 1, 2025 – Apr 7, 2025</span>
-                                <span><i class="fas fa-users"></i> 1 Traveler</span>
-                                <span><i class="fas fa-receipt"></i> Booking #WL-20250401</span>
-                            </div>
-                        </div>
-                        <div class="booking-card-row__price">
-                            <strong>$1,549</strong>
-                            <span>Balance due</span>
-                            <button class="btn btn-primary btn-sm"
-                                onclick="showToast('Payment portal opening...','info')">Pay Now</button>
-                        </div>
-                    </div>
-
-                    <!-- Booking 3 -->
-                    <div class="booking-card-row" data-status="completed">
-                        <div class="booking-card-row__img">
-                            <img src="img/Paris, France.jpg" alt="Paris">
-                        </div>
-                        <div class="booking-card-row__info">
-                            <div class="booking-card-row__header">
-                                <h3>Paris City of Love</h3>
-                                <span class="badge badge-info">Completed</span>
-                            </div>
-                            <p class="booking-card-row__dest"><i class="fas fa-map-marker-alt"></i> Paris, France</p>
-                            <div class="booking-card-row__meta">
-                                <span><i class="fas fa-calendar"></i> Dec 10, 2024 – Dec 14, 2024</span>
-                                <span><i class="fas fa-users"></i> 2 Travelers</span>
-                                <span><i class="fas fa-receipt"></i> Booking #WL-20241210</span>
-                            </div>
-                        </div>
-                        <div class="booking-card-row__price">
-                            <strong>$4,900</strong>
-                            <span>Total paid</span>
-                            <button class="btn btn-ghost btn-sm"
-                                onclick="showToast('Review submitted! Thank you.','success')">Leave Review</button>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
@@ -193,65 +152,16 @@
                 <div class="panel-header">
                     <h2>My Wishlist</h2>
                 </div>
-                <div class="destinations-grid"
-                    style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-5)">
-
-                    <div class="tour-card">
-                        <div class="tour-card__image">
-                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80"
-                                alt="Maldives" loading="lazy">
-                            <div class="tour-card__wishlist active"><i class="fas fa-heart"></i></div>
-                        </div>
-                        <div class="tour-card__body">
-                            <div class="tour-card__rating"><span class="stars">★★★★★</span></div>
-                            <h3 class="tour-card__title">Maldives Paradise Escape</h3>
-                            <div class="tour-card__footer">
-                                <div class="tour-card__price">
-                                    <div class="amount">$2,500</div>
-                                    <div class="label">per person</div>
-                                </div>
-                                <a href="package-detail.html" class="btn btn-primary btn-sm">Book Now</a>
-                            </div>
-                        </div>
+                <div id="wishlist-grid" class="destinations-grid"
+                    style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--space-5)">
+                    <div class="empty-state" id="wishlist-empty" style="text-align:center;padding:3rem;grid-column:1/-1">
+                        <div style="font-size:3rem;margin-bottom:1rem">💛</div>
+                        <h3>Your wishlist is empty</h3>
+                        <p>Browse packages and click the heart icon to save them here.</p>
+                        <a href="packages.html" class="btn btn-primary" style="margin-top:1rem">
+                            <i class="fas fa-compass"></i> Explore Packages
+                        </a>
                     </div>
-
-                    <div class="tour-card">
-                        <div class="tour-card__image">
-                            <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=400&q=80"
-                                alt="Safari" loading="lazy">
-                            <div class="tour-card__wishlist active"><i class="fas fa-heart"></i></div>
-                        </div>
-                        <div class="tour-card__body">
-                            <div class="tour-card__rating"><span class="stars">★★★★★</span></div>
-                            <h3 class="tour-card__title">African Safari Adventure</h3>
-                            <div class="tour-card__footer">
-                                <div class="tour-card__price">
-                                    <div class="amount">$3,500</div>
-                                    <div class="label">per person</div>
-                                </div>
-                                <a href="package-detail.html" class="btn btn-primary btn-sm">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tour-card">
-                        <div class="tour-card__image">
-                            <img src="img/Bern, Switzerland.jpg" alt="Switzerland" loading="lazy">
-                            <div class="tour-card__wishlist active"><i class="fas fa-heart"></i></div>
-                        </div>
-                        <div class="tour-card__body">
-                            <div class="tour-card__rating"><span class="stars">★★★★★</span></div>
-                            <h3 class="tour-card__title">Swiss Alps Hiking Expedition</h3>
-                            <div class="tour-card__footer">
-                                <div class="tour-card__price">
-                                    <div class="amount">$2,199</div>
-                                    <div class="label">per person</div>
-                                </div>
-                                <a href="package-detail.html" class="btn btn-primary btn-sm">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
@@ -260,48 +170,131 @@
                 <div class="panel-header">
                     <h2>Edit Profile</h2>
                 </div>
-                <form class="profile-form" onsubmit="saveProfile(event)">
+                <form class="profile-form" id="profile-form" onsubmit="saveProfile(event)">
                     <div class="profile-avatar-section">
-                        <img src="https://i.pravatar.cc/100?img=55" alt="Avatar" class="profile-avatar-big">
+                        <img src="" alt="Avatar" class="profile-avatar-big" id="profile-avatar-img">
                         <div>
                             <h4>Profile Photo</h4>
                             <p style="font-size:var(--text-sm);color:var(--text-muted)">Upload a JPG or PNG, max 2MB</p>
-                            <button type="button" class="btn btn-ghost btn-sm" style="margin-top:var(--space-2)"><i
-                                    class="fas fa-upload"></i> Upload Photo</button>
+                            <button type="button" class="btn btn-ghost btn-sm" style="margin-top:var(--space-2)"
+                                onclick="showToast('Photo upload coming soon!', 'info')">
+                                <i class="fas fa-upload"></i> Upload Photo
+                            </button>
                         </div>
                     </div>
+
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5)">
                         <div class="form-group">
-                            <label class="form-label">First Name</label>
-                            <input class="form-control" type="text" value="Yagnik">
+                            <label class="form-label" for="profile-name">Full Name</label>
+                            <input class="form-control" type="text" id="profile-name" autocomplete="name" placeholder="Your full name">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Last Name</label>
-                            <input class="form-control" type="text" value="Joshi">
+                            <label class="form-label" for="profile-email">Email Address</label>
+                            <input class="form-control" type="email" id="profile-email" autocomplete="email" readonly
+                                style="background:var(--bg-light);cursor:not-allowed" placeholder="your@email.com">
+                            <span style="font-size:11px;color:var(--text-muted)">Email cannot be changed here</span>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Email Address</label>
-                            <input class="form-control" type="email" value="joshiyagnik977@gmail.com">
+                            <label class="form-label" for="profile-phone">Phone Number</label>
+                            <input class="form-control" type="tel" id="profile-phone" autocomplete="tel" placeholder="+91 XXXXX XXXXX">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Phone Number</label>
-                            <input class="form-control" type="tel" value="+91 94283 72237">
+                            <label class="form-label" for="profile-nationality">Nationality</label>
+                            <input class="form-control" type="text" id="profile-nationality" placeholder="e.g. Indian">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Date of Birth</label>
-                            <input class="form-control" type="date">
+                            <label class="form-label" for="profile-dob">Date of Birth</label>
+                            <input class="form-control" type="date" id="profile-dob">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Nationality</label>
-                            <input class="form-control" type="text" value="Indian">
+                            <label class="form-label" for="profile-currency">Preferred Currency</label>
+                            <select class="form-control" id="profile-currency">
+                                <option value="INR">INR — Indian Rupee (₹)</option>
+                                <option value="USD">USD — US Dollar ($)</option>
+                                <option value="EUR">EUR — Euro (€)</option>
+                                <option value="GBP">GBP — British Pound (£)</option>
+                            </select>
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label class="form-label">Bio</label>
-                        <textarea class="form-control" placeholder="Tell us about yourself..."></textarea>
+                        <label class="form-label" for="profile-bio">Bio</label>
+                        <textarea class="form-control" id="profile-bio" rows="3"
+                            placeholder="Tell us about yourself and your travel style..."></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+
+                    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+                        <button type="submit" class="btn btn-primary" id="profile-save-btn">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <span id="profile-save-msg" style="font-size:14px;color:var(--success)"></span>
+                    </div>
                 </form>
+            </div>
+
+            <!-- ═══ SECURITY PANEL ═══ -->
+            <div class="dashboard-panel" id="panel-security">
+                <div class="panel-header">
+                    <h2>Security</h2>
+                </div>
+                <div class="settings-list">
+                    <!-- Change Password -->
+                    <div class="settings-group">
+                        <h4>Change Password</h4>
+                        <form id="change-pw-form" onsubmit="changePassword(event)"
+                            style="max-width:400px;display:flex;flex-direction:column;gap:var(--space-4)">
+                            <div class="form-group">
+                                <label class="form-label" for="sec-current-pw">Current Password</label>
+                                <input class="form-control" type="password" id="sec-current-pw"
+                                    autocomplete="current-password" placeholder="Your current password">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="sec-new-pw">New Password</label>
+                                <input class="form-control" type="password" id="sec-new-pw"
+                                    autocomplete="new-password" placeholder="Min. 8 characters">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="sec-confirm-pw">Confirm New Password</label>
+                                <input class="form-control" type="password" id="sec-confirm-pw"
+                                    autocomplete="new-password" placeholder="Repeat new password">
+                                <span class="form-error" id="pw-change-err"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="change-pw-btn" style="align-self:flex-start">
+                                <i class="fas fa-lock"></i> Update Password
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="settings-group">
+                        <h4>Account Activity</h4>
+                        <div class="settings-row">
+                            <div>
+                                <strong>Last Login</strong>
+                                <p id="last-login-info">—</p>
+                            </div>
+                        </div>
+                        <div class="settings-row">
+                            <div>
+                                <strong>Total Logins</strong>
+                                <p id="login-count-info">—</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h4 style="color:var(--danger)">Danger Zone</h4>
+                        <div class="settings-row" style="border-color:rgba(229,62,62,0.3)">
+                            <div>
+                                <strong style="color:var(--danger)">Delete Account</strong>
+                                <p>This action is permanent and cannot be undone</p>
+                            </div>
+                            <button class="btn btn-sm" style="background:var(--danger);color:white;border:none"
+                                onclick="showToast('Account deletion requires email verification. Check your inbox.', 'info', 5000)">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- ═══ SETTINGS PANEL ═══ -->
@@ -310,63 +303,57 @@
                     <h2>Settings</h2>
                 </div>
                 <div class="settings-list">
+                    <div class="settings-group">
+                        <h4>Appearance</h4>
+                        <div class="settings-row">
+                            <div>
+                                <strong>Dark Mode</strong>
+                                <p>Switch between light and dark theme</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="settings-dark-toggle">
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
 
                     <div class="settings-group">
                         <h4>Notifications</h4>
                         <div class="settings-row">
-                            <div><strong>Email Notifications</strong>
-                                <p>Booking confirmations, travel reminders</p>
+                            <div>
+                                <strong>Email Notifications</strong>
+                                <p>Booking confirmations and travel reminders</p>
                             </div>
-                            <label class="toggle"><input type="checkbox" checked><span></span></label>
+                            <label class="toggle">
+                                <input type="checkbox" id="notif-email" checked>
+                                <span></span>
+                            </label>
                         </div>
                         <div class="settings-row">
-                            <div><strong>SMS Alerts</strong>
+                            <div>
+                                <strong>SMS Alerts</strong>
                                 <p>Last-minute deals and trip updates</p>
                             </div>
-                            <label class="toggle"><input type="checkbox"><span></span></label>
+                            <label class="toggle">
+                                <input type="checkbox" id="notif-sms">
+                                <span></span>
+                            </label>
                         </div>
                         <div class="settings-row">
-                            <div><strong>Newsletter</strong>
-                                <p>Weekly travel inspiration and offers</p>
+                            <div>
+                                <strong>Newsletter</strong>
+                                <p>Weekly travel inspiration and exclusive offers</p>
                             </div>
-                            <label class="toggle"><input type="checkbox" checked><span></span></label>
+                            <label class="toggle">
+                                <input type="checkbox" id="notif-newsletter" checked>
+                                <span></span>
+                            </label>
                         </div>
+                        <button class="btn btn-primary btn-sm" onclick="saveSettings()"
+                            style="margin-top:var(--space-4)">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
                     </div>
-
-                    <div class="settings-group">
-                        <h4>Privacy & Security</h4>
-                        <div class="settings-row">
-                            <div><strong>Two-Factor Authentication</strong>
-                                <p>Add extra security to your account</p>
-                            </div>
-                            <button class="btn btn-ghost btn-sm">Enable</button>
-                        </div>
-                        <div class="settings-row">
-                            <div><strong>Change Password</strong>
-                                <p>Last changed 60 days ago</p>
-                            </div>
-                            <button class="btn btn-ghost btn-sm">Change</button>
-                        </div>
-                        <div class="settings-row">
-                            <div><strong>Download My Data</strong>
-                                <p>Export all your account data</p>
-                            </div>
-                            <button class="btn btn-ghost btn-sm"
-                                onclick="showToast('Download started!','success')">Export</button>
-                        </div>
-                    </div>
-
-                    <div class="settings-group">
-                        <h4>Danger Zone</h4>
-                        <div class="settings-row" style="border-color:var(--danger-light)">
-                            <div><strong style="color:var(--danger)">Delete Account</strong>
-                                <p>This action cannot be undone</p>
-                            </div>
-                            <button class="btn btn-sm" style="background:var(--danger);color:white;border:none"
-                                onclick="showToast('Account deletion requires email verification. Check your inbox.','info')">Delete</button>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
@@ -375,14 +362,23 @@
 
     <script src="js/session.js"></script>
     <script src="js/nav.js"></script>
+    <script src="js/ai-assistant.js"></script>
+
     <script>
+        /* ──────────────────────────────────────────────────────
+           Dashboard Controller
+        ────────────────────────────────────────────────────── */
+
+        /* ── Panel switching ─────────────────────────────────── */
         function switchPanel(btn) {
             document.querySelectorAll('.sidebar-nav-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.dashboard-panel').forEach(p => p.classList.remove('active'));
             btn.classList.add('active');
-            document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
+            const panel = document.getElementById('panel-' + btn.dataset.panel);
+            if (panel) panel.classList.add('active');
         }
 
+        /* ── Booking filter ──────────────────────────────────── */
         function filterBookings(btn, status) {
             document.querySelectorAll('.panel-tab').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -391,11 +387,355 @@
             });
         }
 
-        function saveProfile(e) {
+        /* ── Profile save → API call ─────────────────────────── */
+        async function saveProfile(e) {
             e.preventDefault();
-            showToast('Profile updated successfully!', 'success');
-        }
-    </script>
-</body>
+            const btn = document.getElementById('profile-save-btn');
+            const msg = document.getElementById('profile-save-msg');
+            const originalHTML = btn.innerHTML;
 
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+            msg.textContent = '';
+
+            const updates = {
+                name:        document.getElementById('profile-name')?.value.trim(),
+                phone:       document.getElementById('profile-phone')?.value.trim(),
+                nationality: document.getElementById('profile-nationality')?.value.trim(),
+                bio:         document.getElementById('profile-bio')?.value.trim(),
+                currency:    document.getElementById('profile-currency')?.value,
+            };
+            const dob = document.getElementById('profile-dob')?.value;
+            if (dob) updates.dob = dob;
+
+            // Remove empty strings
+            Object.keys(updates).forEach(k => !updates[k] && delete updates[k]);
+
+            try {
+                const { ok, data } = await WL.Session.apiCall('/auth/me', {
+                    method: 'PUT',
+                    body: JSON.stringify(updates),
+                });
+
+                if (ok && data.user) {
+                    WL.Session.save(null, data.user); // Update stored user
+                    msg.textContent = '✓ Saved successfully!';
+                    if (window.showToast) showToast('Profile updated! ✓', 'success');
+                    // Refresh sidebar data
+                    populateUser(data.user);
+                } else {
+                    msg.textContent = data.message || 'Save failed.';
+                    msg.style.color = 'var(--danger)';
+                }
+            } catch (err) {
+                msg.textContent = 'Connection error.';
+                msg.style.color = 'var(--danger)';
+            } finally {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                setTimeout(() => { msg.textContent = ''; msg.style.color = 'var(--success)'; }, 4000);
+            }
+        }
+
+        /* ── Change password ─────────────────────────────────── */
+        async function changePassword(e) {
+            e.preventDefault();
+            const errEl = document.getElementById('pw-change-err');
+            const btn   = document.getElementById('change-pw-btn');
+            errEl.textContent = '';
+
+            const currentPassword = document.getElementById('sec-current-pw')?.value;
+            const newPassword     = document.getElementById('sec-new-pw')?.value;
+            const confirmPassword = document.getElementById('sec-confirm-pw')?.value;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                errEl.textContent = 'All fields are required.'; return;
+            }
+            if (newPassword.length < 8) {
+                errEl.textContent = 'New password must be at least 8 characters.'; return;
+            }
+            if (newPassword !== confirmPassword) {
+                errEl.textContent = 'New passwords do not match.'; return;
+            }
+
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+            btn.disabled = true;
+
+            try {
+                const { ok, data } = await WL.Session.apiCall('/auth/change-password', {
+                    method: 'POST',
+                    body: JSON.stringify({ currentPassword, newPassword }),
+                });
+                if (ok) {
+                    if (window.showToast) showToast('Password updated successfully! 🔒', 'success');
+                    document.getElementById('change-pw-form').reset();
+                } else {
+                    errEl.textContent = data.message || 'Failed to update password.';
+                }
+            } catch (err) {
+                errEl.textContent = 'Connection error.';
+            } finally {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            }
+        }
+
+        /* ── Save settings (notifications etc.) ──────────────── */
+        async function saveSettings() {
+            const notifications = {
+                email:      document.getElementById('notif-email')?.checked ?? true,
+                sms:        document.getElementById('notif-sms')?.checked ?? false,
+                newsletter: document.getElementById('notif-newsletter')?.checked ?? true,
+            };
+            try {
+                const { ok } = await WL.Session.apiCall('/auth/me', {
+                    method: 'PUT',
+                    body: JSON.stringify({ notifications }),
+                });
+                if (ok && window.showToast) showToast('Settings saved! ✓', 'success');
+            } catch (e) {
+                if (window.showToast) showToast('Could not save settings.', 'error');
+            }
+        }
+
+        /* ── Populate user data into UI ──────────────────────── */
+        function populateUser(user) {
+            if (!user) return;
+
+            // Nav & sidebar name
+            const el = (id) => document.getElementById(id);
+            const firstName = (user.name || '').split(' ')[0] || 'User';
+
+            if (el('nav-username'))    el('nav-username').textContent    = firstName;
+            if (el('user-name'))       el('user-name').textContent       = user.name  || 'Traveler';
+            if (el('user-email'))      el('user-email').textContent      = user.email || '';
+            if (el('user-tier'))       el('user-tier').querySelector('span').textContent = user.loyaltyTier || 'Bronze';
+            if (el('stat-trips'))      el('stat-trips').textContent      = user.totalTrips    || 0;
+            if (el('stat-wishlist'))   el('stat-wishlist').textContent   = (user.wishlist && user.wishlist.length) || 0;
+            if (el('stat-points'))     el('stat-points').textContent     = user.loyaltyPoints || 0;
+
+            // Avatar
+            const avatarUrl = WL.Session.getAvatarUrl(user.name, 80);
+            if (el('user-avatar')) {
+                el('user-avatar').src = avatarUrl;
+                el('user-avatar').alt = user.name || 'User';
+            }
+            if (el('profile-avatar-img')) {
+                el('profile-avatar-img').src = WL.Session.getAvatarUrl(user.name, 100);
+            }
+
+            // Profile form — only pre-fill if fields are empty
+            if (el('profile-name') && !el('profile-name').value)
+                el('profile-name').value = user.name || '';
+            if (el('profile-email'))
+                el('profile-email').value = user.email || '';
+            if (el('profile-phone') && !el('profile-phone').value)
+                el('profile-phone').value = user.phone || '';
+            if (el('profile-nationality') && !el('profile-nationality').value)
+                el('profile-nationality').value = user.nationality || '';
+            if (el('profile-bio') && !el('profile-bio').value)
+                el('profile-bio').value = user.bio || '';
+            if (el('profile-currency'))
+                el('profile-currency').value = user.currency || 'INR';
+            if (el('profile-dob') && user.dob && !el('profile-dob').value)
+                el('profile-dob').value = new Date(user.dob).toISOString().split('T')[0];
+
+            // Security panel activity info
+            if (el('last-login-info'))
+                el('last-login-info').textContent = user.lastLoginAt
+                    ? new Date(user.lastLoginAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
+                    : 'Not available';
+            if (el('login-count-info'))
+                el('login-count-info').textContent = `${user.loginCount || 1} time${(user.loginCount || 1) !== 1 ? 's' : ''}`;
+
+            // Settings toggles
+            if (el('notif-email'))      el('notif-email').checked      = user.notifications?.email      ?? true;
+            if (el('notif-sms'))        el('notif-sms').checked        = user.notifications?.sms        ?? false;
+            if (el('notif-newsletter')) el('notif-newsletter').checked = user.notifications?.newsletter ?? true;
+
+            // Dark mode toggle
+            const darkToggle = el('settings-dark-toggle');
+            if (darkToggle) {
+                darkToggle.checked = document.documentElement.getAttribute('data-theme') === 'dark';
+                darkToggle.addEventListener('change', function () {
+                    WL.Session.toggleDarkMode();
+                    const navBtn = document.getElementById('dark-toggle');
+                    if (navBtn) {
+                        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                        navBtn.querySelector('i').className = `fas ${isDark ? 'fa-sun' : 'fa-moon'}`;
+                    }
+                });
+            }
+
+            // Dark mode icon
+            const navDarkBtn = el('dark-toggle');
+            if (navDarkBtn) {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                navDarkBtn.querySelector('i').className = `fas ${isDark ? 'fa-sun' : 'fa-moon'}`;
+                navDarkBtn.addEventListener('click', () => {
+                    const newDark = WL.Session.toggleDarkMode();
+                    navDarkBtn.querySelector('i').className = `fas ${newDark ? 'fa-sun' : 'fa-moon'}`;
+                    const settingsDT = el('settings-dark-toggle');
+                    if (settingsDT) settingsDT.checked = newDark;
+                });
+            }
+        }
+
+        /* ── Render booking cards from API ───────────────────── */
+        function populateBookings(bookings) {
+            const list  = document.getElementById('bookings-list');
+            const empty = document.getElementById('bookings-empty');
+            if (!list) return;
+
+            if (!bookings || bookings.length === 0) {
+                if (empty) empty.style.display = 'block';
+                if (el('stat-trips')) el('stat-trips').textContent = 0;
+                return;
+            }
+
+            if (empty) empty.style.display = 'none';
+            if (document.getElementById('stat-trips'))
+                document.getElementById('stat-trips').textContent = bookings.length;
+
+            const statusBadge = {
+                confirmed: 'badge-success',
+                pending:   'badge-warning',
+                cancelled: 'badge-danger',
+                completed: 'badge-info',
+            };
+
+            list.innerHTML = bookings.map(b => {
+                const pkg  = b.package || {};
+                const img  = pkg.coverImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&q=80';
+                const date = b.travelDate ? new Date(b.travelDate).toLocaleDateString('en-IN', { dateStyle: 'medium' }) : '—';
+                const badge = statusBadge[b.status] || 'badge-info';
+                return `
+                    <div class="booking-card-row" data-status="${b.status || 'upcoming'}">
+                        <div class="booking-card-row__img">
+                            <img src="${img}" alt="${pkg.title || 'Booking'}" loading="lazy">
+                        </div>
+                        <div class="booking-card-row__info">
+                            <div class="booking-card-row__header">
+                                <h3>${pkg.title || 'Booking'}</h3>
+                                <span class="badge ${badge}">${(b.status || 'pending').charAt(0).toUpperCase() + (b.status || 'pending').slice(1)}</span>
+                            </div>
+                            <p class="booking-card-row__dest">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${pkg.location ? `${pkg.location.city}, ${pkg.location.state}` : '—'}
+                            </p>
+                            <div class="booking-card-row__meta">
+                                <span><i class="fas fa-calendar"></i> ${date}</span>
+                                <span><i class="fas fa-users"></i> ${b.travelers || 1} Traveler${(b.travelers || 1) !== 1 ? 's' : ''}</span>
+                                <span><i class="fas fa-receipt"></i> #${b._id?.toString().slice(-8).toUpperCase() || 'N/A'}</span>
+                            </div>
+                        </div>
+                        <div class="booking-card-row__price">
+                            <strong>${WL.Session.formatPrice(b.totalPrice || 0)}</strong>
+                            <span>Total</span>
+                            <a href="package-detail.html?id=${pkg._id || ''}" class="btn btn-outline btn-sm">View</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /* ── Render wishlist from API ─────────────────────────── */
+        function populateWishlist(wishlist) {
+            const grid  = document.getElementById('wishlist-grid');
+            const empty = document.getElementById('wishlist-empty');
+            if (!grid) return;
+
+            if (!wishlist || wishlist.length === 0) {
+                return; // empty state already shown
+            }
+
+            // Hide empty state
+            if (empty) empty.style.display = 'none';
+
+            grid.innerHTML = wishlist.map(pkg => `
+                <div class="tour-card">
+                    <div class="tour-card__image">
+                        <img src="${pkg.coverImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80'}"
+                            alt="${pkg.title}" loading="lazy">
+                        <div class="tour-card__wishlist active"><i class="fas fa-heart"></i></div>
+                    </div>
+                    <div class="tour-card__body">
+                        <div class="tour-card__rating"><span class="stars">★★★★★</span></div>
+                        <h3 class="tour-card__title">${pkg.title}</h3>
+                        <div class="tour-card__footer">
+                            <div class="tour-card__price">
+                                <div class="amount">${WL.Session.formatPrice(pkg.price || 0)}</div>
+                                <div class="label">per person</div>
+                            </div>
+                            <a href="package-detail.html?id=${pkg._id}" class="btn btn-primary btn-sm">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* ── Mobile menu ──────────────────────────────────────── */
+        (function initMobileMenu() {
+            const hamburger  = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!hamburger || !mobileMenu) return;
+            hamburger.addEventListener('click', () => {
+                const open = hamburger.classList.toggle('open');
+                mobileMenu.classList.toggle('open', open);
+                document.body.style.overflow = open ? 'hidden' : '';
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('open');
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                });
+            });
+        })();
+
+        /* ── Dashboard initialisation ─────────────────────────── */
+        async function initDashboard() {
+            // 1. Gate — redirect to login if not authenticated
+            if (!WL.Session.requireLogin('auth.html')) return;
+
+            // 2. Populate immediately from cached user (instant render)
+            const cachedUser = WL.Session.getUser();
+            if (cachedUser) populateUser(cachedUser);
+
+            // 3. Fetch fresh user data from API (validates token, updates cache)
+            try {
+                const freshUser = await WL.Session.fetchMe();
+                if (freshUser) {
+                    populateUser(freshUser);
+
+                    // Populate wishlist from user data
+                    if (freshUser.wishlist && freshUser.wishlist.length > 0) {
+                        populateWishlist(freshUser.wishlist);
+                    }
+                } else {
+                    // fetchMe returned null → session expired
+                    WL.Session.logout();
+                    return;
+                }
+
+                // 4. Load bookings
+                const bookRes = await WL.Session.apiCall('/bookings/my');
+                if (bookRes.ok && bookRes.data.data) {
+                    populateBookings(bookRes.data.data);
+                } else if (bookRes.status !== 404) {
+                    // Show empty state on actual errors, not "no bookings yet"
+                    const empty = document.getElementById('bookings-empty');
+                    if (empty) empty.style.display = 'block';
+                }
+
+            } catch (err) {
+                console.warn('Dashboard load error:', err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+
+</body>
 </html>

@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotels & Accommodation — Wanderlust</title>
+    <meta name="description" content="Find hotels, dharamshalas, homestays, resorts, temple stays and lodges across India. Compare prices, read reviews and book online.">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/destinations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* Type filter tabs */
+        .type-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: var(--space-6);
+        }
+
+        .type-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border-radius: var(--radius-full);
+            border: 2px solid var(--border);
+            background: var(--white);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-body);
+        }
+
+        .type-tab:hover, .type-tab.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .type-tab i { font-size: 14px; }
+
+        /* Hotel Card */
+        .hotel-card {
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hotel-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-6px);
+        }
+
+        .hotel-card__image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            background: var(--bg-light);
+        }
+
+        .hotel-card__image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .hotel-card:hover .hotel-card__image img {
+            transform: scale(1.06);
+        }
+
+        .hotel-card__type {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hotel-card__verified {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(56, 161, 105, 0.9);
+            color: white;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .hotel-card__wishlist {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            width: 36px;
+            height: 36px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .hotel-card__wishlist:hover { color: var(--danger); transform: scale(1.1); }
+
+        .hotel-card__body { padding: var(--space-5); flex: 1; }
+
+        .hotel-card__stars {
+            color: #F6AD55;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .hotel-card__name {
+            font-size: var(--text-lg);
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .hotel-card__location {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hotel-card__location i { color: var(--primary); }
+
+        .hotel-card__amenities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .hotel-amenity {
+            font-size: 11px;
+            padding: 3px 9px;
+            background: var(--bg-light);
+            border-radius: var(--radius-full);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .hotel-amenity i { color: var(--primary); font-size: 10px; }
+
+        .hotel-card__footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: var(--space-4);
+            border-top: 1px solid var(--border);
+        }
+
+        .hotel-card__price .amount {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .hotel-card__price .night {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .hotel-card__rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+        }
+
+        .rating-score {
+            background: #38A169;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        /* Section hero */
+        .hotel-hero {
+            background: linear-gradient(135deg, #0F3460 0%, #16213E 60%, #0F3460 100%);
+            padding: calc(var(--nav-height) + 60px) 0 60px;
+            text-align: center;
+            color: white;
+        }
+
+        .hotel-hero__tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,107,53,0.15);
+            border: 1px solid rgba(255,107,53,0.3);
+            color: var(--primary-light);
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hotel-hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .hotel-hero h1 span { color: var(--primary); }
+
+        .hotel-hero p {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.72);
+            max-width: 560px;
+            margin: 0 auto 40px;
+        }
+
+        /* Quick search bar */
+        .hotel-search-bar {
+            display: flex;
+            gap: 10px;
+            max-width: 680px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 8px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .hotel-search-bar input,
+        .hotel-search-bar select {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            padding: 8px 14px;
+            color: var(--text-dark);
+            background: transparent;
+        }
+
+        .hotel-search-bar .divider {
+            width: 1px;
+            background: var(--border);
+            margin: 6px 0;
+        }
+
+        .hotel-search-bar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .hotel-search-bar button:hover { background: var(--primary-dark); }
+
+        [data-theme="dark"] .hotel-card { background: #16213E; border-color: #2D3748; }
+        [data-theme="dark"] .hotel-card__footer { border-color: #2D3748; }
+        [data-theme="dark"] .hotel-amenity { background: #0F3460; border-color: #2D3748; color: #A0AEC0; }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar" data-transparent="true">
+        <div class="navbar__inner">
+            <a href="index.html" class="navbar__logo">
+                <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                <span class="navbar__logo-text">Wander<span>lust</span></span>
+            </a>
+            <ul class="navbar__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="hotels.html" class="active">Hotels</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="navbar__actions">
+                <a href="auth.html" class="btn btn-outline-white btn-sm">Login</a>
+                <a href="auth.html#signup" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+            <div class="navbar__hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div class="navbar__mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="packages.html">Packages</a>
+        <a href="hotels.html">Hotels</a>
+        <a href="map.html">Map</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <div class="navbar__mobile-actions">
+            <a href="auth.html" class="btn btn-ghost">Login</a>
+            <a href="auth.html#signup" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hotel-hero">
+        <div class="container">
+            <div class="hotel-hero__tag"><i class="fas fa-hotel"></i> All Types of Stays</div>
+            <h1>Find Your Perfect <span>Stay in India</span></h1>
+            <p>Hotels, Dharamshalas, Homestays, Resorts, Temple Stays & more — compare, discover and book.</p>
+
+            <div class="hotel-search-bar">
+                <i class="fas fa-search" style="color:var(--text-muted);padding:8px 8px 8px 14px;font-size:14px"></i>
+                <input type="text" id="search-city" placeholder="Search city, temple, landmark...">
+                <div class="divider"></div>
+                <select id="search-type">
+                    <option value="">All Types</option>
+                    <option value="hotel">Hotel</option>
+                    <option value="resort">Resort</option>
+                    <option value="dharamshala">Dharamshala</option>
+                    <option value="homestay">Homestay</option>
+                    <option value="guesthouse">Guest House</option>
+                    <option value="lodge">Lodge</option>
+                    <option value="temple_stay">Temple Stay</option>
+                    <option value="hostel">Hostel</option>
+                    <option value="villa">Villa</option>
+                    <option value="farmstay">Farm Stay</option>
+                </select>
+                <button onclick="searchHotels()"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="section" style="padding-top:var(--space-12)">
+        <div class="container">
+
+            <!-- Type Filter Tabs -->
+            <div class="type-tabs" id="type-tabs">
+                <button class="type-tab active" data-type=""><i class="fas fa-th"></i> All Stays</button>
+                <button class="type-tab" data-type="hotel"><i class="fas fa-hotel"></i> Hotels</button>
+                <button class="type-tab" data-type="resort"><i class="fas fa-umbrella-beach"></i> Resorts</button>
+                <button class="type-tab" data-type="dharamshala"><i class="fas fa-place-of-worship"></i> Dharamshala</button>
+                <button class="type-tab" data-type="homestay"><i class="fas fa-house-user"></i> Homestay</button>
+                <button class="type-tab" data-type="guesthouse"><i class="fas fa-door-open"></i> Guest House</button>
+                <button class="type-tab" data-type="lodge"><i class="fas fa-tree"></i> Lodge</button>
+                <button class="type-tab" data-type="temple_stay"><i class="fas fa-om"></i> Temple Stay</button>
+            </div>
+
+            <!-- Results Header -->
+            <div class="results-header">
+                <p class="results-count" id="results-count">Showing <strong>0</strong> accommodations</p>
+                <div style="display:flex;gap:10px;align-items:center">
+                    <select class="filter-select" id="sort-select" onchange="applySort()">
+                        <option value="-rating">Top Rated</option>
+                        <option value="priceFrom">Price: Low to High</option>
+                        <option value="-priceFrom">Price: High to Low</option>
+                        <option value="-createdAt">Newest</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Hotels Grid -->
+            <div class="destinations-grid" id="hotels-grid">
+                <!-- Skeleton loaders -->
+                <div class="skeleton-card">
+                    <div class="skeleton skeleton-image"></div>
+                    <div style="padding:20px">
+                        <div class="skeleton skeleton-text medium"></div>
+                        <div class="skeleton skeleton-text wide"></div>
+                        <div class="skeleton skeleton-text narrow"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton skeleton-image"></div>
+                    <div style="padding:20px">
+                        <div class="skeleton skeleton-text medium"></div>
+                        <div class="skeleton skeleton-text wide"></div>
+                        <div class="skeleton skeleton-text narrow"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton skeleton-image"></div>
+                    <div style="padding:20px">
+                        <div class="skeleton skeleton-text medium"></div>
+                        <div class="skeleton skeleton-text wide"></div>
+                        <div class="skeleton skeleton-text narrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Destination Intelligence Container (shown when zero results) -->
+            <div id="ai-intel-container" style="display:none;margin-top:24px;padding:0 8px"></div>
+
+            <!-- Static fallback while backend is populating -->
+            <div id="static-hotels" style="display:none">
+                <!-- Will be injected by JS with sample data -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA: Add Your Property -->
+    <section style="background:linear-gradient(135deg,#FF6B35,#E5521C);padding:var(--space-16) 0;text-align:center;margin-top:var(--space-16)">
+        <div class="container">
+            <div style="font-size:2.5rem;margin-bottom:16px">🏨</div>
+            <h2 style="color:white;margin-bottom:12px;font-size:1.8rem">List Your Property</h2>
+            <p style="color:rgba(255,255,255,0.8);max-width:480px;margin:0 auto var(--space-8);font-size:1.05rem">
+                Own a hotel, dharamshala, or homestay? List it on Wanderlust and reach thousands of travelers.
+            </p>
+            <a href="contact.html" class="btn btn-outline-white btn-lg">
+                <i class="fas fa-plus-circle"></i> List Your Property
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div>
+                    <a href="index.html" class="navbar__logo" style="margin-bottom:var(--space-4);display:inline-flex">
+                        <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                        <span class="navbar__logo-text" style="color:white">Wander<span>lust</span></span>
+                    </a>
+                    <p class="footer__brand-desc">Crafting unforgettable travel experiences since 1996.</p>
+                    <div class="footer__socials">
+                        <a href="#" class="footer__social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer__social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="footer__social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Stay Types</h4>
+                    <ul class="footer__links">
+                        <li><a href="hotels.html?type=hotel"><i class="fas fa-chevron-right"></i> Hotels</a></li>
+                        <li><a href="hotels.html?type=dharamshala"><i class="fas fa-chevron-right"></i> Dharamshalas</a></li>
+                        <li><a href="hotels.html?type=homestay"><i class="fas fa-chevron-right"></i> Homestays</a></li>
+                        <li><a href="hotels.html?type=resort"><i class="fas fa-chevron-right"></i> Resorts</a></li>
+                        <li><a href="hotels.html?type=temple_stay"><i class="fas fa-chevron-right"></i> Temple Stays</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="destinations.html"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                        <li><a href="packages.html"><i class="fas fa-chevron-right"></i> Packages</a></li>
+                        <li><a href="map.html"><i class="fas fa-chevron-right"></i> Explore Map</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__col-title">Contact</h4>
+                    <div class="footer__contact-item"><i class="fas fa-envelope"></i><p>joshiyagnik977@gmail.com</p></div>
+                    <div class="footer__contact-item"><i class="fas fa-phone"></i><p>+91 94283 72237</p></div>
+                    <div class="footer__contact-item"><i class="fas fa-clock"></i><p>Mon–Fri: 9 AM – 6 PM IST</p></div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>© 2025 Wanderlust Travel Agency. All rights reserved.</p>
+                <div class="footer__bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scroll-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <script src="js/session.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/ai-assistant.js"></script>
+    <script src="js/ai-destination-intel.js"></script>
+    <script>
+    const TYPE_LABELS = {
+        hotel: { label: 'Hotel', icon: 'fa-hotel', color: '#3182CE', bg: '#EBF8FF', text: '#2B6CB0' },
+        resort: { label: 'Resort', icon: 'fa-umbrella-beach', color: '#E53E3E', bg: '#FFF5F5', text: '#9B2C2C' },
+        dharamshala: { label: 'Dharamshala', icon: 'fa-place-of-worship', color: '#805AD5', bg: '#FAF5FF', text: '#553C9A' },
+        homestay: { label: 'Homestay', icon: 'fa-house-user', color: '#38A169', bg: '#F0FFF4', text: '#276749' },
+        guesthouse: { label: 'Guest House', icon: 'fa-door-open', color: '#D69E2E', bg: '#FFFFF0', text: '#744210' },
+        lodge: { label: 'Lodge', icon: 'fa-tree', color: '#2B6CB0', bg: '#EBF8FF', text: '#2A4365' },
+        temple_stay: { label: 'Temple Stay', icon: 'fa-om', color: '#DD6B20', bg: '#FFFAF0', text: '#C05621' },
+        hostel: { label: 'Hostel', icon: 'fa-bed', color: '#718096', bg: '#F7FAFC', text: '#4A5568' },
+        villa: { label: 'Villa', icon: 'fa-building', color: '#D53F8C', bg: '#FFF5F7', text: '#97266D' },
+        farmstay: { label: 'Farm Stay', icon: 'fa-tractor', color: '#276749', bg: '#F0FFF4', text: '#1C4532' },
+    };
+
+    // Sample hotels (displayed while API loads / when no DB data)
+    const SAMPLE_HOTELS = [
+        { id: 1, name: 'Hotel Taj Palace', type: 'hotel', starRating: 5, location: { city: 'Udaipur', state: 'Rajasthan' }, rating: 4.8, reviewCount: 342, priceFrom: 12500, amenities: ['WiFi', 'Pool', 'Spa', 'Restaurant'], coverImage: 'img/Monaco, Monaco.jpg', verified: true },
+        { id: 2, name: 'Shri Somnath Dharamshala', type: 'dharamshala', starRating: 2, location: { city: 'Somnath', state: 'Gujarat' }, rating: 4.2, reviewCount: 156, priceFrom: 450, amenities: ['Pure Veg', 'Parking', 'Temple Access'], coverImage: 'img/sury mandir.webp', verified: true },
+        { id: 3, name: 'Green Valley Homestay', type: 'homestay', starRating: 3, location: { city: 'Coorg', state: 'Karnataka' }, rating: 4.6, reviewCount: 89, priceFrom: 2800, amenities: ['WiFi', 'Home Kitchen', 'Garden', 'Trekking'], coverImage: 'img/gc-1.jpg', verified: true },
+        { id: 4, name: 'Mountain View Lodge', type: 'lodge', starRating: 3, location: { city: 'Manali', state: 'Himachal Pradesh' }, rating: 4.4, reviewCount: 201, priceFrom: 1800, amenities: ['WiFi', 'Campfire', 'Trekking'], coverImage: 'img/lakdak.jpg', verified: false },
+        { id: 5, name: 'ISKCON Guest House', type: 'temple_stay', starRating: 2, location: { city: 'Vrindavan', state: 'Uttar Pradesh' }, rating: 4.5, reviewCount: 423, priceFrom: 300, amenities: ['Pure Veg', 'Temple Access', 'Spiritual Programs'], coverImage: 'img/about_us1.jpg', verified: true },
+        { id: 6, name: 'Lagoon Beach Resort', type: 'resort', starRating: 4, location: { city: 'Goa', state: 'Goa' }, rating: 4.7, reviewCount: 618, priceFrom: 9500, amenities: ['Pool', 'Beach Access', 'WiFi', 'Spa'], coverImage: 'img/sc-1.webp', verified: true },
+        { id: 7, name: 'Old City Guest House', type: 'guesthouse', starRating: 2, location: { city: 'Jaipur', state: 'Rajasthan' }, rating: 4.1, reviewCount: 97, priceFrom: 1200, amenities: ['WiFi', 'Breakfast', 'Rooftop'], coverImage: 'img/Jaipur-Travel-Shopping-Restaurants.webp', verified: false },
+        { id: 8, name: 'Pangong Eco Tent', type: 'lodge', starRating: 3, location: { city: 'Ladakh', state: 'J&K' }, rating: 4.8, reviewCount: 312, priceFrom: 3500, amenities: ['Meals', 'Lake View', 'Trekking', 'Star Gazing'], coverImage: 'img/lakdak.jpg', verified: true },
+        { id: 9, name: 'Kutch Heritage Homestay', type: 'homestay', starRating: 3, location: { city: 'Bhuj', state: 'Gujarat' }, rating: 4.5, reviewCount: 74, priceFrom: 2200, amenities: ['Traditional Meals', 'Cultural Tours', 'WiFi'], coverImage: 'img/Gujarat.jpeg', verified: true },
+    ];
+
+    let currentType = '';
+    let displayedHotels = [...SAMPLE_HOTELS];
+
+    function renderHotels(hotels) {
+        const grid = document.getElementById('hotels-grid');
+        const count = document.querySelector('#results-count strong');
+        if (count) count.textContent = hotels.length;
+
+        if (hotels.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted)">
+                <i class="fas fa-hotel" style="font-size:3rem;display:block;margin-bottom:16px"></i>
+                <h3>No accommodations found</h3>
+                <p>Try a different category or search term</p>
+            </div>`;
+            return;
+        }
+
+        grid.innerHTML = hotels.map(h => {
+            const typeConf = TYPE_LABELS[h.type] || { label: h.type, icon: 'fa-hotel', bg: '#F7FAFC', text: '#4A5568' };
+            const stars = '★'.repeat(h.starRating || 3) + '☆'.repeat(5 - (h.starRating || 3));
+
+            return `
+                <div class="hotel-card">
+                    <div class="hotel-card__image">
+                        <img src="${h.coverImage}" alt="${h.name}" loading="lazy"
+                            onerror="this.src='img/about_us1.jpg'">
+                        <span class="hotel-card__type" style="background:${typeConf.bg};color:${typeConf.text}">
+                            <i class="fas ${typeConf.icon}"></i> ${typeConf.label}
+                        </span>
+                        ${h.verified ? '<span class="hotel-card__verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+                        <button class="hotel-card__wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="hotel-card__body">
+                        <div class="hotel-card__stars">${stars}</div>
+                        <h3 class="hotel-card__name">${h.name}</h3>
+                        <div class="hotel-card__location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${h.location.city}, ${h.location.state}
+                        </div>
+                        <div class="hotel-card__amenities">
+                            ${(h.amenities || []).slice(0, 4).map(a => `
+                                <span class="hotel-amenity">
+                                    <i class="fas fa-check"></i>${a}
+                                </span>`).join('')}
+                        </div>
+                        <div class="hotel-card__footer">
+                            <div class="hotel-card__price">
+                                <div class="amount">₹${(h.priceFrom || 0).toLocaleString('en-IN')}</div>
+                                <div class="night">per night</div>
+                            </div>
+                            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+                                ${h.rating ? `<div class="hotel-card__rating">
+                                    <span class="rating-score">${h.rating}</span>
+                                    <span style="font-size:12px;color:var(--text-muted)">${h.reviewCount} reviews</span>
+                                </div>` : ''}
+                                <a href="hotel-detail.html?id=${h._id}" class="btn btn-primary btn-sm">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    /* ── Type tab filter ─────────────────────────────────────── */
+    document.querySelectorAll('.type-tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            currentType = this.dataset.type;
+
+            const filtered = currentType
+                ? SAMPLE_HOTELS.filter(h => h.type === currentType)
+                : SAMPLE_HOTELS;
+
+            displayedHotels = filtered;
+            renderHotels(filtered);
+        });
+    });
+
+    function searchHotels() {
+        const city = document.getElementById('search-city').value.toLowerCase();
+        const type = document.getElementById('search-type').value;
+
+        let filtered = SAMPLE_HOTELS;
+        if (city) filtered = filtered.filter(h =>
+            h.location.city.toLowerCase().includes(city) ||
+            h.location.state?.toLowerCase().includes(city) ||
+            h.name.toLowerCase().includes(city)
+        );
+        if (type) filtered = filtered.filter(h => h.type === type);
+
+        displayedHotels = filtered;
+        renderHotels(filtered);
+
+        // Scroll to grid
+        document.getElementById('hotels-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function applySort() {
+        const sortVal = document.getElementById('sort-select').value;
+        const sorted = [...displayedHotels].sort((a, b) => {
+            if (sortVal === 'priceFrom') return (a.priceFrom || 0) - (b.priceFrom || 0);
+            if (sortVal === '-priceFrom') return (b.priceFrom || 0) - (a.priceFrom || 0);
+            if (sortVal === '-rating') return (b.rating || 0) - (a.rating || 0);
+            return 0;
+        });
+        renderHotels(sorted);
+    }
+
+    // Check URL params for type filter
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlType = urlParams.get('type');
+    if (urlType) {
+        currentType = urlType;
+        document.querySelectorAll('.type-tab').forEach(t => {
+            t.classList.toggle('active', t.dataset.type === urlType);
+        });
+        renderHotels(SAMPLE_HOTELS.filter(h => h.type === urlType));
+    } else {
+        renderHotels(SAMPLE_HOTELS);
+    }
+
+    // Try loading from API
+    (async () => {
+        try {
+            const res = await fetch('/api/hotels?limit=12');
+            if (res.ok) {
+                const data = await res.json();
+                if (data.data && data.data.length > 0) {
+                    renderHotels(data.data);
+                }
+            }
+        } catch (e) {} // Keep showing sample data on error
+    })();
+
+    // AI Zero-Results Integration
+    function checkZeroResultsAI() {
+        const grid = document.getElementById('hotels-grid');
+        const aiContainer = document.getElementById('ai-intel-container');
+        const searchInput = document.getElementById('search-city');
+        if (!grid || !aiContainer) return;
+
+        const isEmpty = grid.querySelector('.empty-state-cell') &&
+            grid.querySelector('.empty-state-cell p')?.textContent?.includes('No accommodations');
+        const query = searchInput?.value?.trim();
+
+        if (isEmpty && query) {
+            aiContainer.style.display = 'block';
+            window.WL_AI?.showZeroResultsBanner(query + ' hotels and accommodation', aiContainer);
+        } else {
+            aiContainer.style.display = 'none';
+        }
+    }
+
+    // Patch renderHotels to check for zero results after render
+    const _origRenderHotels = renderHotels;
+    window.renderHotels = function(hotels) {
+        _origRenderHotels(hotels);
+        setTimeout(checkZeroResultsAI, 100);
+    };
+    </script>
+
+</body>
+
+</html>

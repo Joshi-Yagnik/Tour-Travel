@@ -522,29 +522,139 @@
             if (!isActive) item.classList.add('active');
         }
 
+        let currentPackage = null;
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const packageId = urlParams.get('id');
+            
+            if (!packageId) {
+                alert('No package selected. Redirecting to packages page.');
+                window.location.href = 'packages.html';
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/packages/${packageId}`);
+                const data = await res.json();
+                if (data.success) {
+                    currentPackage = data.data;
+                    updateDOM(currentPackage);
+                } else {
+                    alert('Package not found.');
+                    window.location.href = 'packages.html';
+                }
+            } catch (err) {
+                console.error('Failed to fetch package details', err);
+            }
+        });
+
+        const fmtMoney = (val) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+
+        function updateDOM(pkg) {
+            // Update Title and Meta
+            document.querySelector('h1').textContent = pkg.title || 'Package Detail';
+            document.title = `${pkg.title || 'Package Detail'} - Wanderlust`;
+            
+            const metaRow = document.querySelector('.pkg-meta-row');
+            if (metaRow) {
+                metaRow.innerHTML = `
+                    <span class="pkg-meta-item"><i class="fas fa-clock"></i> ${pkg.duration || 0} Days</span>
+                    <span class="pkg-meta-item"><i class="fas fa-map-marker-alt"></i> ${pkg.destination || 'Multiple'}</span>
+                    <span class="pkg-meta-item"><i class="fas fa-users"></i> Max ${pkg.groupSize?.max || 12} People</span>
+                    <span class="pkg-meta-item"><i class="fas fa-star" style="color:var(--accent)"></i> ${pkg.rating?.toFixed(1) || 'New'}
+                        <span style="color:var(--text-muted)">(${pkg.reviewCount || 0} reviews)</span></span>
+                `;
+            }
+            
+            // Overview
+            const overviewEl = document.querySelector('.pkg-section p');
+            if (overviewEl && pkg.description) {
+                overviewEl.textContent = pkg.description;
+            }
+            
+            // Booking Widget
+            const amountEl = document.querySelector('.booking-card__amount');
+            if (amountEl) amountEl.textContent = fmtMoney(pkg.price || 0);
+            
+            updateTotal();
+        }
+
         function updateTotal() {
+            if (!currentPackage) return;
             const select = document.getElementById('travelers-count');
-            const prices = [1870, 3740, 5610, 7480];
             const val = parseInt(select.value);
             const totalEl = document.getElementById('booking-total-price');
-            if (val <= 4 && totalEl) {
-                totalEl.textContent = '$' + prices[val - 1].toLocaleString();
-            } else if (totalEl) {
-                totalEl.textContent = 'Contact us';
+            
+            // Populate options if not populated
+            if (select.options.length <= 1 || !select.options[0].textContent.includes(fmtMoney(currentPackage.price))) {
+                select.innerHTML = '';
+                for (let i = 1; i <= Math.min(5, currentPackage.groupSize?.max || 12); i++) {
+                    const opt = document.createElement('option');
+                    opt.value = i;
+                    opt.textContent = `${i} Person${i>1?'s':''} — ${fmtMoney(currentPackage.price * i)}`;
+                    select.appendChild(opt);
+                }
+            }
+            
+            const selectedVal = parseInt(select.value) || 1;
+            if (totalEl) {
+                totalEl.textContent = fmtMoney((currentPackage.price || 0) * selectedVal);
             }
         }
 
-        function handleBooking(e) {
+        async function handleBooking(e) {
             e.preventDefault();
+
+            if (!window.WL || !WL.Session.isLoggedIn()) {
+                window.location.href = 'auth.html?redirect=' + encodeURIComponent(window.location.href);
+                return;
+            }
+
             const btn = e.target.querySelector('button[type="submit"]');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             btn.disabled = true;
-            setTimeout(() => {
-                openModal('booking-modal');
+
+            const packageId = currentPackage?._id;
+            if (!packageId) {
+                alert('Invalid package data.');
                 btn.innerHTML = '<i class="fas fa-calendar-check"></i> Book This Package';
                 btn.disabled = false;
-                e.target.reset();
-            }, 1400);
+                return;
+            }
+
+            try {
+                const travelDate = e.target.querySelector('input[type="date"]').value;
+                const travelers = parseInt(document.getElementById('travelers-count').value);
+
+                const { ok, data } = await WL.Session.apiCall('/bookings', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        packageId,
+                        travelDate,
+                        travelers,
+                        bookingType: 'package'
+                    })
+                });
+
+                if (ok) {
+                    const modal = document.getElementById('booking-modal');
+                    if (modal) modal.classList.add('open');
+                    e.target.reset();
+                } else {
+                    alert(data.message || 'Booking failed.');
+                }
+            } catch (err) {
+                alert(err.message || 'Connection error. Please try again.');
+            } finally {
+                btn.innerHTML = '<i class="fas fa-calendar-check"></i> Book This Package';
+                btn.disabled = false;
+            }
+        }
+        
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.classList.remove('open');
         }
     </script>
 </body>

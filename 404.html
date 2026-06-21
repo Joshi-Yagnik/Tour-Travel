@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found — Wanderlust</title>
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: var(--secondary);
+            color: white;
+            overflow: hidden;
+        }
+
+        .error-page {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        /* Animated background */
+        .error-bg {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 50%, #0F3460 0%, #1A1A2E 50%, #0A0A14 100%);
+            overflow: hidden;
+        }
+
+        .error-bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #FF6B35;
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #3182CE;
+            bottom: -50px;
+            left: -80px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(20px, -20px) scale(1.05); }
+            66% { transform: translate(-10px, 10px) scale(0.98); }
+        }
+
+        .error-content {
+            position: relative;
+            z-index: 1;
+            max-width: 560px;
+        }
+
+        .error-code {
+            font-size: clamp(6rem, 18vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, #FF6B35, #FFA07A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            animation: pulse-text 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+
+        .error-emoji {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .error-title {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: white;
+        }
+
+        .error-desc {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .error-links {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .error-links p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 16px;
+        }
+
+        .error-links-grid {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .error-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: var(--radius-lg);
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .error-link-btn:hover {
+            background: rgba(255,107,53,0.2);
+            border-color: rgba(255,107,53,0.4);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="error-bg">
+        <div class="error-bg-orb orb-1"></div>
+        <div class="error-bg-orb orb-2"></div>
+    </div>
+
+    <div class="error-page">
+        <div class="error-content">
+            <span class="error-emoji">🧭</span>
+            <div class="error-code">404</div>
+            <h1 class="error-title">Lost in the Journey?</h1>
+            <p class="error-desc">
+                Looks like this page took a detour! The destination you're looking for doesn't exist,
+                may have moved, or the link might be broken.
+            </p>
+            <div class="error-actions">
+                <a href="index.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-home"></i> Go Home
+                </a>
+                <button onclick="history.back()" class="btn btn-outline-white btn-lg">
+                    <i class="fas fa-arrow-left"></i> Go Back
+                </button>
+            </div>
+
+            <div class="error-links">
+                <p>Or explore these popular pages:</p>
+                <div class="error-links-grid">
+                    <a href="destinations.html" class="error-link-btn">
+                        <i class="fas fa-globe"></i> Destinations
+                    </a>
+                    <a href="packages.html" class="error-link-btn">
+                        <i class="fas fa-suitcase"></i> Packages
+                    </a>
+                    <a href="hotels.html" class="error-link-btn">
+                        <i class="fas fa-hotel"></i> Hotels
+                    </a>
+                    <a href="map.html" class="error-link-btn">
+                        <i class="fas fa-map"></i> Explore Map
+                    </a>
+                    <a href="contact.html" class="error-link-btn">
+                        <i class="fas fa-envelope"></i> Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/session.js"></script>
+</body>
+
+</html>

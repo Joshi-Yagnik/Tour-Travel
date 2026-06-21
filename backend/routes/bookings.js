@@ -11,6 +11,7 @@
 const express = require('express');
 const Booking = require('../models/Booking');
 const Package = require('../models/Package');
+const Hotel   = require('../models/Hotel');
 const protect = require('../middleware/auth');
 const adminOnly = require('../middleware/adminOnly');
 
@@ -19,27 +20,55 @@ const router = express.Router();
 /* ── POST /api/bookings — Create a booking ───────────────── */
 router.post('/', protect, async (req, res) => {
     try {
-        const { packageId, travelDate, travelers, specialRequests } = req.body;
+        const { packageId, hotelId, bookingType, travelDate, returnDate, travelers, specialRequests, roomId } = req.body;
 
-        const pkg = await Package.findById(packageId);
-        if (!pkg) return res.status(404).json({ success: false, message: 'Package not found.' });
+        let totalPrice = 0;
+        let finalType = bookingType || 'package';
 
-        if (travelers > pkg.groupSize.max) {
-            return res.status(400).json({ success: false, message: `Max group size is ${pkg.groupSize.max}.` });
+        if (finalType === 'package') {
+            const pkg = await Package.findById(packageId);
+            if (!pkg) return res.status(404).json({ success: false, message: 'Package not found.' });
+            if (travelers > (pkg.groupSize?.max || 50)) {
+                return res.status(400).json({ success: false, message: `Max group size is ${pkg.groupSize?.max || 50}.` });
+            }
+            totalPrice = pkg.price * travelers;
+        } else if (finalType === 'hotel') {
+            const hotel = await Hotel.findById(hotelId);
+            if (!hotel) return res.status(404).json({ success: false, message: 'Hotel not found.' });
+            
+            // Basic price calculation for hotel if roomId is passed, or startingPrice
+            let pricePerNight = hotel.startingPrice || 0;
+            if (roomId && hotel.rooms) {
+                const room = hotel.rooms.id(roomId);
+                if (room) pricePerNight = room.pricePerNight || pricePerNight;
+            }
+            let nights = 1;
+            if (travelDate && returnDate) {
+                const d1 = new Date(travelDate);
+                const d2 = new Date(returnDate);
+                const diff = (d2 - d1) / (1000 * 60 * 60 * 24);
+                if (diff > 0) nights = Math.ceil(diff);
+            }
+            totalPrice = pricePerNight * nights;
+        } else {
+            return res.status(400).json({ success: false, message: 'Invalid booking type.' });
         }
-
-        const totalPrice = pkg.price * travelers;
 
         const booking = await Booking.create({
             user: req.user.id,
-            package: packageId,
+            package: finalType === 'package' ? packageId : null,
+            hotel: finalType === 'hotel' ? hotelId : null,
+            bookingType: finalType,
             travelDate,
+            returnDate,
             travelers,
             totalPrice,
             specialRequests,
         });
 
-        await booking.populate('package', 'title coverImage duration');
+        if (finalType === 'package') await booking.populate('package', 'title coverImage duration');
+        if (finalType === 'hotel') await booking.populate('hotel', 'name coverImage location');
+        
         res.status(201).json({ success: true, data: booking });
     } catch (err) {
         res.status(400).json({ success: false, message: err.message });

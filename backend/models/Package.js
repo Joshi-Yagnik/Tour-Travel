@@ -1,5 +1,6 @@
 /* ============================================================
-   WANDERLUST — Package Model
+   WANDERLUST — Package Model v2.1
+   Enhanced: isActive, status, createdBy, better indexes
    ============================================================ */
 
 const mongoose = require('mongoose');
@@ -16,6 +17,13 @@ const packageSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Package title is required'],
         trim: true,
+        maxlength: 150,
+    },
+    slug: {
+        type: String,
+        unique: true,
+        lowercase: true,
+        sparse: true,
     },
     destination: {
         type: mongoose.Schema.Types.ObjectId,
@@ -25,6 +33,10 @@ const packageSchema = new mongoose.Schema({
     description: {
         type: String,
         maxlength: 2000,
+    },
+    shortDescription: {
+        type: String,
+        maxlength: 300,
     },
     duration: {
         days: { type: Number, required: true },
@@ -44,10 +56,14 @@ const packageSchema = new mongoose.Schema({
         required: [true, 'Price is required'],
         min: 0,
     },
+    discountPrice: {
+        type: Number,
+        default: null,
+    },
     priceIncludes: [String],
     priceExcludes: [String],
     highlights: [String],
-    images: [String],   // Array of URLs
+    images: [String],
     coverImage: String,
     itinerary: [itineraryDaySchema],
     guide: {
@@ -75,10 +91,45 @@ const packageSchema = new mongoose.Schema({
     },
     availableFrom: Date,
     availableTo: Date,
+
+    // Status & lifecycle
+    status: {
+        type: String,
+        enum: ['draft', 'active', 'archived'],
+        default: 'active',
+    },
+    isActive: {
+        type: Boolean,
+        default: true,
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null,
+    },
+    tags: [String],
 }, {
     timestamps: true,
 });
 
+/* ── Auto-generate slug ──────────────────────────────────── */
+packageSchema.pre('save', function (next) {
+    if (!this.slug) {
+        this.slug = this.title
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .substring(0, 80)
+            + '-' + Date.now().toString(36);
+    }
+    next();
+});
+
+// Indexes
 packageSchema.index({ title: 'text', description: 'text' });
+packageSchema.index({ isActive: 1, featured: -1, rating: -1 });
+packageSchema.index({ destination: 1, isActive: 1 });
+packageSchema.index({ status: 1, isActive: 1 });
+packageSchema.index({ price: 1 });
 
 module.exports = mongoose.model('Package', packageSchema);

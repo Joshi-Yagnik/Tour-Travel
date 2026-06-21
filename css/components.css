@@ -1079,3 +1079,237 @@
     font-size: var(--text-xs);
     color: var(--text-muted);
 }
+
+/* ══════════════════════════════════════════════════════════
+   DARK MODE TOGGLE BUTTON
+══════════════════════════════════════════════════════════ */
+.dark-mode-toggle {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-full);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    transition: var(--transition-base);
+    flex-shrink: 0;
+}
+
+.dark-mode-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
+}
+
+.navbar.scrolled .dark-mode-toggle,
+.navbar.dark .dark-mode-toggle {
+    border-color: var(--border);
+    background: var(--bg-light);
+    color: var(--text-body);
+}
+
+.navbar.scrolled .dark-mode-toggle:hover,
+.navbar.dark .dark-mode-toggle:hover {
+    background: var(--primary-glow);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+/* ══════════════════════════════════════════════════════════
+   DARK MODE — Card & Form Overrides
+══════════════════════════════════════════════════════════ */
+[data-theme="dark"] .tour-card,
+[data-theme="dark"] .modal,
+[data-theme="dark"] .testimonial-card {
+    background: #16213E;
+    border-color: #2D3748;
+}
+
+[data-theme="dark"] .tour-card__title,
+[data-theme="dark"] .modal__title {
+    color: #F7FAFC;
+}
+
+[data-theme="dark"] .tour-card__footer {
+    border-color: #2D3748;
+}
+
+[data-theme="dark"] .form-control {
+    background: #16213E;
+    border-color: #2D3748;
+    color: #F7FAFC;
+}
+
+[data-theme="dark"] .form-control:focus {
+    border-color: var(--primary);
+    background: #1A1A2E;
+}
+
+[data-theme="dark"] .form-control::placeholder {
+    color: #718096;
+}
+
+[data-theme="dark"] .navbar.scrolled {
+    background: #1A1A2E;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+}
+
+[data-theme="dark"] .navbar__mobile-menu {
+    background: #1A1A2E;
+    border-color: #2D3748;
+}
+
+[data-theme="dark"] .navbar__mobile-menu a {
+    color: #CBD5E0;
+}
+
+[data-theme="dark"] .filter-select,
+[data-theme="dark"] select {
+    background: #16213E;
+    border-color: #2D3748;
+    color: #F7FAFC;
+}
+
+[data-theme="dark"] .btn-ghost {
+    color: #CBD5E0;
+    border-color: #2D3748;
+}
+
+[data-theme="dark"] .btn-ghost:hover {
+    background: #16213E;
+    border-color: #4A5568;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SKELETON LOADING
+══════════════════════════════════════════════════════════ */
+.skeleton {
+    background: linear-gradient(90deg, var(--bg-light) 25%, var(--border) 50%, var(--bg-light) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite;
+    border-radius: var(--radius-md);
+}
+
+@keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.skeleton-image { height: 240px; }
+.skeleton-text  { height: 16px; margin-bottom: 8px; }
+.skeleton-text.wide  { width: 100%; }
+.skeleton-text.medium { width: 70%; }
+.skeleton-text.narrow { width: 40%; }
+.skeleton-btn   { height: 38px; width: 100px; border-radius: var(--radius-lg); }
+
+/* ══════════════════════════════════════════════════════════
+   SCROLL TO TOP BUTTON
+══════════════════════════════════════════════════════════ */
+#scroll-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: var(--shadow-primary);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: all 0.3s ease;
+    z-index: calc(var(--z-nav) - 5);
+}
+
+#scroll-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#scroll-top:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(255, 107, 53, 0.5);
+}
+
+/* ══════════════════════════════════════════════════════════
+   HOTEL TYPE BADGES
+══════════════════════════════════════════════════════════ */
+.accommodation-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.badge-dharamshala  { background: rgba(255,237,213,1); color: #C05621; }
+.badge-homestay     { background: rgba(209,250,229,1); color: #276749; }
+.badge-temple_stay  { background: rgba(237,233,254,1); color: #553C9A; }
+.badge-lodge        { background: rgba(235,248,255,1); color: #2A4365; }
+.badge-resort       { background: rgba(255,235,235,1); color: #9B2C2C; }
+.badge-hostel       { background: rgba(254,252,191,1); color: #744210; }
+
+/* ══════════════════════════════════════════════════════════
+   CURRENCY & PRICE FORMATTING
+══════════════════════════════════════════════════════════ */
+.price-inr::before { content: '₹'; }
+.price-usd::before { content: '$'; }
+
+.price-tag {
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-extrabold);
+    color: var(--primary);
+    line-height: 1;
+}
+
+.price-tag .currency {
+    font-size: 0.55em;
+    vertical-align: super;
+    font-weight: var(--weight-semibold);
+}
+
+.price-tag .per {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    font-weight: var(--weight-normal);
+    display: block;
+    margin-top: 2px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   LOYALTY TIER BADGES
+══════════════════════════════════════════════════════════ */
+.loyalty-bronze   { color: #CD7F32; }
+.loyalty-silver   { color: #A8A9AD; }
+.loyalty-gold     { color: #FFD700; }
+.loyalty-platinum { color: #E5E4E2; text-shadow: 0 0 8px rgba(255,255,255,0.5); }
+
+/* ══════════════════════════════════════════════════════════
+   AI WIDGET OFFSET (push scroll-to-top above AI bubble)
+══════════════════════════════════════════════════════════ */
+#scroll-top {
+    bottom: 90px;
+    right: 24px;
+}

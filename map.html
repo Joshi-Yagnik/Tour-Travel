@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Map — Wanderlust</title>
+    <meta name="description" content="Explore hotels, dharamshalas, temples, restaurants and attractions on an interactive map. Find places near you.">
+
+    <!-- Leaflet.js Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        body { margin: 0; overflow: hidden; }
+
+        .map-page {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            height: 100vh;
+            padding-top: var(--nav-height);
+        }
+
+        /* ── Sidebar ─────────────────────────────────────────── */
+        .map-sidebar {
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 10;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+        }
+
+        .map-sidebar__header {
+            padding: 18px 20px 14px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .map-sidebar__title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .map-search {
+            position: relative;
+        }
+
+        .map-search input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            box-sizing: border-box;
+        }
+
+        .map-search input:focus {
+            border-color: var(--primary);
+            background: var(--white);
+            outline: none;
+        }
+
+        .map-search i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* ── Category Filter ─────────────────────────────────── */
+        .map-categories {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .map-cat-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        .map-cat-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .cat-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1.5px solid var(--border);
+            background: var(--bg-light);
+            color: var(--text-body);
+            transition: all 0.2s;
+        }
+
+        .cat-chip.active, .cat-chip:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* ── Results List ────────────────────────────────────── */
+        .map-results {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 0;
+        }
+
+        .map-results::-webkit-scrollbar { width: 4px; }
+        .map-results::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+        .map-result-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .map-result-item:hover, .map-result-item.active {
+            background: var(--primary-glow);
+        }
+
+        .map-result-img {
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-lg);
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--bg-light);
+        }
+
+        .map-result-info { flex: 1; min-width: 0; }
+
+        .map-result-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .map-result-type {
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .map-result-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .map-result-rating { color: #F6AD55; font-weight: 600; }
+
+        .map-result-dist {
+            background: var(--bg-light);
+            padding: 2px 7px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ── Empty/Loading states ─────────────────────────────── */
+        .map-empty {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .map-empty i {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: block;
+            color: var(--border);
+        }
+
+        /* ── Map Container ───────────────────────────────────── */
+        .map-container {
+            position: relative;
+            background: var(--bg-light);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ── Map Controls ────────────────────────────────────── */
+        .map-controls {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .map-ctrl-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-lg);
+            background: var(--white);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            color: var(--text-body);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .map-ctrl-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ── Popup Style ─────────────────────────────────────── */
+        .leaflet-popup-content-wrapper {
+            border-radius: 14px !important;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
+        .leaflet-popup-content {
+            margin: 0 !important;
+            width: 240px !important;
+        }
+
+        .popup-card {
+            padding: 16px;
+        }
+
+        .popup-type {
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+        }
+
+        .popup-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .popup-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .popup-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .popup-btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .popup-btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-body);
+            border: 1px solid var(--border);
+        }
+
+        /* ── Geolocate spinner ───────────────────────────────── */
+        .locate-loading {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ── Responsive ──────────────────────────────────────── */
+        @media (max-width: 768px) {
+            body { overflow: auto; }
+            .map-page { grid-template-columns: 1fr; height: auto; }
+            .map-sidebar { max-height: 40vh; }
+            .map-container { height: 60vh; }
+        }
+
+        /* Dark mode */
+        [data-theme="dark"] .map-sidebar {
+            background: #1A1A2E;
+            border-color: #2D3748;
+        }
+        [data-theme="dark"] .map-result-item { border-color: #2D3748; }
+        [data-theme="dark"] .map-result-item:hover { background: rgba(255,107,53,0.1); }
+        [data-theme="dark"] .map-search input {
+            background: #16213E;
+            border-color: #2D3748;
+            color: #F7FAFC;
+        }
+        [data-theme="dark"] .cat-chip {
+            background: #16213E;
+            border-color: #2D3748;
+            color: #A0AEC0;
+        }
+        [data-theme="dark"] .map-ctrl-btn { background: #1A1A2E; border-color: #2D3748; color: #A0AEC0; }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar dark">
+        <div class="navbar__inner">
+            <a href="index.html" class="navbar__logo">
+                <div class="navbar__logo-icon"><i class="fas fa-compass"></i></div>
+                <span class="navbar__logo-text">Wander<span>lust</span></span>
+            </a>
+            <ul class="navbar__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="hotels.html">Hotels</a></li>
+                <li><a href="map.html" class="active">Map</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="navbar__actions">
+                <a href="auth.html" class="btn btn-outline-white btn-sm">Login</a>
+                <a href="auth.html#signup" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+            <div class="navbar__hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div class="navbar__mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="packages.html">Packages</a>
+        <a href="hotels.html">Hotels</a>
+        <a href="map.html">Map</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <div class="navbar__mobile-actions">
+            <a href="auth.html" class="btn btn-ghost">Login</a>
+            <a href="auth.html#signup" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+
+    <div class="map-page">
+
+        <!-- Sidebar -->
+        <aside class="map-sidebar">
+            <div class="map-sidebar__header">
+                <div class="map-sidebar__title">🗺️ Explore Places</div>
+                <div class="map-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="map-search-input" placeholder="Search city, temple, hotel...">
+                </div>
+            </div>
+
+            <div class="map-categories">
+                <div class="map-cat-label">Filter by Type</div>
+                <div class="map-cat-chips">
+                    <button class="cat-chip active" data-type="all"><i class="fas fa-globe"></i> All</button>
+                    <button class="cat-chip" data-type="hotel"><i class="fas fa-hotel"></i> Hotels</button>
+                    <button class="cat-chip" data-type="dharamshala"><i class="fas fa-place-of-worship"></i> Dharamshala</button>
+                    <button class="cat-chip" data-type="homestay"><i class="fas fa-house-user"></i> Homestay</button>
+                    <button class="cat-chip" data-type="temple"><i class="fas fa-om"></i> Temples</button>
+                    <button class="cat-chip" data-type="restaurant"><i class="fas fa-utensils"></i> Food</button>
+                    <button class="cat-chip" data-type="attraction"><i class="fas fa-camera"></i> Sights</button>
+                </div>
+            </div>
+
+            <div class="map-results" id="map-results">
+                <div class="map-empty">
+                    <i class="fas fa-location-dot"></i>
+                    <p>Click "Find Nearby" to discover places around you, or search for a specific location.</p>
+                    <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="locateUser()">
+                        <i class="fas fa-crosshairs"></i> Find Nearby
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Map -->
+        <div class="map-container">
+            <div id="map"></div>
+
+            <div class="map-controls">
+                <button class="map-ctrl-btn" id="locate-btn" onclick="locateUser()" title="My Location">
+                    <i class="fas fa-crosshairs"></i>
+                </button>
+                <button class="map-ctrl-btn" onclick="resetMap()" title="Reset View">
+                    <i class="fas fa-compress-arrows-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/session.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/ai-assistant.js"></script>
+    <script>
+    /* ── Initialize Leaflet Map ─────────────────────────────── */
+    const DEFAULT_CENTER = [22.9734, 78.6569]; // Center of India
+    const DEFAULT_ZOOM   = 5;
+
+    let map, userMarker, markersLayer;
+    let activeType = 'all';
+    let allPlaces  = [];
+
+    // Icon factory
+    function makeIcon(color, icon) {
+        return L.divIcon({
+            className: '',
+            html: `<div style="
+                width:36px;height:36px;border-radius:50%;
+                background:${color};
+                display:flex;align-items:center;justify-content:center;
+                color:white;font-size:15px;
+                box-shadow:0 3px 10px rgba(0,0,0,0.25);
+                border:3px solid white;
+                cursor:pointer;
+            "><i class="fas ${icon}"></i></div>`,
+            iconSize: [36, 36],
+            iconAnchor: [18, 18],
+            popupAnchor: [0, -20],
+        });
+    }
+
+    const TYPE_CONFIG = {
+        hotel:        { color: '#3182CE', icon: 'fa-hotel',          label: 'Hotel' },
+        dharamshala:  { color: '#805AD5', icon: 'fa-place-of-worship', label: 'Dharamshala' },
+        homestay:     { color: '#38A169', icon: 'fa-house-user',     label: 'Homestay' },
+        temple:       { color: '#DD6B20', icon: 'fa-om',             label: 'Temple' },
+        restaurant:   { color: '#E53E3E', icon: 'fa-utensils',       label: 'Restaurant' },
+        attraction:   { color: '#FF6B35', icon: 'fa-camera',         label: 'Attraction' },
+        default:      { color: '#718096', icon: 'fa-map-marker-alt', label: 'Place' },
+    };
+
+    function initMap() {
+        map = L.map('map', {
+            center: DEFAULT_CENTER,
+            zoom: DEFAULT_ZOOM,
+            zoomControl: true,
+        });
+
+        // OpenStreetMap tiles (free, no API key)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19,
+        }).addTo(map);
+
+        markersLayer = L.layerGroup().addTo(map);
+
+        // Add data
+        loadData();
+    }
+
+    async function loadData() {
+        try {
+            const [hotelsRes, restsRes] = await Promise.all([
+                fetch('/api/hotels?limit=50'),
+                fetch('/api/restaurants?limit=50')
+            ]);
+            
+            let places = [];
+            
+            if (hotelsRes.ok) {
+                const hd = await hotelsRes.json();
+                if (hd.data) {
+                    places = places.concat(hd.data.map(h => ({
+                        id: h._id,
+                        name: h.name,
+                        type: h.type || 'hotel',
+                        lat: h.location?.coordinates?.lat || 0,
+                        lng: h.location?.coordinates?.lng || 0,
+                        rating: h.rating,
+                        city: h.location?.city || '',
+                        price: h.startingPrice ? `₹${h.startingPrice.toLocaleString('en-IN')}/night` : null,
+                    })));
+                }
+            }
+            
+            if (restsRes.ok) {
+                const rd = await restsRes.json();
+                if (rd.data) {
+                    places = places.concat(rd.data.map(r => ({
+                        id: r._id,
+                        name: r.name,
+                        type: r.type || 'restaurant',
+                        lat: r.location?.coordinates?.lat || 0,
+                        lng: r.location?.coordinates?.lng || 0,
+                        rating: r.rating,
+                        city: r.location?.city || '',
+                        price: r.avgCostForTwo ? `₹${r.avgCostForTwo.toLocaleString('en-IN')} for two` : null,
+                    })));
+                }
+            }
+            
+            // Filter out invalid coords
+            places = places.filter(p => p.lat !== 0 && p.lng !== 0);
+
+            allPlaces = places;
+            renderMarkers(places);
+            renderSidebarList(places);
+        } catch (err) {
+            console.error('Failed to load map data:', err);
+        }
+    }
+
+    function renderMarkers(places) {
+        markersLayer.clearLayers();
+
+        places.forEach((place, idx) => {
+            const config = TYPE_CONFIG[place.type] || TYPE_CONFIG.default;
+            const marker = L.marker([place.lat, place.lng], { icon: makeIcon(config.color, config.icon) });
+
+            const popupContent = `
+                <div class="popup-card">
+                    <div class="popup-type" style="color:${config.color}">${config.label}</div>
+                    <div class="popup-name">${place.name}</div>
+                    <div style="font-size:12px;color:#718096;margin-bottom:6px">
+                        <i class="fas fa-map-marker-alt" style="color:${config.color}"></i> ${place.city}
+                    </div>
+                    ${place.rating ? `<div style="color:#F6AD55;font-weight:700;font-size:13px">★ ${place.rating}</div>` : ''}
+                    ${place.price ? `<div style="color:#FF6B35;font-weight:700;font-size:14px;margin-top:4px">${place.price}</div>` : ''}
+                    <div class="popup-actions">
+                        <a href="https://maps.google.com/?q=${place.lat},${place.lng}" target="_blank" class="popup-btn popup-btn-primary">
+                            <i class="fas fa-directions"></i> Directions
+                        </a>
+                        <button class="popup-btn popup-btn-secondary" onclick="selectPlace(${idx})">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                    </div>
+                </div>`;
+
+            marker.bindPopup(popupContent, { maxWidth: 250 });
+            marker.on('click', () => highlightSidebarItem(idx));
+            markersLayer.addLayer(marker);
+        });
+    }
+
+    function renderSidebarList(places) {
+        const container = document.getElementById('map-results');
+
+        if (places.length === 0) {
+            container.innerHTML = `<div class="map-empty"><i class="fas fa-search"></i><p>No places found. Try a different filter or location.</p></div>`;
+            return;
+        }
+
+        container.innerHTML = places.map((place, idx) => {
+            const config = TYPE_CONFIG[place.type] || TYPE_CONFIG.default;
+            return `
+                <div class="map-result-item" data-idx="${idx}" onclick="flyToPlace(${idx})">
+                    <div class="map-result-img" style="background:${config.color}20;display:flex;align-items:center;justify-content:center;color:${config.color};font-size:24px">
+                        <i class="fas ${config.icon}"></i>
+                    </div>
+                    <div class="map-result-info">
+                        <div class="map-result-name">${place.name}</div>
+                        <div class="map-result-type" style="color:${config.color}">${config.label}</div>
+                        <div class="map-result-meta">
+                            ${place.rating ? `<span class="map-result-rating">★ ${place.rating}</span>` : ''}
+                            <span>${place.city}</span>
+                            ${place.price ? `<span style="color:var(--primary);font-weight:600">${place.price}</span>` : ''}
+                        </div>
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    function flyToPlace(idx) {
+        const place = allPlaces[idx];
+        if (!place) return;
+        map.flyTo([place.lat, place.lng], 15, { duration: 1.2 });
+        highlightSidebarItem(idx);
+        // Open popup after fly
+        setTimeout(() => {
+            markersLayer.getLayers()[idx]?.openPopup();
+        }, 1300);
+    }
+
+    function highlightSidebarItem(idx) {
+        document.querySelectorAll('.map-result-item').forEach(el => el.classList.remove('active'));
+        const item = document.querySelector(`.map-result-item[data-idx="${idx}"]`);
+        if (item) {
+            item.classList.add('active');
+            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+
+    function selectPlace(idx) {
+        flyToPlace(idx);
+    }
+
+    /* ── Category Filter ─────────────────────────────────────── */
+    document.querySelectorAll('.cat-chip').forEach(chip => {
+        chip.addEventListener('click', function () {
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            activeType = this.dataset.type;
+
+            const filtered = activeType === 'all'
+                ? allPlaces
+                : allPlaces.filter(p => p.type === activeType);
+
+            renderMarkers(filtered);
+            renderSidebarList(filtered);
+        });
+    });
+
+    /* ── Search ──────────────────────────────────────────────── */
+    const searchInput = document.getElementById('map-search-input');
+    searchInput.addEventListener('input', function () {
+        const q = this.value.toLowerCase().trim();
+        const filtered = allPlaces.filter(p =>
+            p.name.toLowerCase().includes(q) ||
+            p.city.toLowerCase().includes(q) ||
+            p.type.includes(q)
+        );
+        renderMarkers(filtered);
+        renderSidebarList(filtered);
+    });
+
+    /* ── Geolocation ─────────────────────────────────────────── */
+    function locateUser() {
+        const btn = document.getElementById('locate-btn');
+        const icon = btn.querySelector('i');
+        icon.className = 'fas fa-spinner locate-loading';
+
+        if (!navigator.geolocation) {
+            showToast('Geolocation not supported by your browser.', 'error');
+            icon.className = 'fas fa-crosshairs';
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const { latitude: lat, longitude: lng } = pos.coords;
+                icon.className = 'fas fa-crosshairs';
+
+                if (userMarker) map.removeLayer(userMarker);
+                userMarker = L.circleMarker([lat, lng], {
+                    radius: 10,
+                    fillColor: '#FF6B35',
+                    color: 'white',
+                    weight: 3,
+                    opacity: 1,
+                    fillOpacity: 0.9,
+                }).addTo(map).bindPopup('<strong>📍 You are here</strong>').openPopup();
+
+                map.flyTo([lat, lng], 14, { duration: 1.5 });
+                showToast('📍 Location found! Showing nearby places.', 'success');
+
+                // Load nearby hotels from API
+                loadNearbyFromAPI(lat, lng);
+            },
+            (err) => {
+                icon.className = 'fas fa-crosshairs';
+                showToast('Unable to get your location. Please allow location access.', 'warning');
+            }
+        );
+    }
+
+    async function loadNearbyFromAPI(lat, lng) {
+        try {
+            const res = await fetch(`/api/hotels/nearby?lat=${lat}&lng=${lng}&radius=20`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data.data && data.data.length > 0) {
+                    const apiPlaces = data.data.map(h => ({
+                        name: h.name,
+                        type: h.type || 'hotel',
+                        lat: h.location.coordinates.lat,
+                        lng: h.location.coordinates.lng,
+                        rating: h.rating,
+                        city: h.location.city,
+                        price: h.priceFrom ? `₹${h.priceFrom.toLocaleString('en-IN')}/night` : null,
+                    }));
+                    allPlaces = [...apiPlaces, ...allPlaces];
+                    renderMarkers(allPlaces);
+                    renderSidebarList(allPlaces);
+                }
+            }
+        } catch (e) {}
+    }
+
+    function resetMap() {
+        map.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, { duration: 1.2 });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', initMap);
+
+    // Toast helper (if not already defined by nav.js)
+    if (!window.showToast) {
+        window.showToast = function(msg, type = 'info') {
+            console.log(`[${type}]`, msg);
+        };
+    }
+    </script>
+</body>
+
+</html>

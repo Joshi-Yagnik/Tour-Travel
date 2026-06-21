@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Hub — Wanderlust Hotel Management</title>
+    <meta name="description" content="Manage your hotel properties, bookings, guests, and reviews from one powerful dashboard.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/owner.css">
+</head>
+<body>
+
+<div class="app" id="app">
+
+    <!-- ════════════════════════════════════════
+         SIDEBAR
+    ════════════════════════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-logo"><i class="fas fa-building-columns"></i></div>
+            <div class="sidebar-brand-text">
+                <span class="sidebar-brand-name">Partner Hub</span>
+                <span class="sidebar-brand-sub">Wanderlust</span>
+            </div>
+            <button class="sidebar-close" id="sidebar-close" aria-label="Close menu"><i class="fas fa-xmark"></i></button>
+        </div>
+
+        <div class="sidebar-profile" id="sidebar-profile">
+            <div class="sidebar-avatar" id="sidebar-avatar">H</div>
+            <div class="sidebar-profile-info">
+                <span class="sidebar-profile-name" id="sidebar-name">Loading...</span>
+                <span class="sidebar-profile-role"><i class="fas fa-circle-check"></i> Verified Partner</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav" role="navigation">
+            <div class="nav-section-label">Overview</div>
+            <a href="#" class="nav-item active" data-view="dashboard">
+                <span class="nav-item-icon"><i class="fas fa-chart-pie"></i></span>
+                <span class="nav-item-label">Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-view="analytics">
+                <span class="nav-item-icon"><i class="fas fa-chart-line"></i></span>
+                <span class="nav-item-label">Analytics</span>
+            </a>
+            <a href="#" class="nav-item nav-item--ai" data-view="ai-advisor">
+                <span class="nav-item-icon"><i class="fas fa-robot"></i></span>
+                <span class="nav-item-label">AI Advisor</span>
+                <span class="nav-item-ai-badge">AI</span>
+            </a>
+
+            <div class="nav-section-label" style="margin-top:1.5rem">Property</div>
+            <a href="#" class="nav-item" data-view="properties">
+                <span class="nav-item-icon"><i class="fas fa-hotel"></i></span>
+                <span class="nav-item-label">My Properties</span>
+            </a>
+            <a href="#" class="nav-item" data-view="packages">
+                <span class="nav-item-icon"><i class="fas fa-map"></i></span>
+                <span class="nav-item-label">Packages & Tours</span>
+            </a>
+            <a href="#" class="nav-item" data-view="rooms">
+                <span class="nav-item-icon"><i class="fas fa-bed"></i></span>
+                <span class="nav-item-label">Rooms & Pricing</span>
+            </a>
+            <a href="#" class="nav-item" data-view="amenities">
+                <span class="nav-item-icon"><i class="fas fa-star-of-life"></i></span>
+                <span class="nav-item-label">Amenities</span>
+            </a>
+            <a href="#" class="nav-item" data-view="gallery">
+                <span class="nav-item-icon"><i class="fas fa-images"></i></span>
+                <span class="nav-item-label">Image Gallery</span>
+            </a>
+            <a href="#" class="nav-item" data-view="policies">
+                <span class="nav-item-icon"><i class="fas fa-shield-halved"></i></span>
+                <span class="nav-item-label">Policies</span>
+            </a>
+
+            <div class="nav-section-label" style="margin-top:1.5rem">Operations</div>
+            <a href="#" class="nav-item" data-view="bookings">
+                <span class="nav-item-icon"><i class="fas fa-calendar-check"></i></span>
+                <span class="nav-item-label">Bookings</span>
+                <span class="nav-badge" id="nav-pending-badge" style="display:none">0</span>
+            </a>
+            <a href="#" class="nav-item" data-view="guests">
+                <span class="nav-item-icon"><i class="fas fa-users"></i></span>
+                <span class="nav-item-label">Guests</span>
+            </a>
+            <a href="#" class="nav-item" data-view="reviews">
+                <span class="nav-item-icon"><i class="fas fa-star-half-stroke"></i></span>
+                <span class="nav-item-label">Reviews</span>
+            </a>
+
+            <div class="nav-section-label" style="margin-top:1.5rem">Account</div>
+            <a href="#" class="nav-item" data-view="settings">
+                <span class="nav-item-icon"><i class="fas fa-sliders"></i></span>
+                <span class="nav-item-label">Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="../index.html" class="sidebar-footer-link"><i class="fas fa-arrow-left"></i> Back to Site</a>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-right-from-bracket"></i> Sign Out</button>
+        </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ════════════════════════════════════════
+         MAIN AREA
+    ════════════════════════════════════════ -->
+    <main class="main" id="main">
+
+        <header class="topbar" id="topbar">
+            <div class="topbar-left">
+                <button class="topbar-menu-btn" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="topbar-breadcrumb" id="topbar-breadcrumb"><span>Dashboard</span></div>
+            </div>
+            <div class="topbar-right">
+                <!-- Property quick-switch -->
+                <select class="topbar-prop-select" id="topbar-prop-select" title="Switch active property">
+                    <option value="">All Properties</option>
+                </select>
+                <button class="topbar-action-btn" id="theme-toggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
+                <div class="topbar-user" id="topbar-user">
+                    <div class="topbar-avatar" id="topbar-avatar">H</div>
+                    <span class="topbar-user-name" id="topbar-name">Partner</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ════════════════════════════════════
+             DASHBOARD VIEW
+        ════════════════════════════════════ -->
+        <section class="view active" id="view-dashboard">
+            <div class="view-header">
+                <div>
+                    <h1 class="view-title">Good morning, <span id="dash-firstname">Partner</span> 👋</h1>
+                    <p class="view-subtitle">Here's what's happening with your properties today.</p>
+                </div>
+                <span class="date-pill"><i class="fas fa-calendar"></i> <span id="dash-date"></span></span>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card" data-color="violet">
+                    <div class="kpi-card-header"><span class="kpi-label">Total Revenue</span><div class="kpi-icon"><i class="fas fa-indian-rupee-sign"></i></div></div>
+                    <div class="kpi-value" id="kpi-revenue">₹0</div>
+                    <div class="kpi-meta"><span class="kpi-trend"><i class="fas fa-arrow-trend-up"></i> Lifetime earnings</span></div>
+                </div>
+                <div class="kpi-card" data-color="emerald">
+                    <div class="kpi-card-header"><span class="kpi-label">Total Bookings</span><div class="kpi-icon"><i class="fas fa-calendar-check"></i></div></div>
+                    <div class="kpi-value" id="kpi-bookings">0</div>
+                    <div class="kpi-meta"><span class="kpi-trend neutral">All time</span></div>
+                </div>
+                <div class="kpi-card" data-color="amber">
+                    <div class="kpi-card-header"><span class="kpi-label">Pending Requests</span><div class="kpi-icon"><i class="fas fa-hourglass-half"></i></div></div>
+                    <div class="kpi-value" id="kpi-pending">0</div>
+                    <div class="kpi-meta"><span class="kpi-trend" id="kpi-pending-text">Awaiting action</span></div>
+                </div>
+                <div class="kpi-card" data-color="sky">
+                    <div class="kpi-card-header"><span class="kpi-label">Active Properties</span><div class="kpi-icon"><i class="fas fa-building"></i></div></div>
+                    <div class="kpi-value" id="kpi-properties">0</div>
+                    <div class="kpi-meta"><span class="kpi-trend neutral">Listed & live</span></div>
+                </div>
+            </div>
+
+            <div class="dash-grid">
+                <div class="dash-card dash-card--wide">
+                    <div class="card-header">
+                        <div><h3 class="card-title">Recent Bookings</h3><p class="card-subtitle">Latest activity across all properties</p></div>
+                        <button class="btn-text" onclick="APP.navigate('bookings')">View all <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="pro-table">
+                            <thead><tr><th>Guest</th><th>Property</th><th>Check-in</th><th>Status</th><th>Amount</th><th>Action</th></tr></thead>
+                            <tbody id="dash-recent-tbody">
+                                <tr><td colspan="6" class="empty-state-cell"><div class="skeleton-loader"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="card-header"><div><h3 class="card-title">Quick Actions</h3><p class="card-subtitle">Common tasks</p></div></div>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" onclick="APP.navigate('properties'); setTimeout(openPropertyForm, 300)">
+                            <div class="qa-icon qa-icon--violet"><i class="fas fa-plus"></i></div><span>Add Property</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="APP.navigate('bookings')">
+                            <div class="qa-icon qa-icon--emerald"><i class="fas fa-calendar-check"></i></div><span>Bookings</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="APP.navigate('rooms')">
+                            <div class="qa-icon qa-icon--amber"><i class="fas fa-bed"></i></div><span>Rooms & Pricing</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="APP.navigate('reviews')">
+                            <div class="qa-icon qa-icon--sky"><i class="fas fa-star"></i></div><span>Reviews</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="APP.navigate('gallery')">
+                            <div class="qa-icon qa-icon--violet"><i class="fas fa-images"></i></div><span>Gallery</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="APP.navigate('analytics')">
+                            <div class="qa-icon qa-icon--emerald"><i class="fas fa-chart-line"></i></div><span>Analytics</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="APP.navigate('guests')">
+                            <div class="qa-icon qa-icon--amber"><i class="fas fa-users"></i></div><span>Guests</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="APP.navigate('policies')">
+                            <div class="qa-icon qa-icon--sky"><i class="fas fa-shield-halved"></i></div><span>Policies</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             ANALYTICS VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-analytics">
+            <div class="view-header">
+                <div><h1 class="view-title">Revenue & Analytics</h1><p class="view-subtitle">Deep insights into your property performance and revenue trends.</p></div>
+                <select class="filter-select" id="analytics-hotel-filter" onchange="loadAnalytics()">
+                    <option value="">All Properties</option>
+                </select>
+            </div>
+
+            <div class="kpi-grid" id="analytics-kpi">
+                <div class="kpi-card" data-color="violet"><div class="kpi-card-header"><span class="kpi-label">Total Revenue</span><div class="kpi-icon"><i class="fas fa-indian-rupee-sign"></i></div></div><div class="kpi-value" id="an-revenue">₹0</div></div>
+                <div class="kpi-card" data-color="emerald"><div class="kpi-card-header"><span class="kpi-label">Total Bookings</span><div class="kpi-icon"><i class="fas fa-calendar-check"></i></div></div><div class="kpi-value" id="an-bookings">0</div></div>
+                <div class="kpi-card" data-color="amber"><div class="kpi-card-header"><span class="kpi-label">Avg per Booking</span><div class="kpi-icon"><i class="fas fa-receipt"></i></div></div><div class="kpi-value" id="an-avg">₹0</div></div>
+                <div class="kpi-card" data-color="sky"><div class="kpi-card-header"><span class="kpi-label">Completed</span><div class="kpi-icon"><i class="fas fa-check-circle"></i></div></div><div class="kpi-value" id="an-completed">0</div></div>
+            </div>
+
+            <!-- Monthly Revenue Chart (CSS bar chart) -->
+            <div class="owner-panel" style="margin-bottom:20px">
+                <div class="card-header" style="margin-bottom:20px">
+                    <div><h3 class="card-title">Monthly Revenue (Last 12 Months)</h3><p class="card-subtitle">Revenue from confirmed + completed bookings</p></div>
+                </div>
+                <div class="bar-chart-container" id="revenue-chart-container">
+                    <div class="bar-chart" id="revenue-chart"></div>
+                </div>
+            </div>
+
+            <!-- Property Performance Table -->
+            <div class="table-card">
+                <div class="card-header" style="padding:20px 20px 0">
+                    <div><h3 class="card-title">Property Performance</h3><p class="card-subtitle">Comparison across your portfolio</p></div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="pro-table">
+                        <thead><tr><th>Property</th><th>Type</th><th>Bookings</th><th>Revenue</th><th>Avg Rating</th><th>Reviews</th><th>Pending</th></tr></thead>
+                        <tbody id="an-prop-tbody">
+                            <tr><td colspan="7" class="empty-state-cell"><div class="skeleton-loader"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             PACKAGES & TOURS VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-packages">
+            <div class="view-header">
+                <div><h1 class="view-title">Packages & Tours</h1><p class="view-subtitle">Manage your travel packages, destinations, and featured status.</p></div>
+                <button class="btn btn-primary" onclick="alert('Add Package logic pending')"><i class="fas fa-plus"></i> Add Package</button>
+            </div>
+            <div class="table-card">
+                <div class="table-wrapper">
+                    <table class="pro-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Country</th>
+                                <th>Region</th>
+                                <th>Price From</th>
+                                <th>Rating</th>
+                                <th>Featured</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Bali</td>
+                                <td>Indonesia</td>
+                                <td><span class="role-pill" style="background:#EBF8FF;color:#2B6CB0;border:none">Asia</span></td>
+                                <td style="font-weight:600;color:var(--text-dark)">₹45,000</td>
+                                <td><span style="color:#F6AD55;font-weight:600">★★★★★</span> 4.6</td>
+                                <td><span class="role-pill" style="background:var(--bg-light);color:var(--text-muted);border:none">No</span></td>
+                                <td>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon" style="color:var(--danger)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Safari Kenya</td>
+                                <td>Kenya</td>
+                                <td><span class="role-pill" style="background:#F0FFF4;color:#2F855A;border:none">Africa</span></td>
+                                <td style="font-weight:600;color:var(--text-dark)">₹1,40,000</td>
+                                <td><span style="color:#F6AD55;font-weight:600">★★★★★</span> 4.9</td>
+                                <td><span class="role-pill" style="background:var(--bg-light);color:var(--text-muted);border:none">No</span></td>
+                                <td>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon" style="color:var(--danger)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Kyoto</td>
+                                <td>Japan</td>
+                                <td><span class="role-pill" style="background:#EBF8FF;color:#2B6CB0;border:none">Asia</span></td>
+                                <td style="font-weight:600;color:var(--text-dark)">₹72,000</td>
+                                <td><span style="color:#F6AD55;font-weight:600">★★★★★</span> 4.8</td>
+                                <td><span class="role-pill" style="background:#FEFCBF;color:#B7791F;border:none">⭐ Yes</span></td>
+                                <td>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon" style="color:var(--danger)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Swiss Alps</td>
+                                <td>Switzerland</td>
+                                <td><span class="role-pill" style="background:#E6FFFA;color:#285E61;border:none">Europe</span></td>
+                                <td style="font-weight:600;color:var(--text-dark)">₹1,10,000</td>
+                                <td><span style="color:#F6AD55;font-weight:600">★★★★★</span> 4.7</td>
+                                <td><span class="role-pill" style="background:var(--bg-light);color:var(--text-muted);border:none">No</span></td>
+                                <td>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon" style="color:var(--danger)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Dubai</td>
+                                <td>UAE</td>
+                                <td><span class="role-pill" style="background:#FEFCBF;color:#B7791F;border:none">Middle East</span></td>
+                                <td style="font-weight:600;color:var(--text-dark)">₹80,000</td>
+                                <td><span style="color:#F6AD55;font-weight:600">★★★★★</span> 4.7</td>
+                                <td><span class="role-pill" style="background:var(--bg-light);color:var(--text-muted);border:none">No</span></td>
+                                <td>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon" style="color:var(--danger)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Maldives</td>
+                                <td>Maldives</td>
+                                <td><span class="role-pill" style="background:#EBF8FF;color:#2B6CB0;border:none">Asia</span></td>
+                                <td style="font-weight:600;color:var(--text-dark)">₹1,20,000</td>
+                                <td><span style="color:#F6AD55;font-weight:600">★★★★★</span> 4.9</td>
+                                <td><span class="role-pill" style="background:#FEFCBF;color:#B7791F;border:none">⭐ Yes</span></td>
+                                <td>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon" style="color:var(--danger)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Machu Picchu</td>
+                                <td>Peru</td>
+                                <td><span class="role-pill" style="background:#FAF5FF;color:#6B46C1;border:none">Americas</span></td>
+                                <td style="font-weight:600;color:var(--text-dark)">₹95,000</td>
+                                <td><span style="color:#F6AD55;font-weight:600">★★★★★</span> 4.8</td>
+                                <td><span class="role-pill" style="background:#FEFCBF;color:#B7791F;border:none">⭐ Yes</span></td>
+                                <td>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon" style="color:var(--danger)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Patagonia</td>
+                                <td>Argentina</td>
+                                <td><span class="role-pill" style="background:#FAF5FF;color:#6B46C1;border:none">Americas</span></td>
+                                <td style="font-weight:600;color:var(--text-dark)">₹1,60,000</td>
+                                <td><span style="color:#F6AD55;font-weight:600">★★★★★</span> 4.8</td>
+                                <td><span class="role-pill" style="background:var(--bg-light);color:var(--text-muted);border:none">No</span></td>
+                                <td>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon" style="color:var(--danger)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Petra</td>
+                                <td>Jordan</td>
+                                <td><span class="role-pill" style="background:#FEFCBF;color:#B7791F;border:none">Middle East</span></td>
+                                <td style="font-weight:600;color:var(--text-dark)">₹68,000</td>
+                                <td><span style="color:#F6AD55;font-weight:600">★★★★★</span> 4.8</td>
+                                <td><span class="role-pill" style="background:var(--bg-light);color:var(--text-muted);border:none">No</span></td>
+                                <td>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon" style="color:var(--danger)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Santorini</td>
+                                <td>Greece</td>
+                                <td><span class="role-pill" style="background:#E6FFFA;color:#285E61;border:none">Europe</span></td>
+                                <td style="font-weight:600;color:var(--text-dark)">₹85,000</td>
+                                <td><span style="color:#F6AD55;font-weight:600">★★★★★</span> 4.9</td>
+                                <td><span class="role-pill" style="background:#FEFCBF;color:#B7791F;border:none">⭐ Yes</span></td>
+                                <td>
+                                    <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon" style="color:var(--danger)" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             PROPERTIES VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-properties">
+            <div class="view-header">
+                <div><h1 class="view-title">My Properties</h1><p class="view-subtitle">Manage your hotel listings and property information.</p></div>
+                <button class="btn-primary" onclick="openPropertyForm()"><i class="fas fa-plus"></i> Add Property</button>
+            </div>
+            <div class="prop-cards-grid" id="prop-cards-grid">
+                <div class="skeleton-prop-card"></div><div class="skeleton-prop-card"></div><div class="skeleton-prop-card"></div>
+            </div>
+            <div class="empty-state" id="prop-empty" style="display:none">
+                <div class="empty-state-icon"><i class="fas fa-hotel"></i></div>
+                <h3>No Properties Yet</h3>
+                <p>You haven't added any properties. List your first hotel or resort to start receiving bookings.</p>
+                <button class="btn-primary" onclick="openPropertyForm()"><i class="fas fa-plus"></i> Add Your First Property</button>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             ROOMS & PRICING VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-rooms">
+            <div class="view-header">
+                <div><h1 class="view-title">Rooms & Pricing</h1><p class="view-subtitle">Manage room types, pricing, occupancy, and availability.</p></div>
+                <select class="filter-select" id="rooms-hotel-select" onchange="loadRoomsByHotel()">
+                    <option value="">Select a property...</option>
+                </select>
+            </div>
+            <div id="rooms-view-content">
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-bed"></i></div>
+                    <h3>Select a Property</h3>
+                    <p>Choose a property above to view and manage its room types and pricing.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             AMENITIES VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-amenities">
+            <div class="view-header">
+                <div><h1 class="view-title">Amenities Management</h1><p class="view-subtitle">Update the facilities and services offered at your properties.</p></div>
+                <select class="filter-select" id="amenities-hotel-select" onchange="loadAmenitiesByHotel()">
+                    <option value="">Select a property...</option>
+                </select>
+            </div>
+            <div id="amenities-view-content">
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-star-of-life"></i></div>
+                    <h3>Select a Property</h3>
+                    <p>Choose a property to manage its amenities.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             GALLERY VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-gallery">
+            <div class="view-header">
+                <div><h1 class="view-title">Image Gallery</h1><p class="view-subtitle">Manage cover photos and photo galleries for your properties.</p></div>
+                <select class="filter-select" id="gallery-hotel-select" onchange="loadGalleryByHotel()">
+                    <option value="">Select a property...</option>
+                </select>
+            </div>
+            <div id="gallery-view-content">
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-images"></i></div>
+                    <h3>Select a Property</h3>
+                    <p>Choose a property to manage its photo gallery.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             POLICIES VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-policies">
+            <div class="view-header">
+                <div><h1 class="view-title">Hotel Policies</h1><p class="view-subtitle">Manage check-in/check-out times, cancellation rules, and house rules.</p></div>
+                <select class="filter-select" id="policies-hotel-select" onchange="loadPoliciesByHotel()">
+                    <option value="">Select a property...</option>
+                </select>
+            </div>
+            <div id="policies-view-content">
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-shield-halved"></i></div>
+                    <h3>Select a Property</h3>
+                    <p>Choose a property to view and edit its policies.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             AI ADVISOR VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-ai-advisor" style="padding:0">
+
+            <!-- AI Advisor Hero Header -->
+            <div class="ai-adv-hero">
+                <div class="ai-adv-hero-content">
+                    <div class="ai-adv-hero-icon"><i class="fas fa-robot"></i></div>
+                    <div>
+                        <h1 class="ai-adv-hero-title">AI Business Advisor</h1>
+                        <p class="ai-adv-hero-sub">AI-powered insights to grow your hospitality business. Ask anything, discover opportunities, and stay ahead of travel trends.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-adv-layout" id="ai-advisor-view">
+
+                <!-- LEFT: AI Chat -->
+                <div class="ai-adv-chat-col">
+                    <div class="owner-panel" style="display:flex;flex-direction:column;height:600px;padding:0;overflow:hidden">
+                        <div class="ai-adv-chat-header">
+                            <div class="ai-adv-chat-avatar"><i class="fas fa-robot"></i></div>
+                            <div>
+                                <div class="ai-adv-chat-name">WanderAI Business Advisor</div>
+                                <div class="ai-adv-chat-status"><span class="ai-online-dot"></span> Active &bull; Hotel Business Expert</div>
+                            </div>
+                        </div>
+                        <div class="ai-adv-messages" id="advisor-messages"></div>
+                        <div class="ai-adv-chips-wrap" id="advisor-chips-wrap">
+                            <div class="ai-adv-chips-label">Quick Questions</div>
+                            <div class="ai-adv-chips" id="advisor-chips"></div>
+                        </div>
+                        <div class="ai-adv-input-row">
+                            <textarea class="ai-adv-input" id="advisor-input" placeholder="Ask about pricing, amenities, trends, reviews..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAdvisorMessage();}"></textarea>
+                            <button class="ai-adv-send" id="advisor-send" onclick="sendAdvisorMessage()" title="Send">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Market Intelligence -->
+                <div class="ai-adv-intel-col">
+
+                    <!-- Destination Discovery Search -->
+                    <div class="owner-panel">
+                        <div class="card-header">
+                            <div><h3 class="card-title"><i class="fas fa-search" style="color:var(--hub-accent)"></i> Discover New Markets</h3><p class="card-subtitle">Search any destination — AI will tell you if it's worth adding a property there</p></div>
+                        </div>
+                        <div style="display:flex;gap:8px;margin-bottom:12px">
+                            <input type="text" id="discover-search-input" class="field-input" placeholder="e.g. Spiti Valley, Ziro, Majuli..." style="flex:1" onkeydown="if(event.key==='Enter')searchDestinationForOwner()">
+                            <button class="btn-primary" onclick="searchDestinationForOwner()"><i class="fas fa-robot"></i> Analyze</button>
+                        </div>
+                        <div id="discover-search-result"></div>
+                    </div>
+
+                    <!-- Market Intelligence Insights -->
+                    <div class="owner-panel">
+                        <div class="card-header">
+                            <div><h3 class="card-title"><i class="fas fa-chart-line" style="color:var(--hub-emerald)"></i> Market Intelligence</h3><p class="card-subtitle">AI-generated travel industry insights</p></div>
+                        </div>
+                        <div id="market-insights-grid" class="insight-grid"></div>
+                    </div>
+
+                    <!-- Seasonal Tip -->
+                    <div id="seasonal-tip"></div>
+
+                    <!-- Property Gaps / Opportunity -->
+                    <div class="owner-panel">
+                        <div class="card-header">
+                            <div><h3 class="card-title"><i class="fas fa-map-location-dot" style="color:var(--hub-amber)"></i> Property Opportunities</h3><p class="card-subtitle">Destinations with high demand but few listings — your next business move</p></div>
+                        </div>
+                        <div id="discovery-grid"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TRENDING DESTINATIONS SECTION -->
+            <div style="padding:0 2rem 2rem">
+                <div class="owner-panel">
+                    <div class="card-header">
+                        <div><h3 class="card-title"><i class="fas fa-fire" style="color:#FF6B35"></i> Trending Destinations</h3><p class="card-subtitle">AI-curated destinations with the highest booking momentum right now</p></div>
+                        <button class="btn-ghost" onclick="loadTrendingInsights()" title="Refresh"><i class="fas fa-rotate-right"></i> Refresh</button>
+                    </div>
+                    <div id="trending-grid" class="trending-grid"></div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ════════════════════════════════════
+             BOOKINGS VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-bookings">>
+            <div class="view-header">
+                <div><h1 class="view-title">Booking Management</h1><p class="view-subtitle">Review, approve, and track all guest reservations.</p></div>
+                <div class="filter-strip">
+                    <select class="filter-select" id="booking-hotel-filter" onchange="filterBookings()"><option value="">All Properties</option></select>
+                    <select class="filter-select" id="booking-status-filter" onchange="filterBookings()">
+                        <option value="">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="completed">Completed</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="booking-strip">
+                <div class="booking-strip-item"><span class="booking-strip-count" id="bs-pending">0</span><span class="booking-strip-label">Pending</span></div>
+                <div class="booking-strip-divider"></div>
+                <div class="booking-strip-item"><span class="booking-strip-count confirmed" id="bs-confirmed">0</span><span class="booking-strip-label">Confirmed</span></div>
+                <div class="booking-strip-divider"></div>
+                <div class="booking-strip-item"><span class="booking-strip-count completed" id="bs-completed">0</span><span class="booking-strip-label">Completed</span></div>
+                <div class="booking-strip-divider"></div>
+                <div class="booking-strip-item"><span class="booking-strip-count rejected" id="bs-rejected">0</span><span class="booking-strip-label">Rejected</span></div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-wrapper">
+                    <table class="pro-table">
+                        <thead><tr><th>Ref</th><th>Guest</th><th>Property</th><th>Travel Date</th><th>Guests</th><th>Amount</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
+                        <tbody id="bookings-tbody">
+                            <tr><td colspan="9" class="empty-state-cell"><div class="skeleton-loader"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             GUESTS VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-guests">
+            <div class="view-header">
+                <div><h1 class="view-title">Guest Management</h1><p class="view-subtitle">View all guests who have booked your properties.</p></div>
+            </div>
+            <div class="table-card">
+                <div class="table-wrapper">
+                    <table class="pro-table">
+                        <thead><tr><th>Guest</th><th>Email</th><th>Bookings</th><th>Total Spent</th><th>Last Property</th><th>Last Booking</th></tr></thead>
+                        <tbody id="guests-tbody">
+                            <tr><td colspan="6" class="empty-state-cell"><div class="skeleton-loader"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             REVIEWS VIEW
+        ════════════════════════════════════ -->
+        <section class="view" id="view-reviews">
+            <div class="view-header">
+                <div><h1 class="view-title">Guest Reviews</h1><p class="view-subtitle">Monitor your reputation and respond to guest feedback.</p></div>
+                <select class="filter-select" id="reviews-hotel-filter" onchange="filterReviews()">
+                    <option value="">All Properties</option>
+                </select>
+            </div>
+
+            <div class="rating-overview">
+                <div class="rating-score-block">
+                    <div class="rating-big-score" id="avg-rating-score">—</div>
+                    <div class="rating-stars" id="avg-rating-stars"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
+                    <div class="rating-total" id="avg-rating-total">No reviews yet</div>
+                </div>
+                <div class="rating-bars">
+                    <div class="rating-bar-row"><span>5 ★</span><div class="rbar"><div class="rbar-fill" id="rbar-5" style="width:0%"></div></div><span id="rbar-5-count">0</span></div>
+                    <div class="rating-bar-row"><span>4 ★</span><div class="rbar"><div class="rbar-fill" id="rbar-4" style="width:0%"></div></div><span id="rbar-4-count">0</span></div>
+                    <div class="rating-bar-row"><span>3 ★</span><div class="rbar"><div class="rbar-fill" id="rbar-3" style="width:0%"></div></div><span id="rbar-3-count">0</span></div>
+                    <div class="rating-bar-row"><span>2 ★</span><div class="rbar"><div class="rbar-fill" id="rbar-2" style="width:0%"></div></div><span id="rbar-2-count">0</span></div>
+                    <div class="rating-bar-row"><span>1 ★</span><div class="rbar"><div class="rbar-fill" id="rbar-1" style="width:0%"></div></div><span id="rbar-1-count">0</span></div>
+                </div>
+            </div>
+
+            <div class="reviews-list" id="reviews-list">
+                <div class="empty-state"><div class="empty-state-icon"><i class="fas fa-star"></i></div><h3>No Reviews Yet</h3><p>Guest reviews appear here once submitted.</p></div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════
+             SETTINGS VIEW (Profile Management)
+        ════════════════════════════════════ -->
+        <section class="view" id="view-settings">
+            <div class="view-header">
+                <div><h1 class="view-title">Profile Settings</h1><p class="view-subtitle">Manage your personal information, password, and preferences.</p></div>
+            </div>
+            
+            <div class="settings-layout">
+                <!-- Left Sidebar (Status & Quick Info) -->
+                <div class="settings-sidebar">
+                    <div class="owner-panel" style="text-align:center">
+                        <div class="settings-avatar-lg" id="settings-avatar-main" style="margin:0 auto 16px">H</div>
+                        <h3 id="settings-name-main" style="margin-bottom:4px">Partner Name</h3>
+                        <p id="settings-email-main" style="color:var(--text-muted);font-size:0.85rem;margin-bottom:16px">email@example.com</p>
+                        <span class="role-pill" style="display:inline-flex;margin-bottom:16px"><i class="fas fa-building-columns"></i> Hotel Partner</span>
+                        
+                        <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:16px;text-align:left">
+                            <div class="status-display" style="margin-bottom:12px"><div class="status-dot status-dot--active"></div><div style="font-size:0.85rem;font-weight:600">Active Account</div></div>
+                            <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.5">
+                                <i class="fas fa-check-circle" style="color:var(--hub-emerald)"></i> Verified Partner<br>
+                                <i class="fas fa-clock" style="color:var(--text-muted);margin-top:6px"></i> Joined <span id="settings-joined">...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Content (Forms) -->
+                <div class="settings-content">
+                    
+                    <!-- Profile Info Form -->
+                    <div class="owner-panel">
+                        <div class="card-header" style="margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:16px">
+                            <div><h3 class="card-title">Personal Information</h3></div>
+                        </div>
+                        <form id="owner-profile-form">
+                            <div class="field-row">
+                                <div class="field-group">
+                                    <label class="field-label">Full Name</label>
+                                    <input type="text" id="prof-name" class="field-input" required>
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Phone Number</label>
+                                    <input type="tel" id="prof-phone" class="field-input">
+                                </div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field-group">
+                                    <label class="field-label">Email Address (Cannot change here)</label>
+                                    <input type="email" id="prof-email" class="field-input" disabled style="background:var(--bg-base);cursor:not-allowed">
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Nationality</label>
+                                    <input type="text" id="prof-nationality" class="field-input">
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Bio</label>
+                                <textarea id="prof-bio" class="field-input field-textarea" rows="3" placeholder="Tell us about yourself..."></textarea>
+                            </div>
+                            
+                            <div class="form-section-title" style="margin-top:24px">Preferences</div>
+                            <div class="field-row">
+                                <div class="field-group">
+                                    <label class="field-label">Default Currency</label>
+                                    <select id="prof-currency" class="field-input">
+                                        <option value="INR">INR (₹)</option>
+                                        <option value="USD">USD ($)</option>
+                                        <option value="EUR">EUR (€)</option>
+                                        <option value="GBP">GBP (£)</option>
+                                    </select>
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Language</label>
+                                    <select id="prof-language" class="field-input">
+                                        <option value="en">English</option>
+                                        <option value="hi">Hindi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align:right;margin-top:16px">
+                                <button type="submit" class="btn-primary" id="prof-save-btn"><i class="fas fa-floppy-disk"></i> Save Profile</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Password Form -->
+                    <div class="owner-panel">
+                        <div class="card-header" style="margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:16px">
+                            <div><h3 class="card-title">Change Password</h3></div>
+                        </div>
+                        <form id="owner-password-form">
+                            <div class="field-group">
+                                <label class="field-label">Current Password</label>
+                                <input type="password" id="pw-current" class="field-input" required>
+                            </div>
+                            <div class="field-row">
+                                <div class="field-group">
+                                    <label class="field-label">New Password</label>
+                                    <input type="password" id="pw-new" class="field-input" minlength="8" required>
+                                </div>
+                                <div class="field-group">
+                                    <label class="field-label">Confirm New Password</label>
+                                    <input type="password" id="pw-confirm" class="field-input" minlength="8" required>
+                                </div>
+                            </div>
+                            <div style="text-align:right;margin-top:16px">
+                                <button type="submit" class="btn-primary" id="pw-save-btn"><i class="fas fa-key"></i> Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+</div>
+
+<!-- ════════════════════════════════════════
+     PROPERTY FORM DRAWER
+════════════════════════════════════════ -->
+<div class="drawer-overlay" id="prop-drawer-overlay"></div>
+<aside class="drawer" id="prop-drawer" role="dialog" aria-modal="true">
+    <div class="drawer-header">
+        <div><h2 class="drawer-title" id="prop-drawer-title">Add New Property</h2><p class="drawer-subtitle">Fill in the property details below</p></div>
+        <button class="drawer-close" onclick="closePropertyForm()"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body">
+        <form id="property-form" autocomplete="off">
+            <input type="hidden" id="prop-id">
+
+            <div class="form-section">
+                <div class="form-section-title">Basic Information</div>
+                <div class="field-group"><label class="field-label" for="prop-name">Property Name <span class="required">*</span></label><input type="text" id="prop-name" class="field-input" placeholder="e.g. The Grand Palace Hotel" required></div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label" for="prop-type">Type <span class="required">*</span></label>
+                        <select id="prop-type" class="field-input" required>
+                            <option value="hotel">Hotel</option><option value="resort">Resort</option><option value="dharamshala">Dharamshala</option>
+                            <option value="homestay">Homestay</option><option value="guesthouse">Guest House</option><option value="lodge">Lodge</option>
+                            <option value="temple_stay">Temple Stay</option><option value="hostel">Hostel</option><option value="villa">Villa</option><option value="farmstay">Farm Stay</option>
+                        </select>
+                    </div>
+                    <div class="field-group"><label class="field-label" for="prop-stars">Star Rating</label>
+                        <select id="prop-stars" class="field-input">
+                            <option value="1">1 Star</option><option value="2">2 Stars</option><option value="3" selected>3 Stars</option><option value="4">4 Stars</option><option value="5">5 Stars</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-group"><label class="field-label" for="prop-short-desc">Short Description</label><input type="text" id="prop-short-desc" class="field-input" placeholder="One line description (max 300 chars)" maxlength="300"></div>
+                <div class="field-group"><label class="field-label" for="prop-desc">Full Description</label><textarea id="prop-desc" class="field-input field-textarea" rows="3" placeholder="Describe your property..."></textarea></div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">Location</div>
+                <div class="field-group"><label class="field-label" for="prop-address">Full Address <span class="required">*</span></label><input type="text" id="prop-address" class="field-input" placeholder="Street, Area" required></div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label" for="prop-city">City <span class="required">*</span></label><input type="text" id="prop-city" class="field-input" placeholder="Ahmedabad" required></div>
+                    <div class="field-group"><label class="field-label" for="prop-state">State <span class="required">*</span></label><input type="text" id="prop-state" class="field-input" placeholder="Gujarat" required></div>
+                </div>
+                <div class="field-group"><label class="field-label" for="prop-landmark">Landmark / Nearby</label><input type="text" id="prop-landmark" class="field-input" placeholder="Near XYZ temple, 2km from station..."></div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">Contact & Media</div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label" for="prop-phone">Phone</label><input type="tel" id="prop-phone" class="field-input" placeholder="+91 9876543210"></div>
+                    <div class="field-group"><label class="field-label" for="prop-email">Email</label><input type="email" id="prop-email" class="field-input" placeholder="hotel@example.com"></div>
+                </div>
+                <div class="field-group"><label class="field-label" for="prop-website">Website</label><input type="url" id="prop-website" class="field-input" placeholder="https://yourhotel.com"></div>
+                <div class="field-group"><label class="field-label" for="prop-cover">Cover Image URL</label><input type="text" id="prop-cover" class="field-input" placeholder="https://..."><div class="field-hint">Direct image URL (JPG or PNG)</div></div>
+                <div class="field-group"><label class="field-label" for="prop-amenities">Amenities</label><input type="text" id="prop-amenities" class="field-input" placeholder="WiFi, AC, Pool, Parking, Gym"><div class="field-hint">Comma-separated</div></div>
+                <div class="field-row">
+                    <div class="field-group"><label class="field-label" for="prop-price">Starting Price (₹)</label><input type="number" id="prop-price" class="field-input" placeholder="2000" min="0"></div>
+                    <div class="field-group"><label class="field-label" for="prop-tags">Tags</label><input type="text" id="prop-tags" class="field-input" placeholder="budget, luxury, pilgrim"><div class="field-hint">Comma-separated</div></div>
+                </div>
+            </div>
+
+            <div class="drawer-footer">
+                <button type="button" class="btn-ghost" onclick="closePropertyForm()">Cancel</button>
+                <button type="submit" class="btn-primary" id="prop-submit-btn"><i class="fas fa-floppy-disk"></i> Save Property</button>
+            </div>
+        </form>
+    </div>
+</aside>
+
+<!-- ════════════════════════════════════════
+     ROOMS DRAWER (inline rooms management within Rooms view)
+     - Also used from property cards
+════════════════════════════════════════ -->
+<div class="drawer-overlay" id="rooms-drawer-overlay"></div>
+<aside class="drawer" id="rooms-drawer" role="dialog" aria-modal="true">
+    <div class="drawer-header">
+        <div><h2 class="drawer-title">Room Configuration</h2><p class="drawer-subtitle" id="rooms-drawer-prop-name">—</p></div>
+        <button class="drawer-close" onclick="closeRoomsDrawer()"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body">
+        <input type="hidden" id="rooms-hotel-id">
+        <p class="field-hint" style="margin-bottom:1.5rem">Configure room types, nightly pricing, occupancy limits, and inventory.</p>
+        <div id="rooms-list" class="rooms-list"></div>
+        <button type="button" class="btn-dashed-add" onclick="addRoomBlock()"><i class="fas fa-plus"></i> Add Room Type</button>
+        <div class="drawer-footer">
+            <button type="button" class="btn-ghost" onclick="closeRoomsDrawer()">Cancel</button>
+            <button type="button" class="btn-primary" onclick="submitRooms()"><i class="fas fa-floppy-disk"></i> Save Rooms</button>
+        </div>
+    </div>
+</aside>
+
+<!-- ════════════════════════════════════════
+     BOOKING DETAIL DRAWER
+════════════════════════════════════════ -->
+<div class="drawer-overlay" id="booking-drawer-overlay"></div>
+<aside class="drawer drawer--sm" id="booking-drawer" role="dialog" aria-modal="true">
+    <div class="drawer-header">
+        <div><h2 class="drawer-title">Booking Details</h2><p class="drawer-subtitle" id="booking-drawer-ref">—</p></div>
+        <button class="drawer-close" onclick="closeBookingDrawer()"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body">
+        <input type="hidden" id="active-booking-id">
+        <div class="booking-detail-grid" id="booking-detail-grid"></div>
+        <div class="form-section" style="margin-top:1.5rem">
+            <div class="form-section-title">Update Status</div>
+            <div class="field-group">
+                <label class="field-label">Booking Status</label>
+                <select id="booking-new-status" class="field-input">
+                    <option value="pending">⏳ Pending Review</option>
+                    <option value="confirmed">✅ Confirmed</option>
+                    <option value="completed">🏁 Completed</option>
+                    <option value="rejected">❌ Rejected</option>
+                </select>
+            </div>
+            <div class="field-group">
+                <label class="field-label">Internal Notes</label>
+                <textarea class="field-input field-textarea" id="booking-notes" rows="2" placeholder="Add internal notes..."></textarea>
+            </div>
+        </div>
+        <div class="drawer-footer">
+            <button type="button" class="btn-ghost" onclick="closeBookingDrawer()">Close</button>
+            <button type="button" class="btn-primary" onclick="submitBookingUpdate()"><i class="fas fa-check"></i> Update</button>
+        </div>
+    </div>
+</aside>
+
+<!-- ════════════════════════════════════════
+     REVIEW RESPOND DRAWER
+════════════════════════════════════════ -->
+<div class="drawer-overlay" id="review-drawer-overlay"></div>
+<aside class="drawer drawer--sm" id="review-drawer" role="dialog" aria-modal="true">
+    <div class="drawer-header">
+        <div><h2 class="drawer-title">Respond to Review</h2><p class="drawer-subtitle" id="review-drawer-sub">—</p></div>
+        <button class="drawer-close" onclick="closeReviewDrawer()"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body">
+        <input type="hidden" id="active-review-id">
+        <div id="review-detail-content" style="margin-bottom:1.5rem"></div>
+        <div class="form-section">
+            <div class="form-section-title">Your Response</div>
+            <div class="field-group">
+                <label class="field-label">Response</label>
+                <textarea class="field-input field-textarea" id="review-response-text" rows="4" placeholder="Thank you for your feedback..."></textarea>
+            </div>
+        </div>
+        <div class="drawer-footer">
+            <button type="button" class="btn-ghost" onclick="closeReviewDrawer()">Cancel</button>
+            <button type="button" class="btn-primary" onclick="submitReviewResponse()"><i class="fas fa-paper-plane"></i> Send Response</button>
+        </div>
+    </div>
+</aside>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="../js/session.js"></script>
+<script src="js/owner.js"></script>
+<script src="js/ai-advisor.js"></script>
+</body>
+</html>

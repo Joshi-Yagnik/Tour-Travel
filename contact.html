@@ -286,6 +286,8 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="destinations.html">Destinations</a></li>
         <li><a href="packages.html">Packages</a></li>
+        <li><a href="hotels.html">Hotels</a></li>
+        <li><a href="map.html">Map</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html" class="active">Contact</a></li>
       </ul>
@@ -300,6 +302,8 @@
     <a href="index.html">Home</a>
     <a href="destinations.html">Destinations</a>
     <a href="packages.html">Packages</a>
+    <a href="hotels.html">Hotels</a>
+    <a href="map.html">Map</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
     <div class="navbar__mobile-actions">
@@ -411,7 +415,7 @@
               <div class="two-col">
                 <div class="form-group">
                   <label class="form-label">Destination of Interest</label>
-                  <select class="form-control">
+                  <select class="form-control" id="c-dest">
                     <option value="">Select a destination</option>
                     <option>Paris, France</option>
                     <option>Tokyo, Japan</option>
@@ -424,12 +428,12 @@
                 </div>
                 <div class="form-group">
                   <label class="form-label">Preferred Travel Date</label>
-                  <input class="form-control" type="date">
+                  <input class="form-control" type="date" id="c-date">
                 </div>
               </div>
               <div class="form-group">
                 <label class="form-label">Number of Travelers</label>
-                <select class="form-control">
+                <select class="form-control" id="c-travelers">
                   <option>1</option>
                   <option>2</option>
                   <option>3-5</option>
@@ -447,7 +451,7 @@
               <div class="form-group">
                 <label class="form-group"
                   style="display:flex;align-items:flex-start;gap:var(--space-2);font-size:var(--text-sm);font-weight:400;cursor:pointer">
-                  <input type="checkbox" style="margin-top:3px;accent-color:var(--primary)">
+                  <input type="checkbox" id="c-newsletter" style="margin-top:3px;accent-color:var(--primary)">
                   <span>I agree to receive travel deals and newsletters from Wanderlust. You can unsubscribe
                     anytime.</span>
                 </label>
@@ -601,38 +605,78 @@
 
   <script src="js/session.js"></script>
   <script src="js/nav.js"></script>
-  <script>
-    function selectType(btn) {
-      document.querySelectorAll('.contact-type-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-
-    function submitContact(e) {
-      e.preventDefault();
-      let valid = true;
-      const fname = document.getElementById('c-fname');
-      const lname = document.getElementById('c-lname');
-      const email = document.getElementById('c-email');
-      const msg = document.getElementById('c-msg');
-
-      if (!fname.value.trim()) { document.getElementById('c-fname-err').textContent = 'First name is required'; valid = false; } else { document.getElementById('c-fname-err').textContent = ''; }
-      if (!lname.value.trim()) { document.getElementById('c-lname-err').textContent = 'Last name is required'; valid = false; } else { document.getElementById('c-lname-err').textContent = ''; }
-      if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { document.getElementById('c-email-err').textContent = 'Valid email is required'; valid = false; } else { document.getElementById('c-email-err').textContent = ''; }
-      if (!msg.value.trim() || msg.value.length < 10) { document.getElementById('c-msg-err').textContent = 'Please write a message (min. 10 characters)'; valid = false; } else { document.getElementById('c-msg-err').textContent = ''; }
-
-      if (valid) {
-        const btn = e.target.querySelector('button[type="submit"]');
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        btn.disabled = true;
-        setTimeout(() => {
-          openModal('contact-success');
-          e.target.reset();
-          btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-          btn.disabled = false;
-        }, 1200);
+  <script src="js/ai-assistant.js"></script>
+    <script>
+      let currentType = 'Book a Trip';
+      function selectType(btn) {
+        document.querySelectorAll('.contact-type-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentType = btn.querySelector('span').textContent.trim();
       }
-    }
-  </script>
+
+      async function submitContact(e) {
+        e.preventDefault();
+        let valid = true;
+        const fname = document.getElementById('c-fname');
+        const lname = document.getElementById('c-lname');
+        const email = document.getElementById('c-email');
+        const msg = document.getElementById('c-msg');
+        const phone = document.getElementById('c-phone');
+        const dest = document.getElementById('c-dest');
+        const tDate = document.getElementById('c-date');
+        const travelers = document.getElementById('c-travelers');
+        const newsletter = document.getElementById('c-newsletter');
+
+        if (!fname.value.trim()) { document.getElementById('c-fname-err').textContent = 'First name is required'; valid = false; } else { document.getElementById('c-fname-err').textContent = ''; }
+        if (!lname.value.trim()) { document.getElementById('c-lname-err').textContent = 'Last name is required'; valid = false; } else { document.getElementById('c-lname-err').textContent = ''; }
+        if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { document.getElementById('c-email-err').textContent = 'Valid email is required'; valid = false; } else { document.getElementById('c-email-err').textContent = ''; }
+        if (!msg.value.trim() || msg.value.length < 10) { document.getElementById('c-msg-err').textContent = 'Please write a message (min. 10 characters)'; valid = false; } else { document.getElementById('c-msg-err').textContent = ''; }
+
+        if (valid) {
+          const btn = e.target.querySelector('button[type="submit"]');
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+          btn.disabled = true;
+          
+          try {
+            const res = await fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                firstName: fname.value.trim(),
+                lastName: lname.value.trim(),
+                email: email.value.trim(),
+                phone: phone.value.trim(),
+                subject: currentType,
+                destination: dest.value,
+                travelDate: tDate.value,
+                travelers: travelers.value,
+                message: msg.value.trim(),
+                newsletter: newsletter.checked
+              })
+            });
+            const data = await res.json();
+            
+            if (data.success) {
+              const modal = document.getElementById('contact-success');
+              if (modal) modal.classList.add('open');
+              e.target.reset();
+            } else {
+              alert(data.message || 'Failed to send message.');
+            }
+          } catch(err) {
+            alert('Connection error. Please try again.');
+          } finally {
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+            btn.disabled = false;
+          }
+        }
+      }
+      
+      function closeModal(id) {
+          const modal = document.getElementById(id);
+          if (modal) modal.classList.remove('open');
+      }
+    </script>
 </body>
 
 </html>

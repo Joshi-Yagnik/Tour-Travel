@@ -27,6 +27,8 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="destinations.html" class="active">Destinations</a></li>
                 <li><a href="packages.html">Packages</a></li>
+                <li><a href="hotels.html">Hotels</a></li>
+                <li><a href="map.html">Map</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
@@ -41,6 +43,8 @@
         <a href="index.html">Home</a>
         <a href="destinations.html">Destinations</a>
         <a href="packages.html">Packages</a>
+        <a href="hotels.html">Hotels</a>
+        <a href="map.html">Map</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
         <div class="navbar__mobile-actions">
@@ -413,6 +417,9 @@
 
             </div>
 
+            <!-- AI Destination Intelligence Container -->
+            <div id="ai-intel-container" style="display:none;margin-top:24px"></div>
+
             <!-- No results -->
             <div class="no-results" id="no-results" style="display:none">
                 <i class="fas fa-search"></i>
@@ -486,7 +493,30 @@
 
     <script src="js/session.js"></script>
     <script src="js/nav.js"></script>
+    <script src="js/ai-assistant.js"></script>
+    <script src="js/ai-destination-intel.js"></script>
     <script src="js/destinations.js"></script>
+    <script>
+    // AI Zero-Results Integration
+    (function() {
+        const observer = new MutationObserver(function() {
+            const noResults = document.getElementById('no-results');
+            const aiContainer = document.getElementById('ai-intel-container');
+            const searchInput = document.getElementById('dest-search');
+            if (!noResults || !aiContainer) return;
+
+            if (noResults.style.display !== 'none' && searchInput?.value?.trim()) {
+                // Zero results + user has a search query: trigger AI
+                aiContainer.style.display = 'block';
+                window.WL_AI?.showZeroResultsBanner(searchInput.value.trim(), aiContainer);
+            } else {
+                aiContainer.style.display = 'none';
+            }
+        });
+        const noResults = document.getElementById('no-results');
+        if (noResults) observer.observe(noResults, { attributes: true, attributeFilter: ['style'] });
+    })();
+    </script>
 </body>
 
 </html>

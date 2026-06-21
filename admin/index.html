@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — Wanderlust</title>
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <!-- ── Sidebar ─────────────────────────────────────────── -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="admin-sidebar__header">
+            <a href="../index.html" class="admin-logo">
+                <div class="admin-logo__icon"><i class="fas fa-compass"></i></div>
+                <span class="admin-logo__text">Wander<span>lust</span></span>
+            </a>
+            <button class="admin-sidebar__close" id="sidebar-close"><i class="fas fa-times"></i></button>
+        </div>
+
+        <nav class="admin-nav">
+            <div class="admin-nav__section">Overview</div>
+            <a href="#" class="admin-nav__link active" data-tab="dashboard" id="nav-dashboard">
+                <i class="fas fa-chart-pie"></i><span>Dashboard</span>
+            </a>
+
+            <div class="admin-nav__section">Content</div>
+            <a href="#" class="admin-nav__link" data-tab="packages" id="nav-packages">
+                <i class="fas fa-suitcase-rolling"></i><span>Packages</span>
+            </a>
+            <a href="#" class="admin-nav__link" data-tab="destinations" id="nav-destinations">
+                <i class="fas fa-map-marker-alt"></i><span>Destinations</span>
+            </a>
+
+            <div class="admin-nav__section">Listings</div>
+            <a href="#" class="admin-nav__link" data-tab="hotels" id="nav-hotels">
+                <i class="fas fa-hotel"></i><span>Hotels &amp; Dharamshalas</span>
+                <span class="nav-badge" id="hotel-pending-badge"></span>
+            </a>
+            <a href="#" class="admin-nav__link" data-tab="restaurants" id="nav-restaurants">
+                <i class="fas fa-utensils"></i><span>Restaurants</span>
+            </a>
+
+            <div class="admin-nav__section">Operations</div>
+            <a href="#" class="admin-nav__link" data-tab="bookings" id="nav-bookings">
+                <i class="fas fa-calendar-check"></i><span>Bookings</span>
+                <span class="nav-badge" id="booking-pending-badge"></span>
+            </a>
+            <a href="#" class="admin-nav__link" data-tab="reviews" id="nav-reviews">
+                <i class="fas fa-star"></i><span>Reviews</span>
+                <span class="nav-badge" id="review-pending-badge"></span>
+            </a>
+
+            <div class="admin-nav__section">Users &amp; CRM</div>
+            <a href="#" class="admin-nav__link" data-tab="users" id="nav-users">
+                <i class="fas fa-users"></i><span>Users</span>
+            </a>
+            <a href="#" class="admin-nav__link" data-tab="messages" id="nav-messages">
+                <i class="fas fa-envelope"></i><span>Messages</span>
+            </a>
+
+            <div class="admin-nav__section">AI Intelligence</div>
+            <a href="#" class="admin-nav__link admin-nav__link--ai" data-tab="ai-insights" id="nav-ai-insights">
+                <i class="fas fa-robot"></i><span>AI Insights</span>
+                <span class="nav-ai-pill">GROQ</span>
+            </a>
+        </nav>
+
+        <div class="admin-sidebar__footer">
+            <div class="admin-admin-info" id="admin-sidebar-info">
+                <div class="admin-admin-avatar" id="admin-sidebar-avatar">A</div>
+                <div>
+                    <div class="admin-admin-name" id="admin-sidebar-name">Admin</div>
+                    <div class="admin-admin-role">Super Admin</div>
+                </div>
+            </div>
+            <button class="admin-logout-btn" id="admin-logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- ── Main Content ──────────────────────────────────────── -->
+    <main class="admin-main">
+
+        <!-- Topbar -->
+        <header class="admin-topbar">
+            <div class="admin-topbar__left">
+                <button class="admin-menu-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div class="admin-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="global-search" placeholder="Search..." autocomplete="off">
+                </div>
+            </div>
+            <div class="admin-topbar__right">
+                <button class="admin-icon-btn" id="theme-toggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
+                <div class="admin-topbar-profile">
+                    <div class="admin-profile-avatar" id="topbar-avatar">A</div>
+                    <span id="topbar-name">Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ── DASHBOARD TAB ─────────────────────────────────── -->
+        <div class="admin-tab active" id="tab-dashboard">
+            <div class="tab-header">
+                <div>
+                    <h1>Dashboard Overview</h1>
+                    <p id="dash-greeting">Welcome back! Here's what's happening.</p>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card stat-card--orange">
+                    <div class="stat-card__icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Total Users</span>
+                        <span class="stat-card__value" id="s-users">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--blue">
+                    <div class="stat-card__icon"><i class="fas fa-indian-rupee-sign"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Total Revenue</span>
+                        <span class="stat-card__value" id="s-revenue">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--green">
+                    <div class="stat-card__icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Total Bookings</span>
+                        <span class="stat-card__value" id="s-bookings">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--purple">
+                    <div class="stat-card__icon"><i class="fas fa-hotel"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Hotels Listed</span>
+                        <span class="stat-card__value" id="s-hotels">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--teal">
+                    <div class="stat-card__icon"><i class="fas fa-suitcase-rolling"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Active Packages</span>
+                        <span class="stat-card__value" id="s-packages">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--red">
+                    <div class="stat-card__icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Pending Actions</span>
+                        <span class="stat-card__value" id="s-pending">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--yellow">
+                    <div class="stat-card__icon"><i class="fas fa-star-half-alt"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Pending Reviews</span>
+                        <span class="stat-card__value" id="s-pending-reviews">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--indigo">
+                    <div class="stat-card__icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Destinations</span>
+                        <span class="stat-card__value" id="s-destinations">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="chart-card chart-card--wide">
+                    <div class="chart-card__header">
+                        <h3>Revenue (Last 6 Months)</h3>
+                    </div>
+                    <div class="chart-card__body">
+                        <canvas id="revenueChart" height="100"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-card__header">
+                        <h3>Bookings by Status</h3>
+                    </div>
+                    <div class="chart-card__body">
+                        <canvas id="statusChart" height="180"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="admin-panel">
+                <div class="admin-panel__header">
+                    <h3>Recent Bookings</h3>
+                    <a href="#" class="panel-link" onclick="switchTab('bookings');return false;">View All →</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead><tr>
+                            <th>Ref</th><th>User</th><th>Package</th><th>Date</th><th>Status</th><th>Amount</th>
+                        </tr></thead>
+                        <tbody id="dash-recent-bookings">
+                            <tr><td colspan="6" class="t-center t-muted">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── PACKAGES TAB ──────────────────────────────────── -->
+        <div class="admin-tab" id="tab-packages">
+            <div class="tab-header">
+                <div><h1>Manage Packages</h1><p>Create, edit and manage tour packages.</p></div>
+                <button class="btn-primary" onclick="openModal('pkg-modal')"><i class="fas fa-plus"></i> Add Package</button>
+            </div>
+            <div class="admin-panel">
+                <div class="admin-panel__filter">
+                    <input type="text" placeholder="Search packages..." id="pkg-search" class="filter-input">
+                    <select id="pkg-status-filter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="draft">Draft</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                    <button class="btn-secondary" onclick="loadPackages()"><i class="fas fa-search"></i> Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead><tr>
+                            <th>Title</th><th>Destination</th><th>Price</th><th>Duration</th><th>Status</th><th>Rating</th><th>Actions</th>
+                        </tr></thead>
+                        <tbody id="packages-body">
+                            <tr><td colspan="7" class="t-center t-muted">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="pkg-pagination"></div>
+            </div>
+        </div>
+
+        <!-- ── DESTINATIONS TAB ──────────────────────────────── -->
+        <div class="admin-tab" id="tab-destinations">
+            <div class="tab-header">
+                <div><h1>Manage Destinations</h1><p>Add and manage travel destinations.</p></div>
+                <button class="btn-primary" onclick="openModal('dest-modal')"><i class="fas fa-plus"></i> Add Destination</button>
+            </div>
+            <div class="admin-panel">
+                <div class="admin-panel__filter">
+                    <input type="text" placeholder="Search destinations..." id="dest-search" class="filter-input">
+                    <select id="dest-region-filter" class="filter-select">
+                        <option value="">All Regions</option>
+                        <option value="Asia">Asia</option>
+                        <option value="South Asia">South Asia</option>
+                        <option value="Europe">Europe</option>
+                        <option value="Americas">Americas</option>
+                        <option value="Africa">Africa</option>
+                        <option value="Oceania">Oceania</option>
+                        <option value="Middle East">Middle East</option>
+                    </select>
+                    <button class="btn-secondary" onclick="loadDestinations()"><i class="fas fa-search"></i> Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead><tr>
+                            <th>Name</th><th>Country</th><th>Region</th><th>Price From</th><th>Rating</th><th>Featured</th><th>Actions</th>
+                        </tr></thead>
+                        <tbody id="destinations-body">
+                            <tr><td colspan="7" class="t-center t-muted">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="dest-pagination"></div>
+            </div>
+        </div>
+
+        <!-- ── HOTELS TAB ──────────────────────────────────── -->
+        <div class="admin-tab" id="tab-hotels">
+            <div class="tab-header">
+                <div><h1>Hotels &amp; Dharamshalas</h1><p>Approve, reject and manage accommodation listings.</p></div>
+                <button class="btn-primary" onclick="openModal('hotel-modal')"><i class="fas fa-plus"></i> Add Hotel</button>
+            </div>
+            <div class="admin-panel">
+                <div class="admin-panel__filter">
+                    <input type="text" placeholder="Search hotels..." id="hotel-search" class="filter-input">
+                    <select id="hotel-approval-filter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                    <select id="hotel-type-filter" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="hotel">Hotel</option>
+                        <option value="resort">Resort</option>
+                        <option value="dharamshala">Dharamshala</option>
+                        <option value="homestay">Homestay</option>
+                        <option value="guesthouse">Guest House</option>
+                        <option value="lodge">Lodge</option>
+                        <option value="hostel">Hostel</option>
+                        <option value="villa">Villa</option>
+                    </select>
+                    <button class="btn-secondary" onclick="loadHotels()"><i class="fas fa-search"></i> Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead><tr>
+                            <th>Name</th><th>Type</th><th>City</th><th>Owner</th><th>Rating</th><th>Status</th><th>Actions</th>
+                        </tr></thead>
+                        <tbody id="hotels-body">
+                            <tr><td colspan="7" class="t-center t-muted">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="hotel-pagination"></div>
+            </div>
+        </div>
+
+        <!-- ── RESTAURANTS TAB ──────────────────────────────── -->
+        <div class="admin-tab" id="tab-restaurants">
+            <div class="tab-header">
+                <div><h1>Restaurants</h1><p>Manage restaurants, dhabas, cafes and more.</p></div>
+                <button class="btn-primary" onclick="openModal('rest-modal')"><i class="fas fa-plus"></i> Add Restaurant</button>
+            </div>
+            <div class="admin-panel">
+                <div class="admin-panel__filter">
+                    <input type="text" placeholder="Search restaurants..." id="rest-search" class="filter-input">
+                    <select id="rest-type-filter" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="dhaba">Dhaba</option>
+                        <option value="cafe">Café</option>
+                        <option value="street_food">Street Food</option>
+                        <option value="fine_dining">Fine Dining</option>
+                        <option value="fast_food">Fast Food</option>
+                    </select>
+                    <button class="btn-secondary" onclick="loadRestaurants()"><i class="fas fa-search"></i> Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead><tr>
+                            <th>Name</th><th>Type</th><th>City</th><th>Cuisine</th><th>Rating</th><th>Status</th><th>Actions</th>
+                        </tr></thead>
+                        <tbody id="restaurants-body">
+                            <tr><td colspan="7" class="t-center t-muted">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="rest-pagination"></div>
+            </div>
+        </div>
+
+        <!-- ── BOOKINGS TAB ──────────────────────────────────── -->
+        <div class="admin-tab" id="tab-bookings">
+            <div class="tab-header">
+                <div><h1>Manage Bookings</h1><p>View, update, confirm and cancel all bookings.</p></div>
+            </div>
+            <div class="admin-panel">
+                <div class="admin-panel__filter">
+                    <input type="text" placeholder="Search booking ref..." id="booking-search" class="filter-input">
+                    <select id="booking-status-filter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                    <select id="booking-pay-filter" class="filter-select">
+                        <option value="">All Payment</option>
+                        <option value="unpaid">Unpaid</option>
+                        <option value="partial">Partial</option>
+                        <option value="paid">Paid</option>
+                        <option value="refunded">Refunded</option>
+                    </select>
+                    <button class="btn-secondary" onclick="loadBookings()"><i class="fas fa-search"></i> Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead><tr>
+                            <th>Ref</th><th>User</th><th>Package</th><th>Travel Date</th><th>Travelers</th><th>Amount</th><th>Status</th><th>Payment</th><th>Actions</th>
+                        </tr></thead>
+                        <tbody id="bookings-body">
+                            <tr><td colspan="9" class="t-center t-muted">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="booking-pagination"></div>
+            </div>
+        </div>
+
+        <!-- ── REVIEWS TAB ───────────────────────────────────── -->
+        <div class="admin-tab" id="tab-reviews">
+            <div class="tab-header">
+                <div><h1>Review Moderation</h1><p>Approve or reject reviews before they go public.</p></div>
+                <div class="tab-header-filters">
+                    <button class="btn-filter active" id="rev-filter-pending" onclick="filterReviews('pending', this)">Pending</button>
+                    <button class="btn-filter" id="rev-filter-approved" onclick="filterReviews('approved', this)">Approved</button>
+                    <button class="btn-filter" id="rev-filter-all" onclick="filterReviews('all', this)">All</button>
+                </div>
+            </div>
+            <div id="reviews-grid">
+                <div class="t-center t-muted" style="padding:3rem">Loading reviews...</div>
+            </div>
+        </div>
+
+        <!-- ── USERS TAB ────────────────────────────────────── -->
+        <div class="admin-tab" id="tab-users">
+            <div class="tab-header">
+                <div><h1>Manage Users</h1><p>View, manage roles and control user access.</p></div>
+            </div>
+            <div class="admin-panel">
+                <div class="admin-panel__filter">
+                    <input type="text" placeholder="Search name or email..." id="user-search" class="filter-input">
+                    <select id="user-role-filter" class="filter-select">
+                        <option value="">All Roles</option>
+                        <option value="user">User</option>
+                        <option value="hotel_owner">Hotel Owner</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <button class="btn-secondary" onclick="loadUsers()"><i class="fas fa-search"></i> Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead><tr>
+                            <th>User</th><th>Email</th><th>Role</th><th>Joined</th><th>Loyalty</th><th>Status</th><th>Actions</th>
+                        </tr></thead>
+                        <tbody id="users-body">
+                            <tr><td colspan="7" class="t-center t-muted">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="user-pagination"></div>
+            </div>
+        </div>
+
+        <!-- ── MESSAGES TAB ──────────────────────────────────── -->
+        <div class="admin-tab" id="tab-messages">
+            <div class="tab-header">
+                <div><h1>Contact Messages</h1><p>Messages received from the contact form.</p></div>
+                <div class="tab-header-filters">
+                    <button class="btn-filter active" id="msg-filter-pending" onclick="filterMessages(false, this)">Unreplied</button>
+                    <button class="btn-filter" id="msg-filter-replied" onclick="filterMessages(true, this)">Replied</button>
+                    <button class="btn-filter" id="msg-filter-all" onclick="filterMessages(null, this)">All</button>
+                </div>
+            </div>
+            <div id="messages-list">
+                <div class="t-center t-muted" style="padding:3rem">Loading messages...</div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════════
+             AI INSIGHTS TAB (PREMIUM REDESIGN)
+        ══════════════════════════════════════════════════════════ -->
+        <div class="admin-tab" id="tab-ai-insights" style="display:none; padding: 0;">
+            
+            <!-- Premium Hero Header -->
+            <div class="ai-hero-header">
+                <div class="ai-hero-content">
+                    <h1 class="ai-hero-title"><i class="fas fa-robot ai-glow-icon"></i> AI Intelligence Hub</h1>
+                    <p class="ai-hero-subtitle">Real-time market intelligence & strategic growth insights powered by Groq Llama 3.3 70B.</p>
+                </div>
+                <div class="ai-hero-actions">
+                    <div id="ai-provider-badge" class="ai-glass-badge">
+                        <i class="fas fa-circle pulse-dot"></i> <span id="ai-provider-text">Checking...</span>
+                    </div>
+                    <button class="ai-btn-refresh" onclick="loadAIInsights()">
+                        <i class="fas fa-sync-alt"></i> Refresh Data
+                    </button>
+                </div>
+            </div>
+
+            <div class="ai-dashboard-container">
+                <!-- Summary Banner -->
+                <div class="ai-premium-summary" id="ai-summary-banner">
+                    <div class="ai-summary-icon-wrap"><i class="fas fa-brain"></i></div>
+                    <div class="ai-summary-text-wrap" id="ai-summary-text">AI is actively analyzing platform data streams...</div>
+                </div>
+
+                <div class="ai-main-grid">
+                    <!-- Left Column: Opportunities & Trends -->
+                    <div class="ai-grid-col-left">
+                        <div class="ai-section-header">
+                            <h2><i class="fas fa-bullseye"></i> Top Growth Opportunities</h2>
+                            <span class="ai-section-badge">High Impact</span>
+                        </div>
+                        <div class="ai-opp-grid" id="ai-opp-grid"></div>
+
+                        <div class="ai-section-header" style="margin-top: 2rem;">
+                            <h2><i class="fas fa-chart-line"></i> Macro Market Trends</h2>
+                        </div>
+                        <div class="ai-trends-grid" id="ai-trends-grid"></div>
+                    </div>
+
+                    <!-- Right Column: Quick Wins & Gaps -->
+                    <div class="ai-grid-col-right">
+                        <div class="ai-glass-panel">
+                            <div class="ai-section-header">
+                                <h2><i class="fas fa-bolt"></i> Quick Execution Wins</h2>
+                            </div>
+                            <div class="ai-quickwins" id="ai-quickwins"></div>
+                        </div>
+
+                        <div class="ai-glass-panel" style="margin-top: 1.5rem;">
+                            <div class="ai-section-header">
+                                <h2><i class="fas fa-exclamation-triangle"></i> Critical Content Gaps</h2>
+                            </div>
+                            <div class="ai-gap-list" id="ai-content-gaps"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Missing Destinations / Opportunities -->
+                <div class="ai-section-header" style="margin-top: 2.5rem;">
+                    <h2><i class="fas fa-map-marked-alt"></i> Untapped Destinations</h2>
+                    <p class="ai-section-desc">High search volume locations currently missing from our database.</p>
+                </div>
+                <div class="ai-missing-grid" id="ai-missing-destinations"></div>
+
+                <!-- Trending Destinations -->
+                <div class="ai-section-header" style="margin-top: 2.5rem;">
+                    <h2><i class="fas fa-fire" style="color:#FF6B35"></i> Live Trending Destinations</h2>
+                    <p class="ai-section-desc">Where travelers are looking right now based on real-time market data.</p>
+                </div>
+                <div class="ai-trending-grid" id="ai-trending-grid"></div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════════════════════ -->
+
+<!-- Package Modal -->
+<div class="modal-backdrop" id="pkg-modal">
+    <div class="modal">
+        <div class="modal__header">
+            <h3 id="pkg-modal-title">Add New Package</h3>
+            <button class="modal__close" onclick="closeModal('pkg-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal__body">
+            <form id="pkg-form">
+                <input type="hidden" id="pkg-id">
+                <div class="form-grid">
+                    <div class="form-group form-group--full">
+                        <label>Package Title *</label>
+                        <input type="text" id="pkg-title" class="form-control" placeholder="e.g. Golden Triangle Tour" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Destination ID *</label>
+                        <input type="text" id="pkg-destination" class="form-control" placeholder="MongoDB ObjectId" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (₹) *</label>
+                        <input type="number" id="pkg-price" class="form-control" placeholder="e.g. 15000" required min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration Days *</label>
+                        <input type="number" id="pkg-days" class="form-control" placeholder="e.g. 5" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration Nights *</label>
+                        <input type="number" id="pkg-nights" class="form-control" placeholder="e.g. 4" required min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Max Group Size *</label>
+                        <input type="number" id="pkg-groupsize" class="form-control" placeholder="e.g. 20" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Difficulty</label>
+                        <select id="pkg-difficulty" class="form-control">
+                            <option>Easy</option><option selected>Moderate</option><option>Challenging</option><option>Expert</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="pkg-status" class="form-control">
+                            <option value="active">Active</option>
+                            <option value="draft">Draft</option>
+                            <option value="archived">Archived</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Cover Image URL</label>
+                        <input type="text" id="pkg-cover" class="form-control" placeholder="https://...">
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Description</label>
+                        <textarea id="pkg-desc" class="form-control" rows="3" placeholder="Package description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="pkg-featured"> Featured
+                        </label>
+                    </div>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('pkg-modal')">Cancel</button>
+                    <button type="submit" class="btn-primary" id="pkg-submit-btn">Save Package</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Destination Modal -->
+<div class="modal-backdrop" id="dest-modal">
+    <div class="modal">
+        <div class="modal__header">
+            <h3 id="dest-modal-title">Add New Destination</h3>
+            <button class="modal__close" onclick="closeModal('dest-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal__body">
+            <form id="dest-form">
+                <input type="hidden" id="dest-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" id="dest-name" class="form-control" placeholder="e.g. Goa" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Country *</label>
+                        <input type="text" id="dest-country" class="form-control" placeholder="India" value="India" required>
+                    </div>
+                    <div class="form-group">
+                        <label>State</label>
+                        <input type="text" id="dest-state" class="form-control" placeholder="e.g. Gujarat">
+                    </div>
+                    <div class="form-group">
+                        <label>Region *</label>
+                        <select id="dest-region" class="form-control" required>
+                            <option>Asia</option><option>South Asia</option><option>Europe</option>
+                            <option>Americas</option><option>Africa</option><option>Oceania</option><option>Middle East</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Starting Price (₹) *</label>
+                        <input type="number" id="dest-price" class="form-control" placeholder="e.g. 8000" required min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Best Season</label>
+                        <input type="text" id="dest-season" class="form-control" placeholder="e.g. Oct – Mar">
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Cover Image URL *</label>
+                        <input type="text" id="dest-image" class="form-control" placeholder="https://..." required>
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Description</label>
+                        <textarea id="dest-desc" class="form-control" rows="3" placeholder="Destination description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="dest-featured"> Featured
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="dest-active" checked> Active
+                        </label>
+                    </div>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('dest-modal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Destination</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Hotel Modal -->
+<div class="modal-backdrop" id="hotel-modal">
+    <div class="modal">
+        <div class="modal__header">
+            <h3 id="hotel-modal-title">Add New Hotel</h3>
+            <button class="modal__close" onclick="closeModal('hotel-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal__body">
+            <form id="hotel-form">
+                <input type="hidden" id="hotel-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" id="hotel-name" class="form-control" placeholder="Hotel name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Type *</label>
+                        <select id="hotel-type" class="form-control" required>
+                            <option value="hotel">Hotel</option>
+                            <option value="resort">Resort</option>
+                            <option value="dharamshala">Dharamshala</option>
+                            <option value="homestay">Homestay</option>
+                            <option value="guesthouse">Guest House</option>
+                            <option value="lodge">Lodge</option>
+                            <option value="hostel">Hostel</option>
+                            <option value="villa">Villa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>City *</label>
+                        <input type="text" id="hotel-city" class="form-control" placeholder="e.g. Ahmedabad" required>
+                    </div>
+                    <div class="form-group">
+                        <label>State *</label>
+                        <input type="text" id="hotel-state" class="form-control" placeholder="e.g. Gujarat" required>
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Address *</label>
+                        <input type="text" id="hotel-address" class="form-control" placeholder="Full address" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Starting Price (₹) *</label>
+                        <input type="number" id="hotel-price" class="form-control" placeholder="e.g. 2000" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Phone</label>
+                        <input type="text" id="hotel-phone" class="form-control" placeholder="+91 ...">
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Amenities (comma separated)</label>
+                        <input type="text" id="hotel-amenities" class="form-control" placeholder="WiFi, AC, Pool, Parking">
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Cover Image URL</label>
+                        <input type="text" id="hotel-cover" class="form-control" placeholder="https://...">
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Description</label>
+                        <textarea id="hotel-desc" class="form-control" rows="3" placeholder="Hotel description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="hotel-featured"> Featured
+                        </label>
+                    </div>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('hotel-modal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Hotel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Restaurant Modal -->
+<div class="modal-backdrop" id="rest-modal">
+    <div class="modal">
+        <div class="modal__header">
+            <h3 id="rest-modal-title">Add New Restaurant</h3>
+            <button class="modal__close" onclick="closeModal('rest-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal__body">
+            <form id="rest-form">
+                <input type="hidden" id="rest-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" id="rest-name" class="form-control" placeholder="Restaurant name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Type *</label>
+                        <select id="rest-type" class="form-control" required>
+                            <option value="restaurant">Restaurant</option>
+                            <option value="dhaba">Dhaba</option>
+                            <option value="cafe">Café</option>
+                            <option value="street_food">Street Food</option>
+                            <option value="fine_dining">Fine Dining</option>
+                            <option value="fast_food">Fast Food</option>
+                            <option value="bakery">Bakery</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>City *</label>
+                        <input type="text" id="rest-city" class="form-control" placeholder="e.g. Ahmedabad" required>
+                    </div>
+                    <div class="form-group">
+                        <label>State *</label>
+                        <input type="text" id="rest-state" class="form-control" placeholder="e.g. Gujarat" required>
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Address *</label>
+                        <input type="text" id="rest-address" class="form-control" placeholder="Full address" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Cuisine (comma separated)</label>
+                        <input type="text" id="rest-cuisine" class="form-control" placeholder="e.g. Gujarati, North Indian">
+                    </div>
+                    <div class="form-group">
+                        <label>Price Range</label>
+                        <select id="rest-price-range" class="form-control">
+                            <option value="budget">Budget</option>
+                            <option value="moderate" selected>Moderate</option>
+                            <option value="expensive">Expensive</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Avg Cost for Two (₹)</label>
+                        <input type="number" id="rest-cost" class="form-control" placeholder="e.g. 600" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="rest-phone" class="form-control" placeholder="+91 ...">
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Cover Image URL</label>
+                        <input type="text" id="rest-cover" class="form-control" placeholder="https://...">
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label>Description</label>
+                        <textarea id="rest-desc" class="form-control" rows="3" placeholder="Restaurant description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rest-isveg"> Pure Veg
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rest-featured"> Featured
+                        </label>
+                    </div>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('rest-modal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Restaurant</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Status Modal -->
+<div class="modal-backdrop" id="booking-status-modal">
+    <div class="modal modal--sm">
+        <div class="modal__header">
+            <h3>Update Booking</h3>
+            <button class="modal__close" onclick="closeModal('booking-status-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal__body">
+            <input type="hidden" id="booking-edit-id">
+            <div class="form-group">
+                <label>Booking Status</label>
+                <select id="booking-new-status" class="form-control">
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Payment Status</label>
+                <select id="booking-new-pay" class="form-control">
+                    <option value="unpaid">Unpaid</option>
+                    <option value="partial">Partial</option>
+                    <option value="paid">Paid</option>
+                    <option value="refunded">Refunded</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Admin Notes</label>
+                <textarea id="booking-admin-notes" class="form-control" rows="2" placeholder="Internal notes..."></textarea>
+            </div>
+            <div class="modal__footer">
+                <button class="btn-secondary" onclick="closeModal('booking-status-modal')">Cancel</button>
+                <button class="btn-primary" onclick="submitBookingUpdate()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Review Modal -->
+<div class="modal-backdrop" id="reject-review-modal">
+    <div class="modal modal--sm">
+        <div class="modal__header">
+            <h3>Reject Review</h3>
+            <button class="modal__close" onclick="closeModal('reject-review-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal__body">
+            <input type="hidden" id="reject-review-id">
+            <div class="form-group">
+                <label>Reason for Rejection</label>
+                <textarea id="reject-reason" class="form-control" rows="3" placeholder="e.g. Contains inappropriate content..."></textarea>
+            </div>
+            <div class="modal__footer">
+                <button class="btn-secondary" onclick="closeModal('reject-review-modal')">Cancel</button>
+                <button class="btn-danger" onclick="submitRejectReview()">Reject Review</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal-backdrop" id="confirm-modal">
+    <div class="modal modal--sm">
+        <div class="modal__header">
+            <h3>Confirm Action</h3>
+            <button class="modal__close" onclick="closeModal('confirm-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal__body">
+            <p id="confirm-message">Are you sure?</p>
+            <div class="modal__footer">
+                <button class="btn-secondary" onclick="closeModal('confirm-modal')">Cancel</button>
+                <button class="btn-danger" id="confirm-ok-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
+
+<script src="../js/session.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/admin-ai.js"></script>
+</body>
+</html>

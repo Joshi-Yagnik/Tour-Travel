@@ -1,6 +1,8 @@
 /* ============================================================
-   WANDERLUST — CSS Design System Variables
+   WANDERLUST — CSS Design System Variables v2.0
    ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
+
 :root {
   /* ── Brand Colors ─────────────────────────────────────── */
   --primary:        #FF6B35;
@@ -115,4 +117,49 @@
   --z-modal:    200;
   --z-toast:    300;
   --z-nav:      400;
+
+  /* ── Display Font ─────────────────────────────────────── */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ════════════════════════════════════════════════════════════
+   DARK MODE — [data-theme="dark"]
+════════════════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  /* Brand stays orange — universal */
+  --primary-glow: rgba(255, 107, 53, 0.20);
+
+  /* Backgrounds */
+  --white:         #1A1A2E;
+  --bg-light:      #16213E;
+  --bg-section:    #0F3460;
+  --border:        #2D3748;
+  --border-dark:   #4A5568;
+
+  /* Text */
+  --text-dark:     #F7FAFC;
+  --text-body:     #CBD5E0;
+  --text-light:    #A0AEC0;
+  --text-muted:    #718096;
+  --text-white:    #FFFFFF;
+
+  /* Semantic (slightly brighter for dark bg) */
+  --success:       #48BB78;
+  --success-light: rgba(72, 187, 120, 0.15);
+  --warning:       #F6D860;
+  --warning-light: rgba(246, 216, 96, 0.15);
+  --danger:        #FC8181;
+  --danger-light:  rgba(252, 129, 129, 0.15);
+  --info:          #63B3ED;
+  --info-light:    rgba(99, 179, 237, 0.15);
+
+  /* Shadows (deeper for dark) */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.2);
+  --shadow-lg:  0 10px 30px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.3);
+  --shadow-xl:  0 20px 50px rgba(0,0,0,0.6), 0 8px 16px rgba(0,0,0,0.3);
+
+  /* Footer */
+  --footer-bg:  #0A0A14;
 }

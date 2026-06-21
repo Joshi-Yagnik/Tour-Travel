@@ -116,7 +116,7 @@
                     <div class="form-group">
                         <div class="flex justify-between items-center">
                             <label class="form-label" for="login-password">Password</label>
-                            <a href="#" class="auth-forgot">Forgot password?</a>
+                            <a href="#" class="auth-forgot" onclick="switchTab('forgot')">Forgot password?</a>
                         </div>
                         <div class="form-icon-wrap">
                             <i class="fas fa-lock form-icon"></i>
@@ -239,6 +239,31 @@
                     </p>
                 </form>
 
+                <!-- ═══ FORGOT PASSWORD FORM ═══ -->
+                <form class="auth-form" id="forgot-form" style="display:none" novalidate>
+                    <div class="auth-form__header">
+                        <h2>Forgot Password?</h2>
+                        <p>Enter your email address and we'll send you a link to reset your password.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="forgot-email">Email Address</label>
+                        <div class="form-icon-wrap">
+                            <i class="fas fa-envelope form-icon"></i>
+                            <input class="form-control" type="email" id="forgot-email" placeholder="you@example.com"
+                                autocomplete="email">
+                        </div>
+                        <span class="form-error" id="forgot-email-err"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%;margin-top:var(--space-4)">
+                        <i class="fas fa-paper-plane"></i> Send Reset Link
+                    </button>
+
+                    <p class="auth-switch"><a href="#" onclick="switchTab('login')">← Back to Login</a></p>
+                </form>
+
+
             </div>
         </div>
     </div>
@@ -261,6 +286,7 @@
     <script src="js/session.js"></script>
     <script src="js/nav.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/ai-assistant.js"></script>
 </body>
 
 </html>

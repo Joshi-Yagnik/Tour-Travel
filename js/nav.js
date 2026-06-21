@@ -12,13 +12,23 @@
     const actions = document.querySelector('.navbar__actions');
     const mobileAct = document.querySelector('.navbar__mobile-actions');
 
-    // Set the user avatar and dashboard links
     if (loggedIn && user && actions) {
       const avatarUrl = WL.Session.getAvatarUrl(user.name, 36);
-      const firstName = user.name.split(' ')[0];
+      const firstName = user.name ? user.name.split(' ')[0] : 'User';
+
+      // Role-based dashboard link
+      const dashLink  = user.role === 'hotel_owner' ? '/hotel-owner/index.html'
+                      : user.role === 'admin'        ? '/admin/index.html'
+                      : 'dashboard.html';
+      const dashLabel = user.role === 'hotel_owner' ? 'Partner Hub'
+                      : user.role === 'admin'        ? 'Admin Panel'
+                      : 'My Dashboard';
 
       actions.innerHTML = `
-        <a href="dashboard.html" class="nav-user-btn">
+        <button class="dark-mode-toggle" id="dark-toggle" aria-label="Toggle dark mode" title="Toggle Dark Mode">
+          <i class="fas ${document.documentElement.getAttribute('data-theme') === 'dark' ? 'fa-sun' : 'fa-moon'}"></i>
+        </button>
+        <a href="${dashLink}" class="nav-user-btn">
           <img src="${avatarUrl}" alt="${firstName}" class="nav-user-avatar" width="32" height="32">
           <span class="nav-user-name">${firstName}</span>
         </a>
@@ -28,11 +38,31 @@
 
       if (mobileAct) {
         mobileAct.innerHTML = `
-          <a href="dashboard.html" class="btn btn-primary">My Dashboard</a>
+          <a href="${dashLink}" class="btn btn-primary">${dashLabel}</a>
           <button class="btn btn-ghost" onclick="WL.Session.logout()">
             <i class="fas fa-sign-out-alt"></i> Logout
           </button>`;
       }
+    } else {
+      // Add dark mode toggle for guests too
+      if (actions && !actions.querySelector('.dark-mode-toggle')) {
+        const toggle = document.createElement('button');
+        toggle.className = 'dark-mode-toggle';
+        toggle.id = 'dark-toggle';
+        toggle.setAttribute('aria-label', 'Toggle dark mode');
+        toggle.setAttribute('title', 'Toggle Dark Mode');
+        toggle.innerHTML = `<i class="fas ${document.documentElement.getAttribute('data-theme') === 'dark' ? 'fa-sun' : 'fa-moon'}"></i>`;
+        actions.insertBefore(toggle, actions.firstChild);
+      }
+    }
+
+    // Bind dark mode toggle
+    const darkBtn = document.getElementById('dark-toggle');
+    if (darkBtn) {
+      darkBtn.addEventListener('click', () => {
+        const isDark = WL.Session.toggleDarkMode();
+        darkBtn.querySelector('i').className = `fas ${isDark ? 'fa-sun' : 'fa-moon'}`;
+      });
     }
   }
 
@@ -108,15 +138,62 @@
   }
 
   /* ── Wishlist button toggle ─────────────────────────────── */
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', async (e) => {
     const btn = e.target.closest('.tour-card__wishlist');
     if (btn) {
+      if (!window.WL || !WL.Session.isLoggedIn()) {
+        window.location.href = 'auth.html?redirect=' + encodeURIComponent(window.location.href);
+        return;
+      }
+
+      // Visual toggle immediately for UX
       btn.classList.toggle('active');
       const icon = btn.querySelector('i');
       if (icon) {
         icon.classList.toggle('fa-heart');
         icon.classList.toggle('fas');
         icon.classList.toggle('far');
+      }
+
+      // Grab package ID from HTML if it exists
+      let packageId = btn.dataset.id;
+      
+      try {
+          // If no package ID exists (static HTML), fetch the first package from DB for demo purposes
+          if (!packageId) {
+              const pkgRes = await fetch('/api/packages?limit=1');
+              const pkgData = await pkgRes.json();
+              if (pkgData.data && pkgData.data.length > 0) {
+                  packageId = pkgData.data[0]._id;
+              } else {
+                  throw new Error('No packages available in DB.');
+              }
+          }
+
+          // Call the backend API to save it to the user's wishlist
+          const { ok, data } = await WL.Session.apiCall(`/auth/wishlist/${packageId}`, { method: 'POST' });
+          if (!ok) {
+              // Revert if failed
+              btn.classList.toggle('active');
+              if (icon) {
+                  icon.classList.toggle('fa-heart');
+                  icon.classList.toggle('fas');
+                  icon.classList.toggle('far');
+              }
+              if (window.showToast) showToast(data.message || 'Failed to update wishlist.', 'error');
+          } else {
+              if (window.showToast) showToast(data.action === 'added' ? 'Added to Wishlist!' : 'Removed from Wishlist!', 'success');
+              // Update local session data so dashboard updates immediately
+              if (data.wishlist) {
+                  const user = WL.Session.getUser();
+                  if (user) {
+                      user.wishlist = data.wishlist;
+                      WL.Session.save(null, user);
+                  }
+              }
+          }
+      } catch (err) {
+          console.error('Wishlist error:', err);
       }
     }
   });

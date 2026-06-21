@@ -30,7 +30,7 @@ const contactSchema = new mongoose.Schema({
     },
     destination: String,
     travelDate: Date,
-    travelers: Number,
+    travelers: String,
     message: {
         type: String,
         required: [true, 'Message is required'],
