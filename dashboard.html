@@ -606,23 +606,43 @@
             };
 
             list.innerHTML = bookings.map(b => {
-                const pkg  = b.package || {};
-                const img  = pkg.coverImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&q=80';
+                const isHotel = b.bookingType === 'hotel' || (b.hotel && !b.package);
+                const ref = isHotel ? (b.hotel || {}) : (b.package || {});
+                const title = isHotel ? ref.name : ref.title;
+                const img = ref.coverImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&q=80';
                 const date = b.travelDate ? new Date(b.travelDate).toLocaleDateString('en-IN', { dateStyle: 'medium' }) : '—';
                 const badge = statusBadge[b.status] || 'badge-info';
+                const link = isHotel ? `hotel-detail.html?id=${ref._id || ''}` : `package-detail.html?id=${ref._id || ''}`;
+                
+                let locationStr = '—';
+                if (isHotel && ref.location) {
+                    locationStr = `${ref.location.city || ''}, ${ref.location.state || ''}`.replace(/^, |, $/g, '');
+                } else if (!isHotel && ref.destination) {
+                    locationStr = `${ref.destination.city || ref.destination.name || ''}, ${ref.destination.state || ''}`.replace(/^, |, $/g, '');
+                }
+                
+                let displayPrice = b.totalPrice || 0;
+                if (!displayPrice) {
+                    if (isHotel) {
+                        displayPrice = ref.startingPrice || 0;
+                    } else {
+                        displayPrice = (ref.price || 0) * (b.travelers || 1);
+                    }
+                }
+
                 return `
                     <div class="booking-card-row" data-status="${b.status || 'upcoming'}">
                         <div class="booking-card-row__img">
-                            <img src="${img}" alt="${pkg.title || 'Booking'}" loading="lazy">
+                            <img src="${img}" alt="${title || 'Booking Details Unavailable'}" loading="lazy">
                         </div>
                         <div class="booking-card-row__info">
                             <div class="booking-card-row__header">
-                                <h3>${pkg.title || 'Booking'}</h3>
+                                <h3>${title || 'Booking Details Unavailable'}</h3>
                                 <span class="badge ${badge}">${(b.status || 'pending').charAt(0).toUpperCase() + (b.status || 'pending').slice(1)}</span>
                             </div>
                             <p class="booking-card-row__dest">
                                 <i class="fas fa-map-marker-alt"></i>
-                                ${pkg.location ? `${pkg.location.city}, ${pkg.location.state}` : '—'}
+                                ${locationStr || '—'}
                             </p>
                             <div class="booking-card-row__meta">
                                 <span><i class="fas fa-calendar"></i> ${date}</span>
@@ -631,9 +651,9 @@
                             </div>
                         </div>
                         <div class="booking-card-row__price">
-                            <strong>${WL.Session.formatPrice(b.totalPrice || 0)}</strong>
+                            <strong>${WL.Session.formatPrice(displayPrice)}</strong>
                             <span>Total</span>
-                            <a href="package-detail.html?id=${pkg._id || ''}" class="btn btn-outline btn-sm">View</a>
+                            ${ref._id ? `<a href="${link}" class="btn btn-outline btn-sm">View</a>` : ''}
                         </div>
                     </div>
                 `;

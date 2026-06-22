@@ -31,6 +31,7 @@ const APP = {
             dashboard:   'Dashboard',
             analytics:   'Analytics & Revenue',
             'ai-advisor':'AI Business Advisor',
+            packages:    'Packages & Tours',
             properties:  'My Properties',
             rooms:       'Rooms & Pricing',
             amenities:   'Amenities',
@@ -49,6 +50,7 @@ const APP = {
             dashboard:    loadDashboard,
             analytics:    loadAnalytics,
             'ai-advisor': () => typeof loadOwnerAdvisor === 'function' ? loadOwnerAdvisor() : null,
+            packages:     loadPackages,
             properties:   loadProperties,
             rooms:        initRoomsView,
             amenities:    initAmenitiesView,
@@ -440,8 +442,11 @@ async function handlePropertySubmit(e) {
         coverImage:  document.getElementById('prop-cover').value,
         amenities:   document.getElementById('prop-amenities').value.split(',').map(a => a.trim()).filter(Boolean),
         tags:        document.getElementById('prop-tags').value.split(',').map(t => t.trim()).filter(Boolean),
-        startingPrice: Number(document.getElementById('prop-price').value) || 0,
     };
+
+    // Only send price if the field has a valid positive value (prevents zeroing out on edit)
+    const rawPrice = Number(document.getElementById('prop-price').value);
+    if (rawPrice > 0) body.startingPrice = rawPrice;
 
     try {
         btn.disabled  = true;
@@ -1472,4 +1477,203 @@ function toast(message, type = 'info') {
     stack.appendChild(el);
 
     setTimeout(() => { el.classList.add('dismiss'); setTimeout(() => el.remove(), 280); }, 3500);
+}
+
+/* ════════════════════════════════════════════════════════════
+   PACKAGES & TOURS
+════════════════════════════════════════════════════════════ */
+let ALL_PACKAGES = [];
+
+async function loadPackages() {
+    const grid  = document.getElementById('pkg-grid');
+    const empty = document.getElementById('pkg-empty');
+    if (!grid) return;
+
+    grid.innerHTML = '<div class="skeleton-prop-card"></div><div class="skeleton-prop-card"></div>';
+    grid.style.display = 'grid';
+    if (empty) empty.style.display = 'none';
+
+    try {
+        const { ok, data } = await API('/owner/packages');
+        if (!ok) throw new Error('Failed to load packages');
+
+        ALL_PACKAGES = data.data || [];
+
+        // Update stats
+        const activeCount = ALL_PACKAGES.filter(p => p.isActive && p.status === 'active').length;
+        const avgPrice    = ALL_PACKAGES.length
+            ? Math.round(ALL_PACKAGES.reduce((s, p) => s + (p.price || 0), 0) / ALL_PACKAGES.length)
+            : 0;
+        const pkgCount = document.getElementById('pkg-count');
+        const pkgActive = document.getElementById('pkg-active-count');
+        const pkgAvg    = document.getElementById('pkg-avg-price');
+        if (pkgCount)  pkgCount.textContent  = ALL_PACKAGES.length;
+        if (pkgActive) pkgActive.textContent = activeCount;
+        if (pkgAvg)    pkgAvg.textContent    = fmtMoney(avgPrice);
+
+        if (!ALL_PACKAGES.length) {
+            grid.style.display = 'none';
+            if (empty) empty.style.display = 'flex';
+            return;
+        }
+
+        grid.style.display = 'grid';
+        if (empty) empty.style.display = 'none';
+        grid.innerHTML = ALL_PACKAGES.map(buildPackageCard).join('');
+
+    } catch (err) {
+        grid.innerHTML = `<div class="empty-state"><div class="empty-state-icon" style="background:var(--hub-rose-subtle);color:var(--hub-rose)"><i class="fas fa-triangle-exclamation"></i></div><h3>Error</h3><p>${err.message}</p></div>`;
+    }
+}
+
+function buildPackageCard(p) {
+    const destName = p.destination?.name || '—';
+    const destCountry = p.destination?.country || '';
+    const isActive = p.isActive && p.status === 'active';
+    const statusClass = isActive ? 'chip-active' : 'chip-inactive';
+    const statusText  = isActive ? 'Active' : 'Archived';
+    const duration = `${p.duration?.days || 1}D / ${p.duration?.nights || 0}N`;
+    const rating = p.rating ? `<span style="color:var(--hub-amber)">★</span> ${p.rating.toFixed(1)}` : '—';
+
+    return `
+        <div class="prop-card">
+            <div style="position:relative">
+                ${p.coverImage
+                    ? `<img src="${p.coverImage}" class="prop-card-img" alt="${p.title}" onerror="this.style.display='none'">`
+                    : `<div class="prop-card-img-placeholder"><i class="fas fa-suitcase-rolling"></i></div>`
+                }
+                <div class="prop-card-status"><span class="chip ${statusClass}">${statusText}</span></div>
+                ${p.badge ? `<div style="position:absolute;top:8px;left:8px;background:var(--hub-accent);color:#fff;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px">${p.badge}</div>` : ''}
+            </div>
+            <div class="prop-card-body">
+                <div class="prop-card-type"><i class="fas fa-suitcase-rolling"></i> ${duration}</div>
+                <div class="prop-card-name">${p.title}</div>
+                <div class="prop-card-location"><i class="fas fa-location-dot" style="color:var(--hub-accent);font-size:0.75rem"></i> ${destName}${destCountry ? ', ' + destCountry : ''}</div>
+                <div class="prop-card-meta">
+                    <div class="prop-card-meta-item"><span class="prop-meta-value">${fmtMoney(p.price || 0)}</span><span class="prop-meta-label">Per Person</span></div>
+                    <div class="prop-card-meta-item"><span class="prop-meta-value">${p.groupSize?.max || '—'}</span><span class="prop-meta-label">Max Group</span></div>
+                    <div class="prop-card-meta-item"><span class="prop-meta-value">${rating}</span><span class="prop-meta-label">Rating</span></div>
+                    <div class="prop-card-meta-item"><span class="prop-meta-value">${p.reviewCount || 0}</span><span class="prop-meta-label">Reviews</span></div>
+                </div>
+                <div class="prop-card-actions">
+                    <button class="btn-sm-ghost" onclick='openPackageForm(${JSON.stringify(p).replace(/'/g, "\\'")})'><i class="fas fa-pen"></i> Edit</button>
+                    <a href="../package-detail.html?id=${p._id}" target="_blank" class="btn-sm-ghost"><i class="fas fa-eye"></i> View</a>
+                    <button class="btn-sm-ghost" style="color:var(--hub-rose)" onclick="deletePackage('${p._id}')"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>`;
+}
+
+/* ── Package Drawer ──────────────────────────────────────── */
+async function openPackageForm(p = null) {
+    const isEdit = p && p._id;
+    document.getElementById('pkg-drawer-title').textContent = isEdit ? 'Edit Package' : 'Add New Package';
+    document.getElementById('package-form').reset();
+    document.getElementById('pkg-id').value = '';
+
+    // Load destinations dropdown
+    await loadDestinationsDropdown(isEdit ? p.destination?._id : null);
+
+    if (isEdit) {
+        document.getElementById('pkg-id').value          = p._id;
+        document.getElementById('pkg-title').value       = p.title || '';
+        document.getElementById('pkg-price').value       = p.price || '';
+        document.getElementById('pkg-days').value        = p.duration?.days || 1;
+        document.getElementById('pkg-nights').value      = p.duration?.nights || 0;
+        document.getElementById('pkg-maxgroup').value    = p.groupSize?.max || 20;
+        document.getElementById('pkg-difficulty').value  = p.difficulty || 'Moderate';
+        document.getElementById('pkg-badge').value       = p.badge || '';
+        document.getElementById('pkg-short-desc').value  = p.shortDescription || '';
+        document.getElementById('pkg-desc').value        = p.description || '';
+        document.getElementById('pkg-cover').value       = p.coverImage || '';
+        document.getElementById('pkg-highlights').value  = (p.highlights || []).join(', ');
+        document.getElementById('pkg-includes').value    = (p.priceIncludes || []).join(', ');
+        document.getElementById('pkg-excludes').value    = (p.priceExcludes || []).join(', ');
+        document.getElementById('pkg-tags').value        = (p.tags || []).join(', ');
+        // Set destination select
+        if (p.destination?._id) {
+            document.getElementById('pkg-destination').value = p.destination._id;
+        }
+    }
+
+    openDrawer('pkg-drawer', 'pkg-drawer-overlay');
+}
+
+async function loadDestinationsDropdown(selectedId = null) {
+    const sel = document.getElementById('pkg-destination');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">Loading destinations...</option>';
+    try {
+        const { ok, data } = await API('/owner/destinations');
+        if (!ok) throw new Error('Failed');
+        const dests = data.data || [];
+        sel.innerHTML = '<option value="">-- Select Destination (optional) --</option>' +
+            dests.map(d => `<option value="${d._id}" ${selectedId === d._id ? 'selected' : ''}>${d.name}, ${d.country}</option>`).join('');
+    } catch (_) {
+        sel.innerHTML = '<option value="">Could not load destinations</option>';
+    }
+}
+
+function closePackageForm() { closeDrawer('pkg-drawer', 'pkg-drawer-overlay'); }
+
+async function handlePackageSubmit(e) {
+    e.preventDefault();
+    const id  = document.getElementById('pkg-id').value;
+    const btn = document.getElementById('pkg-submit-btn');
+
+    const split = (str) => str.split(',').map(s => s.trim()).filter(Boolean);
+
+    const body = {
+        title:            document.getElementById('pkg-title').value.trim(),
+        price:            Number(document.getElementById('pkg-price').value),
+        destination:      document.getElementById('pkg-destination').value || undefined,
+        duration:         { days: Number(document.getElementById('pkg-days').value), nights: Number(document.getElementById('pkg-nights').value) },
+        groupSize:        { min: 1, max: Number(document.getElementById('pkg-maxgroup').value) },
+        difficulty:       document.getElementById('pkg-difficulty').value,
+        badge:            document.getElementById('pkg-badge').value.trim() || undefined,
+        shortDescription: document.getElementById('pkg-short-desc').value.trim(),
+        description:      document.getElementById('pkg-desc').value.trim(),
+        coverImage:       document.getElementById('pkg-cover').value.trim() || undefined,
+        highlights:       split(document.getElementById('pkg-highlights').value),
+        priceIncludes:    split(document.getElementById('pkg-includes').value),
+        priceExcludes:    split(document.getElementById('pkg-excludes').value),
+        tags:             split(document.getElementById('pkg-tags').value),
+    };
+
+    if (!body.title) { toast('Package title is required.', 'error'); return; }
+    if (!body.price || body.price <= 0) { toast('A valid price is required.', 'error'); return; }
+
+    try {
+        btn.disabled  = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+        const endpoint = id ? `/owner/packages/${id}` : '/owner/packages';
+        const method   = id ? 'PUT' : 'POST';
+        const { ok, data } = await API(endpoint, { method, body: JSON.stringify(body) });
+
+        if (!ok) throw new Error(data.message || 'Failed to save package');
+
+        toast(`Package ${id ? 'updated' : 'created'} successfully!`, 'success');
+        closePackageForm();
+        document.getElementById('package-form').reset();
+        await loadPackages();
+
+    } catch (err) {
+        toast(err.message, 'error');
+    } finally {
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="fas fa-floppy-disk"></i> Save Package';
+    }
+}
+
+async function deletePackage(id) {
+    if (!confirm('Archive this package? It will be hidden from the public listing.')) return;
+    try {
+        const { ok, data } = await API(`/owner/packages/${id}`, { method: 'DELETE' });
+        if (!ok) throw new Error(data.message || 'Failed to archive');
+        toast('Package archived.', 'success');
+        await loadPackages();
+    } catch (err) {
+        toast(err.message, 'error');
+    }
 }

@@ -83,7 +83,12 @@ router.get('/my', protect, async (req, res) => {
 
     const bookings = await Booking
         .find(query)
-        .populate('package', 'title coverImage destination duration price')
+        .populate({
+            path: 'package',
+            select: 'title coverImage destination duration price',
+            populate: { path: 'destination', select: 'name city state country' }
+        })
+        .populate('hotel', 'name coverImage location startingPrice type')
         .sort('-createdAt');
 
     res.json({ success: true, data: bookings });

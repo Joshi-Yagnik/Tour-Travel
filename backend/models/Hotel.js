@@ -156,6 +156,11 @@ const hotelSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    // Explicit starting price (set by owner/admin directly)
+    startingPrice: {
+        type: Number,
+        default: 0,
+    },
 
     // Nearby attractions
     nearbyAttractions: [String],
@@ -216,10 +221,33 @@ hotelSchema.pre('save', function (next) {
             .substring(0, 80)
             + '-' + Date.now().toString(36);
     }
-    // Calculate priceFrom
+    // Calculate priceFrom from rooms, but never overwrite with 0
     if (this.rooms && this.rooms.length > 0) {
-        this.priceFrom = Math.min(...this.rooms.map(r => r.pricePerNight));
+        const minRoomPrice = Math.min(...this.rooms.map(r => r.pricePerNight || 0).filter(p => p > 0));
+        if (minRoomPrice > 0) {
+            this.priceFrom = minRoomPrice;
+            // Only set startingPrice if not explicitly set to a valid value
+            if (!this.startingPrice || this.startingPrice === 0) {
+                this.startingPrice = minRoomPrice;
+            }
+        }
     }
+    // Keep priceFrom and startingPrice in sync — use whichever is set
+    if (this.startingPrice > 0 && this.priceFrom === 0) this.priceFrom = this.startingPrice;
+    if (this.priceFrom > 0 && this.startingPrice === 0) this.startingPrice = this.priceFrom;
+    next();
+});
+
+/* ── Sync priceFrom on findByIdAndUpdate ─────────────────── */
+hotelSchema.pre('findOneAndUpdate', function (next) {
+    const update = this.getUpdate();
+    // If startingPrice is being set to a valid value, also update priceFrom
+    if (update.startingPrice > 0) update.priceFrom = update.startingPrice;
+    if (update.priceFrom > 0 && !update.startingPrice) update.startingPrice = update.priceFrom;
+    // Never allow price to be saved as 0 if it was a valid update attempt
+    // (0 coming from an empty field means 'not changed', not 'set to 0')
+    if (update.startingPrice === 0) delete update.startingPrice;
+    if (update.priceFrom === 0) delete update.priceFrom;
     next();
 });
 

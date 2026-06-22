@@ -547,8 +547,11 @@
             
             const metaRow = document.querySelector('.pkg-meta-row');
             if (metaRow) {
+                const city  = hotel.location?.city  || '';
+                const state = hotel.location?.state || '';
+                const loc   = [city, state].filter(Boolean).join(', ') || 'Location not set';
                 metaRow.innerHTML = `
-                    <span class="pkg-meta-item"><i class="fas fa-map-marker-alt"></i> ${hotel.city}, ${hotel.state}</span>
+                    <span class="pkg-meta-item"><i class="fas fa-map-marker-alt"></i> ${loc}</span>
                     <span class="pkg-meta-item"><i class="fas fa-star" style="color:var(--accent)"></i> ${hotel.starRating || 5} Stars</span>
                     <span class="pkg-meta-item"><i class="fas fa-building"></i> ${hotel.type?.toUpperCase() || 'HOTEL'}</span>
                 `;
@@ -559,8 +562,15 @@
                 overviewEl.textContent = hotel.description;
             }
             
+            // Resolve price — prefer startingPrice, then priceFrom, then lowest room price
+            const resolvedPrice = hotel.startingPrice || hotel.priceFrom ||
+                (hotel.rooms?.length ? Math.min(...hotel.rooms.map(r => r.pricePerNight || 0).filter(p => p > 0)) : 0);
+            
             const amountEl = document.querySelector('.booking-card__amount');
-            if (amountEl) amountEl.textContent = fmtMoney(hotel.startingPrice || 0);
+            if (amountEl) amountEl.textContent = fmtMoney(resolvedPrice);
+            
+            // Store resolved price for total calculation
+            currentHotel._resolvedPrice = resolvedPrice;
             
             updateTotal();
         }
@@ -579,7 +589,7 @@
             }
             
             const selectedRooms = parseInt(select.value) || 1;
-            const price = currentHotel.startingPrice || 0;
+            const price = currentHotel._resolvedPrice || currentHotel.startingPrice || currentHotel.priceFrom || 0;
             if (totalEl) {
                 totalEl.textContent = fmtMoney(price * selectedRooms * nights);
             }

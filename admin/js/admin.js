@@ -498,7 +498,8 @@ async function loadHotels() {
                     </div>
                 </td>
                 <td><span class="badge badge--info">${h.type}</span></td>
-                <td>${h.location?.city || '—'}</td>
+                <td>${h.location?.city || '—'}, ${h.location?.state || ''}</td>
+                <td style="font-weight:700;color:#FF6B35">₹${(h.startingPrice || h.priceFrom || 0).toLocaleString('en-IN')}</td>
                 <td>${h.owner?.name || '—'}</td>
                 <td>${starsHtml(h.rating)}</td>
                 <td>${approvalBadge(h.approvalStatus)}</td>
@@ -547,7 +548,7 @@ function openEditHotel(h = {}) {
     document.getElementById('hotel-city').value     = h.location?.city || '';
     document.getElementById('hotel-state').value    = h.location?.state || '';
     document.getElementById('hotel-address').value  = h.location?.address || '';
-    document.getElementById('hotel-price').value    = h.startingPrice || '';
+    document.getElementById('hotel-price').value    = h.startingPrice || h.priceFrom || '';
     document.getElementById('hotel-phone').value    = h.contact?.phone || '';
     document.getElementById('hotel-amenities').value= (h.amenities || []).join(', ');
     document.getElementById('hotel-cover').value    = h.coverImage || '';
@@ -569,13 +570,19 @@ async function handleHotelSubmit(e) {
             state:   document.getElementById('hotel-state').value,
             country: 'India',
         },
-        startingPrice: Number(document.getElementById('hotel-price').value),
         contact: { phone: document.getElementById('hotel-phone').value },
         amenities: document.getElementById('hotel-amenities').value.split(',').map(a => a.trim()).filter(Boolean),
         coverImage: document.getElementById('hotel-cover').value,
         description: document.getElementById('hotel-desc').value,
         featured: document.getElementById('hotel-featured').checked,
     };
+
+    // Only send price if the field has a valid positive value (prevents zeroing out on edit)
+    const rawPrice = Number(document.getElementById('hotel-price').value);
+    if (rawPrice > 0) {
+        body.startingPrice = rawPrice;
+        body.priceFrom = rawPrice;
+    }
 
     try {
         const endpoint = id ? `/admin/hotels/${id}` : '/admin/hotels';

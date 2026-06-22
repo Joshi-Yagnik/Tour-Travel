@@ -574,7 +574,7 @@
                         </div>
                         <div class="hotel-card__footer">
                             <div class="hotel-card__price">
-                                <div class="amount">₹${(h.priceFrom || 0).toLocaleString('en-IN')}</div>
+                                <div class="amount">₹${(h.startingPrice || h.priceFrom || 0).toLocaleString('en-IN')}</div>
                                 <div class="night">per night</div>
                             </div>
                             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">

@@ -602,5 +602,146 @@ router.put('/password', protect, ownerOnly, async (req, res) => {
     }
 });
 
+/* ══════════════════════════════════════════════════════════
+   PACKAGES (linked to hotel owner's properties)
+══════════════════════════════════════════════════════════ */
+const Package = require('../models/Package');
+const Destination = require('../models/Destination');
+
+/* GET /api/owner/packages — all packages created by this owner */
+router.get('/packages', protect, ownerOnly, async (req, res) => {
+    try {
+        const packages = await Package
+            .find({ createdBy: req.user.id })
+            .populate('destination', 'name country region')
+            .sort('-createdAt');
+        res.json({ success: true, total: packages.length, data: packages });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+/* GET /api/owner/packages/:id — single package */
+router.get('/packages/:id', protect, ownerOnly, async (req, res) => {
+    try {
+        const pkg = await Package.findOne({ _id: req.params.id, createdBy: req.user.id })
+            .populate('destination', 'name country region');
+        if (!pkg) return res.status(404).json({ success: false, message: 'Package not found.' });
+        res.json({ success: true, data: pkg });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+/* POST /api/owner/packages — create a new package */
+router.post('/packages', protect, ownerOnly, async (req, res) => {
+    try {
+        const { title, price, description, shortDescription, destination, duration,
+                groupSize, difficulty, coverImage, images, highlights, priceIncludes,
+                priceExcludes, itinerary, tags, badge } = req.body;
+
+        if (!title) return res.status(400).json({ success: false, message: 'Package title is required.' });
+        if (!price || price <= 0) return res.status(400).json({ success: false, message: 'A valid price is required.' });
+
+        // Validate destination
+        let destId = destination;
+        if (destId) {
+            const destExists = await Destination.findById(destId);
+            if (!destExists) return res.status(400).json({ success: false, message: 'Invalid destination.' });
+        } else {
+            // If no destination provided, try to find or create a generic one
+            let genericDest = await Destination.findOne({ name: 'Other' });
+            if (!genericDest) {
+                genericDest = await Destination.create({
+                    name: 'Other', country: 'India', region: 'India',
+                    description: 'General destination', isActive: true,
+                });
+            }
+            destId = genericDest._id;
+        }
+
+        const pkg = await Package.create({
+            title, price: Number(price),
+            description, shortDescription,
+            destination: destId,
+            duration: {
+                days: Number(duration?.days || req.body.days || 1),
+                nights: Number(duration?.nights || req.body.nights || 0),
+            },
+            groupSize: {
+                min: Number(groupSize?.min || req.body.minGroup || 1),
+                max: Number(groupSize?.max || req.body.maxGroup || 20),
+            },
+            difficulty: difficulty || 'Moderate',
+            coverImage, images: images || [],
+            highlights: highlights || [],
+            priceIncludes: priceIncludes || [],
+            priceExcludes: priceExcludes || [],
+            itinerary: itinerary || [],
+            tags: tags || [],
+            badge,
+            createdBy: req.user.id,
+            status: 'active',
+            isActive: true,
+        });
+
+        await pkg.populate('destination', 'name country region');
+        res.status(201).json({ success: true, data: pkg });
+    } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
+    }
+});
+
+/* PUT /api/owner/packages/:id — update owned package */
+router.put('/packages/:id', protect, ownerOnly, async (req, res) => {
+    try {
+        const pkg = await Package.findOne({ _id: req.params.id, createdBy: req.user.id });
+        if (!pkg) return res.status(404).json({ success: false, message: 'Package not found or not authorized.' });
+
+        const updates = { ...req.body };
+        // Prevent price being zeroed
+        if (updates.price !== undefined && Number(updates.price) <= 0) delete updates.price;
+        if (updates.duration) {
+            updates.duration = {
+                days: Number(updates.duration.days || updates.days || pkg.duration.days),
+                nights: Number(updates.duration.nights || updates.nights || pkg.duration.nights),
+            };
+        }
+
+        const updated = await Package.findByIdAndUpdate(
+            req.params.id, updates, { new: true, runValidators: true }
+        ).populate('destination', 'name country region');
+
+        res.json({ success: true, data: updated });
+    } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
+    }
+});
+
+/* DELETE /api/owner/packages/:id — soft delete */
+router.delete('/packages/:id', protect, ownerOnly, async (req, res) => {
+    try {
+        const pkg = await Package.findOne({ _id: req.params.id, createdBy: req.user.id });
+        if (!pkg) return res.status(404).json({ success: false, message: 'Package not found.' });
+        pkg.isActive = false;
+        pkg.status = 'archived';
+        await pkg.save();
+        res.json({ success: true, message: 'Package archived successfully.' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+/* GET /api/owner/destinations — list all destinations for the package form dropdown */
+router.get('/destinations', protect, ownerOnly, async (req, res) => {
+    try {
+        const Dest = require('../models/Destination');
+        const dests = await Dest.find({ isActive: true }, 'name country region').sort('name');
+        res.json({ success: true, data: dests });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
 module.exports = router;
 
