@@ -249,6 +249,42 @@
                 grid-template-columns: repeat(2, 1fr)
             }
         }
+
+        /* ── Mobile-first fixes for about.html ── */
+        @media (max-width: 768px) {
+            /* Stats bar — override inline style */
+            .stats-grid.about-stats {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0 !important;
+            }
+            .stats-grid.about-stats .stat-item {
+                border-right: none !important;
+                border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+                padding: var(--space-5) var(--space-2) !important;
+            }
+            /* Mission image — don't let it be taller than viewport */
+            .mission-img img {
+                height: 250px !important;
+            }
+            /* Values grid 2-col to save space */
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+            /* CTA section buttons */
+            .about-cta-row {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: var(--space-3) !important;
+            }
+            .about-cta-row .btn { width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .values-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .value-card { padding: var(--space-4); }
+        }
     </style>
 </head>
 
@@ -305,7 +341,7 @@
     <!-- Stats Section -->
     <section style="background:var(--secondary);padding:var(--space-10) 0">
         <div class="container">
-            <div class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-2)">
+            <div class="stats-grid about-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-2)">
                 <div class="stat-item"
                     style="text-align:center;padding:var(--space-8) var(--space-4);border-right:1px solid rgba(255,255,255,0.1)">
                     <div style="font-size:2rem;color:var(--primary);margin-bottom:var(--space-3)"><i
@@ -550,7 +586,7 @@
             <p
                 style="color:rgba(255,255,255,0.65);max-width:480px;margin:0 auto var(--space-8);font-size:var(--text-lg)">
                 Join 50,000+ travelers who trust Wanderlust to craft their most memorable adventures.</p>
-            <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap">
+            <div class="about-cta-row" style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap">
                 <a href="packages.html" class="btn btn-primary btn-lg"><i class="fas fa-suitcase"></i> Browse
                     Packages</a>
                 <a href="contact.html" class="btn btn-outline-white btn-lg"><i class="fas fa-phone"></i> Talk to Us</a>

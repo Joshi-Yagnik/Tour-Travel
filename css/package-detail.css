@@ -388,6 +388,129 @@
     margin-bottom: var(--space-4);
 }
 
+/* ── Price Breakdown Widget ──────────────────────────────── */
+.price-breakdown {
+    padding: var(--space-4) var(--space-6) var(--space-2);
+}
+
+/* Header: base price + label */
+.pb-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+}
+
+.pb-base {
+    font-size: var(--text-3xl);
+    font-weight: var(--weight-extrabold);
+    color: var(--primary);
+    line-height: 1;
+}
+
+.pb-label {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.6);
+}
+
+/* Formula line: "₹5,000 × 2 nights × 1 room = ₹10,000" */
+.pb-formula {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.55);
+    margin-bottom: var(--space-3);
+    font-style: italic;
+}
+
+/* Row items */
+.pb-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pb-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.75);
+}
+
+.pb-row__name {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.pb-row__val { font-weight: var(--weight-medium); }
+
+.pb-row--tax {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.55);
+    padding: var(--space-1) 0;
+}
+
+.pb-info {
+    font-size: 11px;
+    opacity: 0.6;
+    cursor: help;
+}
+
+/* Dashed divider */
+.pb-divider {
+    border-top: 1.5px dashed rgba(255,255,255,0.25);
+    margin: var(--space-3) 0;
+}
+
+/* Grand Total row */
+.pb-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) 0 var(--space-3);
+}
+
+.pb-total__label {
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    color: var(--white);
+}
+
+.pb-total__amount {
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-extrabold);
+    color: var(--primary);
+}
+
+/* Trust badges inside breakdown */
+.pb-trust {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3) 0 var(--space-2);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    flex-wrap: wrap;
+}
+
+.pb-trust span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.5);
+}
+
+.pb-trust i { color: var(--primary); font-size: 10px; }
+
+/* ── Booking form area (light bg) ──────────────────────────── */
+.booking-form-area {
+    background: var(--white);
+    padding: var(--space-5) var(--space-6);
+}
+
+/* Remove old .booking-total — replaced by price-breakdown */
 .booking-total {
     display: flex;
     justify-content: space-between;
@@ -403,6 +526,7 @@
     color: var(--primary);
 }
 
+/* ── Booking card trust bar ──────────────────────────────── */
 .booking-card__trust {
     display: flex;
     justify-content: space-around;
@@ -419,9 +543,66 @@
     color: var(--text-muted);
 }
 
-.booking-card__trust i {
-    color: var(--primary);
+.booking-card__trust i { color: var(--primary); }
+
+/* ── Compact breakdown (dashboard booking cards) ─────────── */
+.pb-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-3) 0 0;
+    border-top: 1px solid var(--border);
+    margin-top: var(--space-3);
 }
+
+.pb-compact__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    padding: 2px 0;
+}
+
+.pb-compact__row--tax { color: var(--text-light); }
+
+.pb-compact__row--total {
+    border-top: 1px dashed var(--border);
+    padding-top: var(--space-2);
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--text-dark);
+}
+
+/* ── Owner earnings breakdown ────────────────────────────── */
+.pb-owner {
+    background: var(--bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-top: var(--space-3);
+    border: 1px solid var(--border);
+}
+
+.pb-owner__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-sm);
+    padding: var(--space-2) 0;
+    color: var(--text-body);
+}
+
+.pb-owner__row--deduct { color: var(--danger); }
+.pb-owner__row--total  { font-size: var(--text-base); color: var(--text-dark); }
+
+.pb-owner__val { font-weight: var(--weight-semibold); }
+.pb-owner__val--red   { color: var(--danger); }
+.pb-owner__val--green { color: var(--success); font-size: var(--text-lg); }
+
+.pb-owner__divider {
+    border-top: 1.5px dashed var(--border-dark);
+    margin: var(--space-2) 0;
+}
+
 
 /* ── Quick Info Box ──────────────────────────────────────── */
 .quick-info {
@@ -481,7 +662,7 @@
 
 @media (max-width: 768px) {
     .pkg-gallery {
-        height: 260px;
+        height: 240px;
     }
 
     .guide-card {
@@ -489,4 +670,40 @@
         align-items: center;
         text-align: center;
     }
+
+    .reviews-summary {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+    }
+
+    .pkg-meta-row {
+        gap: var(--space-3);
+        flex-wrap: wrap;
+    }
+    .pkg-meta-item { font-size: 0.8rem; }
+
+    .pkg-section-title { font-size: var(--text-xl); }
+
+    .pkg-highlights { gap: var(--space-2); }
+    .pkg-highlight { font-size: 0.75rem; padding: var(--space-1) var(--space-3); }
+
+    .review-item { flex-direction: column; gap: var(--space-2); }
+    .review-item__header { flex-wrap: wrap; gap: var(--space-2); }
+
+    .booking-form { padding: var(--space-4); }
+    .booking-card__price { padding: var(--space-4); }
+    .booking-card__amount { font-size: var(--text-3xl); }
+
+    .pkg-gallery-swiper .swiper-button-next,
+    .pkg-gallery-swiper .swiper-button-prev { display: none; }
 }
+
+@media (max-width: 480px) {
+    .pkg-gallery { height: 200px; }
+    .reviews-score { font-size: 2.5rem; }
+    .inclusions-grid { grid-template-columns: 1fr; gap: var(--space-5); }
+    .booking-card__trust { flex-direction: column; align-items: center; gap: var(--space-2); }
+    .itinerary-header { padding: var(--space-3) var(--space-4); }
+    .itinerary-body { padding: 0 var(--space-4) var(--space-4); }
+}

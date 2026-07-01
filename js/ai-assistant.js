@@ -395,9 +395,28 @@
             color: #A0AEC0;
         }
 
+        @media (max-width: 768px) {
+            .ai-panel {
+                right: 10px;
+                left: 10px;
+                width: auto;
+                bottom: 130px;
+                max-height: 55vh;
+                border-radius: 16px;
+            }
+            .ai-widget { right: 14px; bottom: 80px; }
+        }
+
         @media (max-width: 480px) {
-            .ai-panel { right: 8px; left: 8px; width: auto; bottom: 120px; }
-            .ai-widget { right: 16px; bottom: 70px; }
+            .ai-panel {
+                right: 8px;
+                left: 8px;
+                width: auto;
+                bottom: 120px;
+                max-height: 58vh;
+            }
+            .ai-widget { right: 12px; bottom: 72px; }
+            .ai-bubble { width: 50px; height: 50px; font-size: 20px; }
         }
     `;
 

@@ -292,6 +292,58 @@
         [data-theme="dark"] .hotel-card { background: #16213E; border-color: #2D3748; }
         [data-theme="dark"] .hotel-card__footer { border-color: #2D3748; }
         [data-theme="dark"] .hotel-amenity { background: #0F3460; border-color: #2D3748; color: #A0AEC0; }
+
+        /* ── Mobile fixes ── */
+        @media (max-width: 768px) {
+            .hotel-hero {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .hotel-search-bar {
+                flex-direction: column;
+                gap: 0;
+                padding: 10px;
+                max-width: 100%;
+                width: 100%;
+            }
+            .hotel-search-bar input,
+            .hotel-search-bar select {
+                width: 100%;
+                flex: none;
+                border-bottom: 1px solid #e2e8f0;
+                border-radius: 0;
+                padding: 12px 14px;
+                font-size: 16px; /* prevent iOS zoom */
+            }
+            .hotel-search-bar .divider { display: none; }
+            .hotel-search-bar button {
+                width: 100%;
+                justify-content: center;
+                border-radius: 10px;
+                margin-top: 8px;
+            }
+            .type-tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 6px;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+            .type-tabs::-webkit-scrollbar { display: none; }
+            .type-tab { flex-shrink: 0; }
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .results-header .filter-select { width: 100%; }
+            .hotel-card__footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .hotel-card__footer .btn { width: 100%; text-align: center; }
+        }
     </style>
 </head>
 

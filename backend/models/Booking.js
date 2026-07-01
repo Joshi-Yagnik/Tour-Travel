@@ -1,10 +1,27 @@
 /* ============================================================
-   WANDERLUST — Booking Model v2.1
-   Enhanced: bookingType, approvedBy, adminNotes, better indexes
+   WANDERLUST — Booking Model v3.0
+   Enhanced: full pricing sub-document (GST, SGST, Platform Fee)
    ============================================================ */
 
 const mongoose = require('mongoose');
 
+/* ── Pricing sub-schema ──────────────────────────────────── */
+const pricingSchema = new mongoose.Schema({
+    basePrice:      { type: Number, default: 0 },   // unit price (per night or per person)
+    nights:         { type: Number, default: 1 },   // hotel: number of nights
+    rooms:          { type: Number, default: 1 },   // hotel: number of rooms
+    guests:         { type: Number, default: 1 },   // travelers / guests
+    subtotal:       { type: Number, default: 0 },   // basePrice × nights × rooms (or × guests)
+    platformFee:    { type: Number, default: 1999 }, // flat ₹1,999
+    gst:            { type: Number, default: 0 },   // 9% of subtotal
+    sgst:           { type: Number, default: 0 },   // 9% of subtotal
+    cgst:           { type: Number, default: 0 },   // 0 (future inter-state)
+    convenienceFee: { type: Number, default: 0 },   // 0 (future)
+    grandTotal:     { type: Number, default: 0 },   // final payable amount
+    currency:       { type: String, default: 'INR' },
+}, { _id: false });
+
+/* ── Main Booking schema ─────────────────────────────────── */
 const bookingSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -29,7 +46,7 @@ const bookingSchema = new mongoose.Schema({
     bookingRef: {
         type: String,
         unique: true,
-        sparse: true,  // allows multiple null values without duplicate key errors
+        sparse: true,
     },
     travelDate: {
         type: Date,
@@ -44,10 +61,42 @@ const bookingSchema = new mongoose.Schema({
         min: 1,
         max: 50,
     },
+    rooms: {
+        type: Number,
+        default: 1,
+        min: 1,
+    },
+
+    /* ── Full pricing breakdown ── */
+    pricing: {
+        type: pricingSchema,
+        default: () => ({}),
+    },
+
+    /* ── Partial Payment details ── */
+    advancePercentage: {
+        type: Number,
+        default: 40,
+    },
+    advanceAmount: {
+        type: Number,
+        default: 0,
+    },
+    remainingAmount: {
+        type: Number,
+        default: 0,
+    },
+    amountPaid: {
+        type: Number,
+        default: 0,
+    },
+
+    /* ── Grand total (kept for backwards compat + easy querying) ── */
     totalPrice: {
         type: Number,
         required: true,
     },
+
     status: {
         type: String,
         enum: ['pending', 'confirmed', 'cancelled', 'completed', 'rejected'],
@@ -55,8 +104,13 @@ const bookingSchema = new mongoose.Schema({
     },
     paymentStatus: {
         type: String,
-        enum: ['unpaid', 'partial', 'paid', 'refunded'],
+        enum: ['unpaid', 'partial', 'Partially Paid', 'paid', 'refunded'],
         default: 'unpaid',
+    },
+    paymentMethod: {
+        type: String,
+        enum: ['cod', 'upi', 'card', 'netbanking', 'razorpay', 'stripe', 'other'],
+        default: 'cod',
     },
     specialRequests: String,
     cancelledAt: Date,
@@ -95,4 +149,3 @@ bookingSchema.index({ hotel: 1, status: 1 });
 bookingSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model('Booking', bookingSchema);
-

@@ -253,11 +253,21 @@ router.get('/bookings', protect, ownerOnly, async (req, res) => {
             .skip((Number(page) - 1) * Number(limit))
             .limit(Number(limit));
 
-        res.json({ success: true, total, data: bookings });
+        // Attach owner earnings to each booking
+        const enriched = bookings.map(b => {
+            const obj = b.toObject();
+            const grandTotal   = obj.pricing?.grandTotal   || obj.totalPrice || 0;
+            const platformFee  = obj.pricing?.platformFee  || 0;
+            obj.ownerEarnings  = Math.max(0, grandTotal - platformFee);
+            return obj;
+        });
+
+        res.json({ success: true, total, data: enriched });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
 });
+
 
 /* PUT /api/owner/bookings/:id/status — update booking status */
 router.put('/bookings/:id/status', protect, ownerOnly, async (req, res) => {

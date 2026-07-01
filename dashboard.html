@@ -12,8 +12,10 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="js/pricing.js"></script>
 </head>
 
 <body>
@@ -629,6 +631,10 @@
                         displayPrice = (ref.price || 0) * (b.travelers || 1);
                     }
                 }
+                
+                const compactBreakdownHtml = (window.WL_Pricing && b.pricing && b.pricing.grandTotal) 
+                    ? window.WL_Pricing.renderCompact(b.pricing) 
+                    : '';
 
                 return `
                     <div class="booking-card-row" data-status="${b.status || 'upcoming'}">
@@ -638,7 +644,10 @@
                         <div class="booking-card-row__info">
                             <div class="booking-card-row__header">
                                 <h3>${title || 'Booking Details Unavailable'}</h3>
-                                <span class="badge ${badge}">${(b.status || 'pending').charAt(0).toUpperCase() + (b.status || 'pending').slice(1)}</span>
+                                <div style="display:flex;gap:0.5rem;">
+                                    <span class="badge ${badge}">${(b.status || 'pending').charAt(0).toUpperCase() + (b.status || 'pending').slice(1)}</span>
+                                    <span class="badge ${b.paymentStatus === 'paid' ? 'badge-success' : (b.paymentStatus === 'Partially Paid' ? 'badge-warning' : 'badge-danger')}">${b.paymentStatus || 'Unpaid'}</span>
+                                </div>
                             </div>
                             <p class="booking-card-row__dest">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -651,9 +660,11 @@
                             </div>
                         </div>
                         <div class="booking-card-row__price">
-                            <strong>${WL.Session.formatPrice(displayPrice)}</strong>
-                            <span>Total</span>
-                            ${ref._id ? `<a href="${link}" class="btn btn-outline btn-sm">View</a>` : ''}
+                            ${compactBreakdownHtml ? compactBreakdownHtml : `
+                                <strong>${WL.Session.formatPrice(displayPrice)}</strong>
+                                <span>Total</span>
+                            `}
+                            ${ref._id ? `<a href="${link}" class="btn btn-outline btn-sm" style="margin-top:var(--space-2)">View</a>` : ''}
                         </div>
                     </div>
                 `;

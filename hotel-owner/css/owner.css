@@ -1562,24 +1562,45 @@ select.field-input { cursor: pointer; }
 .booking-detail-grid {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 16px;
+}
+
+.booking-detail-section {
+  background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
-  overflow: hidden;
+  padding: 16px;
+}
+
+.booking-detail-section h4 {
+  margin: 0 0 12px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.booking-detail-section h4 i {
+  color: var(--hub-accent);
 }
 
 .booking-detail-row {
   display: flex;
   justify-content: space-between;
-  padding: 12px 16px;
-  background: var(--bg-elevated);
-  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-strong);
   font-size: 0.875rem;
 }
-.booking-detail-row:last-child { border-bottom: none; }
+
+.booking-detail-row:last-child { border-bottom: none; padding-bottom: 0; }
+.booking-detail-row:first-of-type { padding-top: 0; }
 
 .bd-label { color: var(--text-muted); font-weight: 500; }
-.bd-value { font-weight: 600; color: var(--text-primary); }
+.bd-value { font-weight: 600; color: var(--text-primary); text-align: right; }
 
 /* ════════════════════════════════════════════════════════════
    BUTTONS
@@ -2180,6 +2201,8 @@ select.field-input { cursor: pointer; }
 .chip-unpaid::before { background: var(--text-muted); }
 .chip-partial   { background: var(--hub-amber-subtle); color: var(--hub-amber); }
 .chip-partial::before { background: var(--hub-amber); }
+.chip-partially-paid { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+.chip-partially-paid::before { background: #8b5cf6; }
 .chip-paid      { background: var(--hub-emerald-subtle); color: var(--hub-emerald); }
 .chip-paid::before { background: var(--hub-emerald); }
 .chip-refunded  { background: var(--hub-sky-subtle); color: var(--hub-sky); }

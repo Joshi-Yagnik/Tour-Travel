@@ -12,8 +12,11 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/package-detail.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/payment.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <script src="js/pricing.js"></script>
+    <script src="js/payment.js"></script>
 </head>
 
 <body>
@@ -359,55 +362,74 @@
                 <!-- Right: Booking Widget (Sticky) -->
                 <aside class="booking-widget">
                     <div class="booking-card">
+
+                        <!-- Live price breakdown (dark bg) -->
                         <div class="booking-card__price">
-                            <div class="booking-card__amount">$1,870</div>
-                            <div class="booking-card__label">per person</div>
+                            <div id="price-breakdown-container">
+                                <div class="pb-header">
+                                    <span class="pb-base" id="pb-base-price">₹0</span>
+                                    <span class="pb-label">per person</span>
+                                </div>
+                                <p style="color:rgba(255,255,255,0.5);font-size:var(--text-xs);text-align:center;padding:var(--space-3) 0">
+                                    Select travelers to see full breakdown
+                                </p>
+                            </div>
                         </div>
+
+                        <!-- Meta -->
                         <div class="booking-card__meta">
-                            <span><i class="fas fa-check-circle" style="color:var(--success)"></i> Free cancellation up
-                                to 14 days</span>
-                            <span><i class="fas fa-lock" style="color:var(--primary)"></i> Secure booking
-                                guaranteed</span>
+                            <span><i class="fas fa-check-circle" style="color:var(--success)"></i> Free cancellation up to 14 days</span>
+                            <span><i class="fas fa-lock" style="color:var(--primary)"></i> Secure booking guaranteed</span>
                         </div>
-                        <form class="booking-form" onsubmit="handleBooking(event)">
+
+                        <!-- Booking form -->
+                        <form class="booking-form" id="pkg-booking-form" onsubmit="handleBooking(event)">
                             <div class="form-group">
                                 <label class="form-label">Travel Date</label>
-                                <div class="form-icon-wrap" style="--icon-left:1rem">
-                                    <i class="fas fa-calendar form-icon"
-                                        style="left:1rem;top:50%;transform:translateY(-50%);position:absolute;color:var(--text-muted)"></i>
-                                    <input class="form-control" type="date" style="padding-left:2.5rem" required>
+                                <div class="form-icon-wrap">
+                                    <i class="fas fa-calendar form-icon" style="left:1rem;top:50%;transform:translateY(-50%);position:absolute;color:var(--text-muted)"></i>
+                                    <input class="form-control" type="date" id="travel-date" style="padding-left:2.5rem" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Number of Travelers</label>
                                 <select class="form-control" id="travelers-count" onchange="updateTotal()">
-                                    <option value="1">1 Person — $1,870</option>
-                                    <option value="2">2 People — $3,740</option>
-                                    <option value="3">3 People — $5,610</option>
-                                    <option value="4">4 People — $7,480</option>
-                                    <option value="5">5+ People (contact us)</option>
+                                    <option value="1">1 Person</option>
+                                    <option value="2">2 People</option>
+                                    <option value="3">3 People</option>
+                                    <option value="4">4 People</option>
+                                    <option value="5">5 People</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Full Name</label>
-                                <input class="form-control" type="text" placeholder="Your full name" required>
+                                <input class="form-control" type="text" id="guest-name" placeholder="Your full name" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Email Address</label>
-                                <input class="form-control" type="email" placeholder="you@example.com" required>
+                                <input class="form-control" type="email" id="guest-email" placeholder="you@example.com" required>
                             </div>
-                            <div class="booking-total">
-                                <span>Total</span>
-                                <strong id="booking-total-price">$1,870</strong>
+                            <div class="form-group">
+                                <label class="form-label">Payment Method</label>
+                                <select class="form-control" id="payment-method">
+                                    <option value="card">Credit / Debit Card</option>
+                                    <option value="upi">UPI / GPay / PhonePe</option>
+                                    <option value="netbanking">Net Banking</option>
+                                    <option value="cod">Pay Later (Offline)</option>
+                                </select>
                             </div>
-                            <button type="submit" class="btn btn-primary" style="width:100%;font-size:var(--text-base)">
-                                <i class="fas fa-calendar-check"></i> Book This Package
+                            <div class="form-group">
+                                <label class="form-label">Special Requests <span style="font-weight:400;color:var(--text-muted)">(optional)</span></label>
+                                <textarea class="form-control" id="special-requests" rows="2" placeholder="Any dietary needs, accessibility requirements..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="book-btn" style="width:100%;font-size:var(--text-base);min-height:52px">
+                                <i class="fas fa-calendar-check"></i> Confirm &amp; Book Package
                             </button>
-                            <a href="contact.html" class="btn btn-ghost"
-                                style="width:100%;margin-top:var(--space-2);text-align:center">
+                            <a href="contact.html" class="btn btn-ghost" style="width:100%;margin-top:var(--space-2);text-align:center">
                                 <i class="fas fa-phone"></i> Inquire First
                             </a>
                         </form>
+
                         <div class="booking-card__trust">
                             <span><i class="fas fa-shield-alt"></i> No hidden fees</span>
                             <span><i class="fas fa-headset"></i> 24/7 support</span>
@@ -582,24 +604,31 @@
 
         function updateTotal() {
             if (!currentPackage) return;
+            const travelers = parseInt(document.getElementById('travelers-count').value) || 1;
+            const container = document.getElementById('price-breakdown-container');
+            const price     = currentPackage.price || 0;
+
+            // Populate select options if needed
             const select = document.getElementById('travelers-count');
-            const val = parseInt(select.value);
-            const totalEl = document.getElementById('booking-total-price');
-            
-            // Populate options if not populated
-            if (select.options.length <= 1 || !select.options[0].textContent.includes(fmtMoney(currentPackage.price))) {
+            if (select && (select.options.length <= 1 || !select.options[0].dataset.populated)) {
                 select.innerHTML = '';
-                for (let i = 1; i <= Math.min(5, currentPackage.groupSize?.max || 12); i++) {
+                for (let i = 1; i <= Math.min(10, currentPackage.groupSize?.max || 12); i++) {
                     const opt = document.createElement('option');
                     opt.value = i;
-                    opt.textContent = `${i} Person${i>1?'s':''} — ${fmtMoney(currentPackage.price * i)}`;
+                    opt.textContent = `${i} Person${i > 1 ? 's' : ''}`;
+                    opt.dataset.populated = 'true';
                     select.appendChild(opt);
                 }
             }
-            
-            const selectedVal = parseInt(select.value) || 1;
-            if (totalEl) {
-                totalEl.textContent = fmtMoney((currentPackage.price || 0) * selectedVal);
+
+            if (window.WL_Pricing) {
+                const pricing = WL_Pricing.calculate({ basePrice: price, guests: travelers, type: 'package' });
+                if (container) WL_Pricing.renderBreakdown(container, pricing, 'per person', 'package');
+                window._lastPricing = pricing;
+
+                // Update base price display
+                const basePriceEl = document.getElementById('pb-base-price');
+                if (basePriceEl) basePriceEl.textContent = fmtMoney(price);
             }
         }
 
@@ -611,47 +640,75 @@
                 return;
             }
 
-            const btn = e.target.querySelector('button[type="submit"]');
+            const btn = document.getElementById('book-btn') || e.target.querySelector('button[type="submit"]');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             btn.disabled = true;
 
             const packageId = currentPackage?._id;
             if (!packageId) {
                 alert('Invalid package data.');
-                btn.innerHTML = '<i class="fas fa-calendar-check"></i> Book This Package';
+                btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm & Book Package';
                 btn.disabled = false;
                 return;
             }
 
             try {
-                const travelDate = e.target.querySelector('input[type="date"]').value;
-                const travelers = parseInt(document.getElementById('travelers-count').value);
+                const travelDate   = document.getElementById('travel-date')?.value || e.target.querySelector('input[type="date"]').value;
+                const travelers    = parseInt(document.getElementById('travelers-count').value) || 1;
+                const paymentMethod = document.getElementById('payment-method')?.value || 'cod';
+                const specialReqs  = document.getElementById('special-requests')?.value || '';
 
-                const { ok, data } = await WL.Session.apiCall('/bookings', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        packageId,
-                        travelDate,
-                        travelers,
-                        bookingType: 'package'
-                    })
+                if (!travelDate) throw new Error('Travel date is required.');
+
+                const pricing = WL_Pricing.calculate({
+                    basePrice: currentPackage.price,
+                    type: 'package',
+                    count: travelers
                 });
 
-                if (ok) {
-                    const modal = document.getElementById('booking-modal');
-                    if (modal) modal.classList.add('open');
-                    e.target.reset();
-                } else {
-                    alert(data.message || 'Booking failed.');
-                }
+                DemoPaymentGateway.open(pricing, async (paymentData) => {
+                    try {
+                        const { ok, data } = await WL.Session.apiCall('/bookings', {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                packageId,
+                                travelDate,
+                                travelers,
+                                bookingType: 'package',
+                                paymentMethod: paymentData.method,
+                                specialRequests: specialReqs,
+                            })
+                        });
+
+                        if (ok) {
+                            const bRef  = data.data?.bookingRef || '';
+                            const grand = data.data?.pricing?.grandTotal || data.data?.totalPrice || 0;
+                            const refEl = document.getElementById('booking-ref');
+                            const amtEl = document.getElementById('booking-confirm-amount');
+                            if (refEl)  refEl.textContent  = bRef;
+                            if (amtEl)  amtEl.textContent  = WL_Pricing.format(grand);
+                            const modal = document.getElementById('booking-modal');
+                            if (modal) modal.classList.add('open');
+                            e.target.reset();
+                            updateTotal();
+                        } else {
+                            alert(data.message || 'Booking failed. Please try again.');
+                        }
+                    } catch (err) {
+                        alert(err.message || 'Connection error. Please try again.');
+                    } finally {
+                        btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm & Book Package';
+                        btn.disabled = false;
+                    }
+                });
+                return; // Return early, button reset is handled in finally inside callback
             } catch (err) {
                 alert(err.message || 'Connection error. Please try again.');
-            } finally {
-                btn.innerHTML = '<i class="fas fa-calendar-check"></i> Book This Package';
+                btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm & Book Package';
                 btn.disabled = false;
             }
         }
-        
+
         function closeModal(id) {
             const modal = document.getElementById(id);
             if (modal) modal.classList.remove('open');

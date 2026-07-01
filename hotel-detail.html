@@ -12,8 +12,11 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/package-detail.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/payment.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <script src="js/pricing.js"></script>
+    <script src="js/payment.js"></script>
 </head>
 
 <body>
@@ -359,62 +362,94 @@
                 <!-- Right: Booking Widget (Sticky) -->
                 <aside class="booking-widget">
                     <div class="booking-card">
-                        <div class="booking-card__price">
-                            <div class="booking-card__amount">$0</div>
-                            <div class="booking-card__label">per night</div>
+
+                        <!-- Price header + live breakdown (dark bg) -->
+                        <div class="booking-card__price" id="booking-price-section">
+                            <div id="price-breakdown-container">
+                                <!-- Rendered by WL_Pricing.renderBreakdown() -->
+                                <div class="pb-header">
+                                    <span class="pb-base booking-card__amount" id="pb-base-price">₹0</span>
+                                    <span class="pb-label">per night</span>
+                                </div>
+                                <p style="color:rgba(255,255,255,0.5);font-size:var(--text-xs);text-align:center;padding:var(--space-3) 0">
+                                    Select dates to see full breakdown
+                                </p>
+                            </div>
                         </div>
+
+                        <!-- Meta badges -->
                         <div class="booking-card__meta">
-                            <span><i class="fas fa-check-circle" style="color:var(--success)"></i> Free cancellation up
-                                to 14 days</span>
-                            <span><i class="fas fa-lock" style="color:var(--primary)"></i> Secure booking
-                                guaranteed</span>
+                            <span><i class="fas fa-check-circle" style="color:var(--success)"></i> Free cancellation up to 14 days</span>
+                            <span><i class="fas fa-lock" style="color:var(--primary)"></i> Secure booking guaranteed</span>
                         </div>
-                        <form class="booking-form" onsubmit="handleBooking(event)">
+
+                        <!-- Booking form -->
+                        <form class="booking-form" id="hotel-booking-form" onsubmit="handleBooking(event)">
                             <div class="form-group">
                                 <label class="form-label">Check-in Date</label>
-                                <div class="form-icon-wrap" style="--icon-left:1rem">
-                                    <i class="fas fa-calendar-plus form-icon"
-                                        style="left:1rem;top:50%;transform:translateY(-50%);position:absolute;color:var(--text-muted)"></i>
+                                <div class="form-icon-wrap">
+                                    <i class="fas fa-calendar-plus form-icon" style="left:1rem;top:50%;transform:translateY(-50%);position:absolute;color:var(--text-muted)"></i>
                                     <input class="form-control" type="date" id="check-in-date" style="padding-left:2.5rem" onchange="updateTotal()" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Check-out Date</label>
-                                <div class="form-icon-wrap" style="--icon-left:1rem">
-                                    <i class="fas fa-calendar-minus form-icon"
-                                        style="left:1rem;top:50%;transform:translateY(-50%);position:absolute;color:var(--text-muted)"></i>
+                                <div class="form-icon-wrap">
+                                    <i class="fas fa-calendar-minus form-icon" style="left:1rem;top:50%;transform:translateY(-50%);position:absolute;color:var(--text-muted)"></i>
                                     <input class="form-control" type="date" id="check-out-date" style="padding-left:2.5rem" onchange="updateTotal()" required>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Rooms</label>
-                                <select class="form-control" id="travelers-count" onchange="updateTotal()">
-                                    <option value="1">1 Room</option>
-                                    <option value="2">2 Rooms</option>
-                                    <option value="3">3 Rooms</option>
-                                    <option value="4">4 Rooms</option>
-                                </select>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)">
+                                <div class="form-group">
+                                    <label class="form-label">Rooms</label>
+                                    <select class="form-control" id="rooms-count" onchange="updateTotal()">
+                                        <option value="1">1 Room</option>
+                                        <option value="2">2 Rooms</option>
+                                        <option value="3">3 Rooms</option>
+                                        <option value="4">4 Rooms</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Guests</label>
+                                    <select class="form-control" id="guests-count" onchange="updateTotal()">
+                                        <option value="1">1 Guest</option>
+                                        <option value="2">2 Guests</option>
+                                        <option value="3">3 Guests</option>
+                                        <option value="4">4 Guests</option>
+                                        <option value="5">5 Guests</option>
+                                        <option value="6">6+ Guests</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Full Name</label>
-                                <input class="form-control" type="text" placeholder="Your full name" required>
+                                <input class="form-control" type="text" id="guest-name" placeholder="Your full name" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Email Address</label>
-                                <input class="form-control" type="email" placeholder="you@example.com" required>
+                                <input class="form-control" type="email" id="guest-email" placeholder="you@example.com" required>
                             </div>
-                            <div class="booking-total">
-                                <span>Total</span>
-                                <strong id="booking-total-price">₹0</strong>
+                            <div class="form-group">
+                                <label class="form-label">Payment Method</label>
+                                <select class="form-control" id="payment-method">
+                                    <option value="card">Credit / Debit Card</option>
+                                    <option value="upi">UPI / GPay / PhonePe</option>
+                                    <option value="netbanking">Net Banking</option>
+                                    <option value="cod">Pay at Hotel</option>
+                                </select>
                             </div>
-                            <button type="submit" class="btn btn-primary" style="width:100%;font-size:var(--text-base)">
-                                <i class="fas fa-hotel"></i> Book This Hotel
+                            <div class="form-group">
+                                <label class="form-label">Special Requests <span style="font-weight:400;color:var(--text-muted)">(optional)</span></label>
+                                <textarea class="form-control" id="special-requests" rows="2" placeholder="Any special requirements..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="book-btn" style="width:100%;font-size:var(--text-base);min-height:52px">
+                                <i class="fas fa-hotel"></i> Confirm &amp; Book
                             </button>
-                            <a href="contact.html" class="btn btn-ghost"
-                                style="width:100%;margin-top:var(--space-2);text-align:center">
+                            <a href="contact.html" class="btn btn-ghost" style="width:100%;margin-top:var(--space-2);text-align:center">
                                 <i class="fas fa-phone"></i> Inquire First
                             </a>
                         </form>
+
                         <div class="booking-card__trust">
                             <span><i class="fas fa-shield-alt"></i> No hidden fees</span>
                             <span><i class="fas fa-headset"></i> 24/7 support</span>
@@ -577,21 +612,45 @@
 
         function updateTotal() {
             if (!currentHotel) return;
-            const select = document.getElementById('travelers-count');
-            const inDateStr = document.getElementById('check-in-date').value;
+            const inDateStr  = document.getElementById('check-in-date').value;
             const outDateStr = document.getElementById('check-out-date').value;
-            const totalEl = document.getElementById('booking-total-price');
-            
+            const rooms      = parseInt(document.getElementById('rooms-count')?.value  || document.getElementById('travelers-count')?.value || '1') || 1;
+            const guests     = parseInt(document.getElementById('guests-count')?.value || '1') || 1;
+            const container  = document.getElementById('price-breakdown-container');
+
+            const price = currentHotel._resolvedPrice || currentHotel.startingPrice || currentHotel.priceFrom || 0;
+
+            // Update base price display
+            const basePriceEl = document.getElementById('pb-base-price');
+            if (basePriceEl) basePriceEl.textContent = fmtMoney(price);
+
             let nights = 1;
             if (inDateStr && outDateStr) {
                 const diff = (new Date(outDateStr) - new Date(inDateStr)) / (1000 * 60 * 60 * 24);
                 if (diff > 0) nights = Math.ceil(diff);
             }
-            
-            const selectedRooms = parseInt(select.value) || 1;
-            const price = currentHotel._resolvedPrice || currentHotel.startingPrice || currentHotel.priceFrom || 0;
-            if (totalEl) {
-                totalEl.textContent = fmtMoney(price * selectedRooms * nights);
+
+            if (!inDateStr || !outDateStr || new Date(outDateStr) <= new Date(inDateStr)) {
+                // Show placeholder until dates are selected
+                if (container) {
+                    container.innerHTML = `
+                        <div class="pb-header">
+                            <span class="pb-base">${fmtMoney(price)}</span>
+                            <span class="pb-label">per night</span>
+                        </div>
+                        <p style="color:rgba(255,255,255,0.5);font-size:var(--text-xs);text-align:center;padding:var(--space-3) 0">
+                            Select check-in &amp; check-out dates to see full price breakdown
+                        </p>`;
+                }
+                return;
+            }
+
+            // Calculate and render full breakdown
+            if (window.WL_Pricing) {
+                const pricing = WL_Pricing.calculate({ basePrice: price, nights, rooms, guests, type: 'hotel' });
+                if (container) WL_Pricing.renderBreakdown(container, pricing, 'per night', 'hotel');
+                // Store last calculated pricing for booking submit
+                window._lastPricing = pricing;
             }
         }
 
@@ -603,62 +662,94 @@
                 return;
             }
 
-            const btn = e.target.querySelector('button[type="submit"]');
+            const btn = document.getElementById('book-btn') || e.target.querySelector('button[type="submit"]');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             btn.disabled = true;
 
             const hotelId = currentHotel?._id;
             if (!hotelId) {
                 alert('Invalid hotel data.');
-                btn.innerHTML = '<i class="fas fa-calendar-check"></i> Book This Hotel';
+                btn.innerHTML = '<i class="fas fa-hotel"></i> Confirm & Book';
                 btn.disabled = false;
                 return;
             }
 
             try {
-                const checkInDate = document.getElementById('check-in-date').value;
+                const checkInDate  = document.getElementById('check-in-date').value;
                 const checkOutDate = document.getElementById('check-out-date').value;
-                const rooms = parseInt(document.getElementById('travelers-count').value) || 1;
+                const rooms        = parseInt(document.getElementById('rooms-count')?.value  || document.getElementById('travelers-count')?.value || '1') || 1;
+                const guests       = parseInt(document.getElementById('guests-count')?.value || '1') || 1;
+                const paymentMethod = document.getElementById('payment-method')?.value || 'cod';
+                const specialReqs  = document.getElementById('special-requests')?.value || '';
 
-                if (!checkInDate || !checkOutDate) {
-                    throw new Error("Check-in and Check-out dates are required.");
-                }
+                if (!checkInDate || !checkOutDate) throw new Error('Check-in and Check-out dates are required.');
+                if (new Date(checkOutDate) <= new Date(checkInDate)) throw new Error('Check-out must be after Check-in.');
 
-                if (new Date(checkOutDate) <= new Date(checkInDate)) {
-                    throw new Error("Check-out must be after Check-in.");
-                }
+                // Calculate pricing first
+                const price = currentHotel._resolvedPrice || currentHotel.startingPrice || currentHotel.priceFrom || 0;
+                let nights = 1;
+                const diff = (new Date(checkOutDate) - new Date(checkInDate)) / (1000 * 60 * 60 * 24);
+                if (diff > 0) nights = Math.ceil(diff);
 
-                const { ok, data } = await WL.Session.apiCall('/bookings', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        hotelId,
-                        travelDate: checkInDate,
-                        returnDate: checkOutDate,
-                        travelers: rooms, // we use travelers field for rooms here
-                        bookingType: 'hotel'
-                    })
+                const pricing = WL_Pricing.calculate({
+                    basePrice: price,
+                    nights,
+                    rooms,
+                    guests,
+                    type: 'hotel'
                 });
 
-                if (ok) {
-                    const modal = document.getElementById('booking-modal');
-                    if (modal) modal.classList.add('open');
-                    e.target.reset();
-                    updateTotal();
-                } else {
-                    alert(data.message || 'Booking failed.');
-                }
+                DemoPaymentGateway.open(pricing, async (paymentData) => {
+                    try {
+                        const { ok, data } = await WL.Session.apiCall('/bookings', {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                hotelId,
+                                travelDate:   checkInDate,
+                                returnDate:   checkOutDate,
+                                travelers:    guests,
+                                rooms,
+                                bookingType:  'hotel',
+                                paymentMethod: paymentData.method,
+                                specialRequests: specialReqs,
+                            })
+                        });
+
+                        if (ok) {
+                            // Show success modal with booking details
+                            const bRef   = data.data?.bookingRef || '';
+                            const grand  = data.data?.pricing?.grandTotal || data.data?.totalPrice || 0;
+                            const refEl  = document.getElementById('booking-ref');
+                            const amtEl  = document.getElementById('booking-confirm-amount');
+                            if (refEl)  refEl.textContent  = bRef;
+                            if (amtEl)  amtEl.textContent  = WL_Pricing.format(grand);
+                            const modal = document.getElementById('booking-modal');
+                            if (modal) modal.classList.add('open');
+                            e.target.reset();
+                            updateTotal();
+                        } else {
+                            alert(data.message || 'Booking failed. Please try again.');
+                        }
+                    } catch (err) {
+                        alert(err.message || 'Connection error. Please try again.');
+                    } finally {
+                        btn.innerHTML = '<i class="fas fa-hotel"></i> Confirm & Book';
+                        btn.disabled = false;
+                    }
+                });
+                return; // Return early, btn is reset inside callback
             } catch (err) {
                 alert(err.message || 'Connection error. Please try again.');
-            } finally {
-                btn.innerHTML = '<i class="fas fa-calendar-check"></i> Book This Hotel';
+                btn.innerHTML = '<i class="fas fa-hotel"></i> Confirm & Book';
                 btn.disabled = false;
             }
         }
-        
+
         function closeModal(id) {
             const modal = document.getElementById(id);
             if (modal) modal.classList.remove('open');
         }
+
     </script>
 </body>
 

@@ -1041,19 +1041,35 @@ function renderBookingsTable(bookings) {
         return;
     }
 
-    tbody.innerHTML = bookings.map(b => `
+    tbody.innerHTML = bookings.map(b => {
+        const payStatus = b.paymentStatus || 'unpaid';
+        const payClass = payStatus.toLowerCase().replace(/\\s+/g, '-');
+        return `
         <tr>
             <td><code style="font-size:0.75rem;background:var(--bg-elevated);padding:2px 6px;border-radius:4px">${b.bookingRef || '—'}</code></td>
-            <td><div class="td-primary">${b.user?.name || 'Unknown'}</div><div class="td-secondary">${b.user?.email || ''}</div></td>
+            <td>
+                <div style="display:flex;align-items:center;gap:10px">
+                    <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--hub-accent),var(--hub-emerald));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.8rem;flex-shrink:0">${(b.user?.name||'G').charAt(0).toUpperCase()}</div>
+                    <div>
+                        <div class="td-primary">${b.user?.name || 'Unknown'}</div>
+                        <div class="td-secondary">${b.user?.email || ''}</div>
+                    </div>
+                </div>
+            </td>
             <td>${b.hotel?.name || '—'}</td>
             <td>${fmtDate(b.travelDate)}</td>
             <td>${b.travelers}</td>
-            <td><strong>${fmtMoney(b.totalPrice)}</strong></td>
-            <td><span class="chip chip-${b.paymentStatus || 'inactive'}">${b.paymentStatus || 'unpaid'}</span></td>
+            <td>
+                <div style="display:flex;flex-direction:column">
+                    <strong style="color:var(--hub-emerald)">${fmtMoney(b.ownerEarnings !== undefined ? b.ownerEarnings : b.totalPrice)}</strong>
+                    <span style="font-size:10px;color:var(--text-muted)">Earnings</span>
+                </div>
+            </td>
+            <td><span class="chip chip-${payClass}">${payStatus}</span></td>
             <td>${chipHtml(b.status)}</td>
             <td><button class="tbl-btn view" onclick="openBookingDrawer('${b._id}')" title="View & update"><i class="fas fa-arrow-right"></i></button></td>
-        </tr>`
-    ).join('');
+        </tr>`;
+    }).join('');
 }
 
 function updateBookingStrip(bookings) {
@@ -1076,20 +1092,35 @@ function openBookingDrawer(bookingId) {
     document.getElementById('booking-new-status').value  = b.status;
     document.getElementById('booking-notes').value       = b.adminNotes || '';
 
-    document.getElementById('booking-detail-grid').innerHTML = [
-        ['Guest',       b.user?.name || 'Unknown'],
-        ['Email',       b.user?.email || '—'],
-        ['Phone',       b.user?.phone || '—'],
-        ['Property',    b.hotel?.name || '—'],
-        ['Travel Date', fmtDate(b.travelDate)],
-        ['Return Date', fmtDate(b.returnDate)],
-        ['Guests',      b.travelers],
-        ['Total',       `<strong style="color:var(--hub-emerald)">${fmtMoney(b.totalPrice)}</strong>`],
-        ['Payment',     b.paymentStatus || 'unpaid'],
-        ['Special Req', b.specialRequests || '—'],
-        ['Booked On',   fmtDate(b.createdAt)],
-        ['Status',      chipHtml(b.status)],
-    ].map(([label, value]) => `<div class="booking-detail-row"><span class="bd-label">${label}</span><span class="bd-value">${value}</span></div>`).join('');
+    const earningsBreakdownHtml = (window.WL_Pricing && b.pricing && b.pricing.grandTotal) 
+        ? window.WL_Pricing.renderOwnerEarnings(b.pricing)
+        : `<div class="booking-detail-row"><span class="bd-label">Earnings</span><span class="bd-value"><strong style="color:var(--hub-emerald)">${fmtMoney(b.ownerEarnings !== undefined ? b.ownerEarnings : b.totalPrice)}</strong></span></div>`;
+
+    document.getElementById('booking-detail-grid').innerHTML = `
+        <div class="booking-detail-section">
+            <h4><i class="fas fa-user"></i> Guest Details</h4>
+            <div class="booking-detail-row"><span class="bd-label">Name</span><span class="bd-value">${b.user?.name || 'Unknown'}</span></div>
+            <div class="booking-detail-row"><span class="bd-label">Email</span><span class="bd-value">${b.user?.email || '—'}</span></div>
+            <div class="booking-detail-row"><span class="bd-label">Phone</span><span class="bd-value">${b.user?.phone || '—'}</span></div>
+            <div class="booking-detail-row"><span class="bd-label">Special Requests</span><span class="bd-value">${b.specialRequests || 'None'}</span></div>
+        </div>
+        
+        <div class="booking-detail-section">
+            <h4><i class="fas fa-hotel"></i> Stay Information</h4>
+            <div class="booking-detail-row"><span class="bd-label">Property</span><span class="bd-value"><strong>${b.hotel?.name || '—'}</strong></span></div>
+            <div class="booking-detail-row"><span class="bd-label">Travel Date</span><span class="bd-value">${fmtDate(b.travelDate)}</span></div>
+            <div class="booking-detail-row"><span class="bd-label">Return Date</span><span class="bd-value">${fmtDate(b.returnDate)}</span></div>
+            <div class="booking-detail-row"><span class="bd-label">Guests</span><span class="bd-value">${b.travelers}</span></div>
+            <div class="booking-detail-row"><span class="bd-label">Status</span><span class="bd-value">${chipHtml(b.status)}</span></div>
+            <div class="booking-detail-row"><span class="bd-label">Booked On</span><span class="bd-value">${fmtDate(b.createdAt)}</span></div>
+        </div>
+        
+        <div class="booking-detail-section">
+            <h4><i class="fas fa-indian-rupee-sign"></i> Financial Breakdown</h4>
+            <div class="booking-detail-row"><span class="bd-label">Payment Status</span><span class="bd-value"><span class="chip chip-${(b.paymentStatus || 'unpaid').toLowerCase().replace(/\\s+/g, '-')}">${b.paymentStatus || 'unpaid'}</span></span></div>
+            ${earningsBreakdownHtml}
+        </div>
+    `;
 
     openDrawer('booking-drawer', 'booking-drawer-overlay');
 }

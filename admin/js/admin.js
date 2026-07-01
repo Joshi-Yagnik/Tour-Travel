@@ -150,10 +150,21 @@ async function loadDashboard() {
 
         // Revenue formatted
         const rev = data.data.totalRevenue || 0;
-        setEl('s-revenue', rev >= 100000
-            ? `₹${(rev / 100000).toFixed(1)}L`
-            : `₹${fmt(rev)}`
-        );
+        setEl('s-revenue', rev >= 100000 ? `₹${(rev / 100000).toFixed(1)}L` : `₹${fmt(rev)}`);
+        
+        const adv = data.data.advanceCollected || 0;
+        setEl('s-advance', adv >= 100000 ? `₹${(adv / 100000).toFixed(1)}L` : `₹${fmt(adv)}`);
+
+        const rem = data.data.remainingBalance || 0;
+        setEl('s-remaining', rem >= 100000 ? `₹${(rem / 100000).toFixed(1)}L` : `₹${fmt(rem)}`);
+
+        // Platform Fees
+        const fees = data.data.totalPlatformFees || 0;
+        setEl('s-fees', fees >= 100000 ? `₹${(fees / 100000).toFixed(1)}L` : `₹${fmt(fees)}`);
+
+        // Taxes
+        const taxes = data.data.totalTaxes || 0;
+        setEl('s-taxes', taxes >= 100000 ? `₹${(taxes / 100000).toFixed(1)}L` : `₹${fmt(taxes)}`);
 
         // Pending badges in nav
         setBadge('booking-pending-badge', c.pendingBookings);
@@ -174,6 +185,7 @@ function renderRevenueChart(monthlyData) {
     const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     const labels  = monthlyData.map(d => `${monthNames[d._id.month - 1]} ${d._id.year}`);
     const revenue = monthlyData.map(d => d.revenue);
+    const fees    = monthlyData.map(d => d.platformFees || 0);
 
     if (revenueChartInstance) revenueChartInstance.destroy();
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -184,17 +196,31 @@ function renderRevenueChart(monthlyData) {
         type: 'line',
         data: {
             labels,
-            datasets: [{
-                label: 'Revenue (₹)',
-                data: revenue,
-                borderColor: '#FF6B35',
-                backgroundColor: 'rgba(255,107,53,0.08)',
-                borderWidth: 2.5,
-                tension: 0.4,
-                fill: true,
-                pointBackgroundColor: '#FF6B35',
-                pointRadius: 4,
-            }],
+            datasets: [
+                {
+                    label: 'Platform Fees (₹)',
+                    data: fees,
+                    borderColor: '#38B2AC',
+                    backgroundColor: 'rgba(56,178,172,0.1)',
+                    borderWidth: 2.5,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#38B2AC',
+                    pointRadius: 4,
+                },
+                {
+                    label: 'Gross Revenue (₹)',
+                    data: revenue,
+                    borderColor: '#FF6B35',
+                    backgroundColor: 'transparent',
+                    borderDash: [5, 5],
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: false,
+                    pointBackgroundColor: '#FF6B35',
+                    pointRadius: 3,
+                }
+            ],
         },
         options: {
             responsive: true,
@@ -1083,6 +1109,7 @@ function payBadge(status) {
     const map = {
         unpaid:   'badge--danger',
         partial:  'badge--warning',
+        'Partially Paid': 'badge--warning',
         paid:     'badge--success',
         refunded: 'badge--muted',
     };

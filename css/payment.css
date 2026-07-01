@@ -1,0 +1,411 @@
+/* ============================================================
+   DEMO PAYMENT GATEWAY UI STYLES
+   ============================================================ */
+
+.pg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.pg-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.pg-modal {
+    background: var(--bg);
+    width: 100%;
+    max-width: 450px;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.pg-overlay.open .pg-modal {
+    transform: translateY(0) scale(1);
+}
+
+.pg-header {
+    background: var(--primary);
+    color: white;
+    padding: 24px;
+    text-align: center;
+    position: relative;
+}
+
+.pg-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.pg-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.pg-header-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.pg-header-amount {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    font-family: var(--font-mono, monospace);
+}
+
+.pg-header-subtitle {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
+.pg-body {
+    padding: 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.pg-section-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+/* Payment Summary */
+.pg-summary {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+}
+
+.pg-summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.pg-summary-row:last-child {
+    margin-bottom: 0;
+}
+
+.pg-summary-row.pg-total {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+    font-weight: 700;
+    color: var(--text);
+    font-size: 1rem;
+}
+
+.pg-summary-row.pg-advance {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Methods */
+.pg-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.pg-method-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+}
+
+.pg-method-btn:hover {
+    border-color: var(--primary);
+    background: rgba(255, 107, 53, 0.05); /* Assuming --primary is orange */
+}
+
+.pg-method-btn.active {
+    border-color: var(--primary);
+    background: rgba(255, 107, 53, 0.1);
+    box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.pg-method-icon {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.pg-method-btn.active .pg-method-icon {
+    color: var(--primary);
+}
+
+.pg-method-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* UPI Form */
+.pg-upi-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.pg-input-group {
+    margin-bottom: 16px;
+}
+
+.pg-input-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.pg-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color 0.2s;
+}
+
+.pg-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Security Badge */
+.pg-secure-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 24px;
+}
+
+.pg-secure-badge i {
+    color: #10B981;
+}
+
+/* Action Button */
+.pg-btn {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pg-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.pg-btn:active {
+    transform: translateY(0);
+}
+
+.pg-btn:disabled {
+    background: var(--text-muted);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Screen Switcher */
+.pg-screen {
+    display: none;
+}
+
+.pg-screen.active {
+    display: block;
+}
+
+/* Loading State */
+.pg-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.pg-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 107, 53, 0.2);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: pg-spin 1s linear infinite;
+    margin-bottom: 24px;
+}
+
+@keyframes pg-spin {
+    to { transform: rotate(360deg); }
+}
+
+.pg-loading-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.pg-loading-sub {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Success State */
+.pg-success {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.pg-success-icon {
+    width: 80px;
+    height: 80px;
+    background: #10B981;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 24px;
+    color: white;
+    font-size: 2.5rem;
+    animation: pg-scaleUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pg-scaleUp {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.pg-success-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.pg-success-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+.pg-receipt {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+    margin-bottom: 24px;
+    border: 1px dashed var(--border);
+}
+
+.pg-receipt-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+.pg-receipt-row:last-child {
+    margin-bottom: 0;
+}
+
+.pg-receipt-label {
+    color: var(--text-muted);
+}
+
+.pg-receipt-value {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.pg-demo-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #F59E0B;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-bottom-right-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 10;
+}

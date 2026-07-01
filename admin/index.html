@@ -134,6 +134,34 @@
                     </div>
                 </div>
                 <div class="stat-card stat-card--green">
+                    <div class="stat-card__icon"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Advance Collected</span>
+                        <span class="stat-card__value" id="s-advance">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--red">
+                    <div class="stat-card__icon"><i class="fas fa-hand-holding-usd"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Pending Balance</span>
+                        <span class="stat-card__value" id="s-remaining">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--teal">
+                    <div class="stat-card__icon"><i class="fas fa-wallet"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Platform Fees</span>
+                        <span class="stat-card__value" id="s-fees">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--orange">
+                    <div class="stat-card__icon"><i class="fas fa-percent"></i></div>
+                    <div class="stat-card__data">
+                        <span class="stat-card__label">Taxes (GST/SGST)</span>
+                        <span class="stat-card__value" id="s-taxes">—</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-card--green">
                     <div class="stat-card__icon"><i class="fas fa-calendar-check"></i></div>
                     <div class="stat-card__data">
                         <span class="stat-card__label">Total Bookings</span>
@@ -378,6 +406,7 @@
                         <option value="">All Payment</option>
                         <option value="unpaid">Unpaid</option>
                         <option value="partial">Partial</option>
+                        <option value="Partially Paid">Partially Paid</option>
                         <option value="paid">Paid</option>
                         <option value="refunded">Refunded</option>
                     </select>
@@ -866,6 +895,7 @@
                 <select id="booking-new-pay" class="form-control">
                     <option value="unpaid">Unpaid</option>
                     <option value="partial">Partial</option>
+                    <option value="Partially Paid">Partially Paid</option>
                     <option value="paid">Paid</option>
                     <option value="refunded">Refunded</option>
                 </select>
